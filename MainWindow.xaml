@@ -5,79 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Bibliothicc"
         mc:Ignorable="d"
-        Title="MainWindow" Height="600" Width="1000">
-    <DockPanel>
-        <DockPanel DockPanel.Dock="Top">
-            <Grid DockPanel.Dock="Left" Height="50">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <Label Content="Bibliothicc" FontSize="30"/>
-                <Border Margin="20 0 0 0" DockPanel.Dock="Top" Grid.Column="1" BorderBrush="LightGray" BorderThickness="1" Height="40" CornerRadius="20" Padding="5">
-                    <DockPanel>
-                        <Button DockPanel.Dock="Right" Width="25" Height="25" BorderThickness="0" Background="Transparent" Click="SearchButton_Click" IsDefault="True">
-                            <Image Source="Bilder/magnifyingglass.png"/>
-                        </Button>
-                        <TextBox x:Name="TextBoxSearchBar" Width="400" Height="20" Margin="2 0 0 0" BorderThickness="0" GotFocus="TextBoxSearchBar_GotFocus" LostFocus="TextBoxSearchBar_LostFocus" Padding="2" VerticalContentAlignment="Center" Foreground="LightGray" Text="Search here ..."></TextBox>
-                    </DockPanel>
-                </Border>
-            </Grid>
-            <Grid Height="40" HorizontalAlignment="Right">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="70"/>
-                    <ColumnDefinition Width="100"/>
-                    <ColumnDefinition Width="50"/>
-                </Grid.ColumnDefinitions>
-                <Button x:Name="ButtonStats" Content="Stats"/>
-                <Button x:Name="ButtonLoginLogout" Content="Login/Register" Grid.Column="1"/>
-                <Button x:Name="ButtonQuit" Content="Quit" Grid.Column="2"/>
-            </Grid>
-        </DockPanel>
-        <DockPanel DockPanel.Dock="Left" Width="150">
-            <Button x:Name="ButtonOtherLibs" DockPanel.Dock="Bottom" Height="30" Content="Other Libs"></Button>
-            <DockPanel VerticalAlignment="Top">
-                <Button x:Name="ButtonAddLib" DockPanel.Dock="Bottom" Height="30">+</Button>
-                <ListView x:Name="ListViewLibraries" Padding="5">
-                    <ListViewItem>TestItem</ListViewItem>
-                </ListView>
-            </DockPanel>
-        </DockPanel>
-        <DockPanel>
-            <DockPanel DockPanel.Dock="Top">
-                <Grid x:Name="GridCRUD" Width="340">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <Button x:Name="ButtonAdd" Content="Add +" Height="30" Margin="5" Grid.Column="0"/>
-                    <Button x:Name="ButtonChange" Content="Change ~" Height="30" Margin="5" Grid.Column="1"/>
-                    <Button x:Name="ButtonDelete" Content="Delete -" Height="30" Margin="5" Grid.Column="2"/>
-                    <Button x:Name="ButtonPlay" Content="⯈" Width="30" Height="30" Margin="5" Grid.Column="3">
-                        <Button.Resources>
-                            <Style TargetType="Border">
-                                <Setter Property="CornerRadius" Value="90"/>
-                            </Style>
-                        </Button.Resources>
-                    </Button>
-                </Grid>
-                <DockPanel x:Name="DockPanelCategory" Width="220" HorizontalAlignment="Right">
-                    <Label DockPanel.Dock="Left" x:Name="LabelCategory" VerticalAlignment="Center">Category:</Label>
-                    <ComboBox x:Name="ComboBoxCategory" Height="30" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
-                        <ComboBoxItem IsSelected="True">TestCategory</ComboBoxItem>
-                    </ComboBox>
-                </DockPanel>
-            </DockPanel>
-            <DockPanel DockPanel.Dock="Right" Width="30">
-                <Button x:Name="ButtonSetttings" DockPanel.Dock="Bottom" Height="30">⚙</Button>
-                <Button x:Name="ButtonChangeView" DockPanel.Dock="Bottom" Height="30">👁</Button>
-                <ScrollBar Margin="0 10"></ScrollBar>
-            </DockPanel>
-            <ListView x:Name="ListViewFiles">
-                <ListViewItem>TestItem</ListViewItem>
-            </ListView>
-        </DockPanel>
-    </DockPanel>
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+
+    </Grid>
 </Window>

@@ -13,11 +13,11 @@ using System.Windows.Shapes;
 namespace Bibliothicc
 {
     /// <summary>
-    /// Interaktionslogik für AddChangeCategories.xaml
+    /// Interaktionslogik für AddChangeCategoryWindow.xaml
     /// </summary>
-    public partial class AddChangeCategories : Window
+    public partial class AddChangeCategoryWindow : Window
     {
-        public AddChangeCategories()
+        public AddChangeCategoryWindow()
         {
             InitializeComponent();
         }

@@ -17,9 +17,28 @@ namespace Bibliothicc
     /// </summary>
     public partial class AddChangeCategoryWindow : Window
     {
-        public AddChangeCategoryWindow()
+        bool isPressedAdd = true;
+
+        public AddChangeCategoryWindow(string LabelCategory, string ButtonContentCategory, bool AddOrChange)
         {
             InitializeComponent();
+
+            LabelAddChangeCategory.Content = LabelCategory + " Category:";
+            ButtonAddChangeCategory.Content = ButtonContentCategory;
+            isPressedAdd = AddOrChange;
+        }
+
+        private void ButtonAddChangeCategory_Click(object sender, RoutedEventArgs e)
+        {
+            if (isPressedAdd)
+            {
+                MessageBox.Show("New Category Added");
+            }
+            else
+            {
+                MessageBox.Show("Category Changed");
+            }
+            DialogResult = true;
         }
     }
 }

@@ -21,5 +21,11 @@ namespace Bibliothicc
         {
             InitializeComponent();
         }
+
+        private void ButtonAdd_Click(object sender, RoutedEventArgs e)
+        {
+            DialogResult = true;
+            this.Close();
+        }
     }
 }

@@ -16,9 +16,100 @@ namespace Bibliothicc
     /// </summary>
     public partial class MainWindow : Window
     {
+        bool LoggedOn = false;
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void ButtonQuit_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+        private void ButtonAddFile_Click(object sender, RoutedEventArgs e)
+        {
+            string LabelAddChange = "Add ";
+            string LabelDataType = GetDataTypeLib() + ":";
+            string ButtonContentAddChange = "Add";
+
+            AddChangeFileWindow window = new AddChangeFileWindow(LabelAddChange, LabelDataType, ButtonContentAddChange, true);
+
+            if (window.ShowDialog() == true)
+            {
+                AddNewFileToLib();
+            }
+        }
+
+        private void ButtonChange_Click(object sender, RoutedEventArgs e)
+        {
+            string LabelAddChange = "Change ";
+            string LabelDataType = GetDataTypeLib() + ":";
+            string ButtonContentAddChange = "Change";
+
+            AddChangeFileWindow window = new AddChangeFileWindow(LabelAddChange, LabelDataType, ButtonContentAddChange, false);
+
+            if (window.ShowDialog() == true)
+            {
+                ChangeFileInLib();
+            }
+        }
+
+        private void ButtonDelete_Click(object sender, RoutedEventArgs e)
+        {
+            DeleteSelectedFile();
+        }
+
+        private void ButtonLoginLogout_Click(object sender, RoutedEventArgs e)
+        {
+            if (!LoggedOn)
+            {
+                LoginRegisterWindow window = new LoginRegisterWindow();
+                window.Show();
+                Close();
+            }
+            else
+            {
+                LoggedOn = false;
+                LoginRegisterWindow window = new LoginRegisterWindow();
+                window.Show();
+                Close();
+            }
+        }
+
+        private void ButtonAddLib_Click(object sender, RoutedEventArgs e)
+        {
+            AddLibWindow window = new AddLibWindow();
+
+            if(window.ShowDialog() == true)
+            {
+                AddNewLibToCollection();
+            }
+        }
+
+        private void AddNewLibToCollection()
+        {
+            MessageBox.Show("New lib added to Colletion");
+            //ListViewLibraries.Items.Add();
+        }
+
+        private void AddNewFileToLib()
+        {
+
+        }
+
+        private void ChangeFileInLib()
+        {
+
+        }
+        private void DeleteSelectedFile()
+        {
+            MessageBox.Show("{filename} has been deleted");
+        }
+
+        private string GetDataTypeLib()
+        {
+            return "TestDataType";
         }
     }
 }

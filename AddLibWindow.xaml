@@ -34,7 +34,7 @@
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <Button x:Name="ButtonAddChange" Width="100" Height="30" Margin="10" IsDefault="True">Add</Button>
+            <Button x:Name="ButtonAdd" Width="100" Height="30" Margin="10" IsDefault="True" Click="ButtonAdd_Click">Add</Button>
             <Button x:Name="ButtonCancel" Width="100" Height="30" Margin="10" IsCancel="True" Grid.Column="1">Cancel</Button>
         </Grid>
     </Grid>

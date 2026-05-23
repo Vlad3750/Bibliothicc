@@ -17,9 +17,48 @@ namespace Bibliothicc
     /// </summary>
     public partial class CategoriesWindow : Window
     {
-        public CategoriesWindow()
+        ListView LVCategoriesToAdd;
+        public CategoriesWindow(ListView ListViewCategoriesToAdd)
         {
             InitializeComponent();
+            LVCategoriesToAdd = ListViewCategoriesToAdd;
+        }
+
+        private void ButtonAddCategory_Click(object sender, RoutedEventArgs e)
+        {
+            string LabelCategory = "Add";
+            string ButtonContentCategory = "Add";
+
+            AddChangeCategoryWindow window = new AddChangeCategoryWindow(LabelCategory, ButtonContentCategory, true);
+
+            if (window.ShowDialog() == true)
+            {
+                AddNewCategoryToSystem();
+            }
+        }
+
+        private void ButtonChangeCategory_Click(object sender, RoutedEventArgs e)
+        {
+            string LabelCategory = "Change";
+            string ButtonContentCategory = "Change";
+
+            AddChangeCategoryWindow window = new AddChangeCategoryWindow(LabelCategory, ButtonContentCategory, false);
+
+            if (window.ShowDialog() == true)
+            {
+                ChangeCategoryName();
+            }
+        }
+
+        // Double clicking an ListViewItem -> adds it to ListViewCategoriesToAdd
+
+        private void AddNewCategoryToSystem()
+        {
+
+        }
+        private void ChangeCategoryName()
+        {
+
         }
     }
 }

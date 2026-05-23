@@ -15,7 +15,7 @@
         <Label x:Name="LabelLoginREgister" Content="Login:" FontSize="20"></Label>
         <DockPanel Grid.Row="1" Margin="0 0 3 0">
 
-            <Grid DockPanel.Dock="Bottom" Margin="0 3" Visibility="Collapsed">
+            <Grid x:Name="GridRepeatPasswd" DockPanel.Dock="Bottom" Margin="0 3" Visibility="Collapsed">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
                     <ColumnDefinition Width="2.7*"/>
@@ -48,8 +48,8 @@
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <Button x:Name="ButtonLogin" Width="100" Height="30" Margin="10" IsDefault="True">Login</Button>
-            <Button x:Name="ButtonRegister" Width="100" Height="30" Margin="10" IsCancel="True" Grid.Column="1">Register</Button>
+            <Button x:Name="ButtonLogin" Width="100" Height="30" Margin="10" IsDefault="True" Click="ButtonLogin_Click">Login</Button>
+            <Button x:Name="ButtonRegister" Width="100" Height="30" Margin="10" IsCancel="True" Grid.Column="1" Click="ButtonRegister_Click">Register</Button>
         </Grid>
     </Grid>
 </Window>

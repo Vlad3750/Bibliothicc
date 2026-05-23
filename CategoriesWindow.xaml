@@ -17,7 +17,7 @@
                 <ColumnDefinition Width="200"/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <ListView Margin="5">
+            <ListView x:Name="ListViewSystemCategories" Margin="5">
                 <DockPanel Width="176">
                     <Label DockPanel.Dock="Right" HorizontalAlignment="Right" Content="✓"></Label>
                     <ListViewItem Content="TestCategory"></ListViewItem>
@@ -37,9 +37,9 @@
                     <RowDefinition/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
-                <Button x:Name="ButtonAddCategory" Content="Add" Margin="10"/>
-                <Button x:Name="ButtonChangeCategory" Content="Change" Margin="10" Grid.Row="1"/>
-                <Button x:Name="ButtonBack" Content="Back" Margin="10" Grid.Row="2"/>
+                <Button x:Name="ButtonAddCategory" Content="Add" Margin="10" Click="ButtonAddCategory_Click"/>
+                <Button x:Name="ButtonChangeCategory" Content="Change" Margin="10" Grid.Row="1" Click="ButtonChangeCategory_Click"/>
+                <Button x:Name="ButtonBack" IsCancel="True" Content="Back" Margin="10" Grid.Row="2"/>
             </Grid>
         </Grid>
         

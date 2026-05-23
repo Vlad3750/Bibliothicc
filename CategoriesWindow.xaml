@@ -1,0 +1,47 @@
+﻿<Window x:Class="Bibliothicc.CategoriesWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Bibliothicc"
+        mc:Ignorable="d"
+        Title="CategoriesWindow" Height="300" Width="300">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Label Content="Categories:" FontSize="20"></Label>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="200"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <ListView Margin="5">
+                <DockPanel Width="176">
+                    <Label DockPanel.Dock="Right" HorizontalAlignment="Right" Content="✓"></Label>
+                    <ListViewItem Content="TestCategory"></ListViewItem>
+                </DockPanel>
+                <DockPanel Width="176">
+                    <Label DockPanel.Dock="Right" HorizontalAlignment="Right" Content="○"></Label>
+                    <ListViewItem Content="TestCategory1"></ListViewItem>
+                </DockPanel>
+                <DockPanel Width="176">
+                    <Label DockPanel.Dock="Right" HorizontalAlignment="Right" Content="O"></Label>
+                    <ListViewItem Content="TestCategor2"></ListViewItem>
+                </DockPanel>
+            </ListView>
+            <Grid Grid.Column="1" Width="100" Height="200">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Button x:Name="ButtonAddCategory" Content="Add" Margin="10"/>
+                <Button x:Name="ButtonChangeCategory" Content="Change" Margin="10" Grid.Row="1"/>
+                <Button x:Name="ButtonBack" Content="Back" Margin="10" Grid.Row="2"/>
+            </Grid>
+        </Grid>
+        
+    </Grid>
+</Window>

@@ -1,0 +1,55 @@
+﻿<Window x:Class="Bibliothicc.LoginRegisterWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Bibliothicc"
+        mc:Ignorable="d"
+        Title="LoginRegisterWindow" Height="auto" Width="400">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Label x:Name="LabelLoginREgister" Content="Login:" FontSize="20"></Label>
+        <DockPanel Grid.Row="1" Margin="0 0 3 0">
+
+            <Grid DockPanel.Dock="Bottom" Margin="0 3" Visibility="Collapsed">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="2.7*"/>
+                </Grid.ColumnDefinitions>
+                <Label Content="Repeat Password:" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right"></Label>
+                <TextBox x:Name="TextBoxRepeatPasswd" Grid.Column="1" Height="35"></TextBox>
+            </Grid>
+
+            <Grid DockPanel.Dock="Top" Margin="0 3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="2.7*"/>
+                </Grid.ColumnDefinitions>
+                <Label Content="Username:" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right"></Label>
+                <TextBox x:Name="TextBoxUserName" Grid.Column="1" Height="35"></TextBox>
+            </Grid>
+
+            <Grid DockPanel.Dock="Top" Margin="0 3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="2.7*"/>
+                </Grid.ColumnDefinitions>
+                <Label Content="Password:" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right"></Label>
+                <TextBox x:Name="TextBoxPasswd" Grid.Column="1" Height="35"></TextBox>
+            </Grid>
+
+        </DockPanel>
+        <Grid Grid.Row="2" HorizontalAlignment="Center">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Button x:Name="ButtonLogin" Width="100" Height="30" Margin="10" IsDefault="True">Login</Button>
+            <Button x:Name="ButtonRegister" Width="100" Height="30" Margin="10" IsCancel="True" Grid.Column="1">Register</Button>
+        </Grid>
+    </Grid>
+</Window>

@@ -20,13 +20,17 @@ namespace Bibliothicc
     public partial class LoginRegisterWindow : Window
     {
         bool IsActiveLogin = true;
-        List<User> users;
+        List<User> users = new List<User>();
         User LoginUser = null;
 
         public LoginRegisterWindow(List<User> users)
         {
             InitializeComponent();
             this.users = users;
+        }
+        public LoginRegisterWindow()
+        {
+            InitializeComponent();
         }
 
         private void ButtonLogin_Click(object sender, RoutedEventArgs e)
@@ -105,20 +109,18 @@ namespace Bibliothicc
         }
         private void TryLogin()
         {
-            User existingUser = new User();
-            bool userNameExists = false;
+            User existingUser = null;
             bool userPasswordAligns = false;
 
             foreach(User user in users)
             {
                 if(TextBoxUserName.Text == user.Username)
                 {
-                    userNameExists = true;
                     existingUser = user;
                     break;
                 }
             }
-            if (userNameExists)
+            if (existingUser != null)
             {
                 foreach(User user in users)
                 {

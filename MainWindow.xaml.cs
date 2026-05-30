@@ -8,6 +8,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Bibliothicc_ClassLibrary;
 
 namespace Bibliothicc
 {
@@ -17,9 +18,13 @@ namespace Bibliothicc
     public partial class MainWindow : Window
     {
         bool LoggedOn = false;
-        public MainWindow()
+        List<User> users;
+
+        public MainWindow(List<User> users, User loggedUser)
         {
             InitializeComponent();
+            this.users = users;
+            LabelUserName.Content = loggedUser.Username;
         }
 
         private void ButtonQuit_Click(object sender, RoutedEventArgs e)
@@ -62,19 +67,10 @@ namespace Bibliothicc
 
         private void ButtonLoginLogout_Click(object sender, RoutedEventArgs e)
         {
-            if (!LoggedOn)
-            {
-                LoginRegisterWindow window = new LoginRegisterWindow();
-                window.Show();
-                Close();
-            }
-            else
-            {
-                LoggedOn = false;
-                LoginRegisterWindow window = new LoginRegisterWindow();
-                window.Show();
-                Close();
-            }
+
+            LoginRegisterWindow window = new LoginRegisterWindow(users);
+            window.Show();
+            Close();
         }
 
         private void ButtonAddLib_Click(object sender, RoutedEventArgs e)

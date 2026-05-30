@@ -20,9 +20,10 @@ namespace Bibliothicc
     public partial class LoginRegisterWindow : Window
     {
         bool IsActiveLogin = true;
-        User[] users;
+        List<User> users;
+        User LoginUser = null;
 
-        public LoginRegisterWindow(User[] users)
+        public LoginRegisterWindow(List<User> users)
         {
             InitializeComponent();
             this.users = users;
@@ -89,8 +90,15 @@ namespace Bibliothicc
             }
             else
             {
+                User userToAdd = new User()
+                {
+                    Username = TextBoxUserName.Text,
+                    passwordHash = TextBoxPasswd.Text,
+                };
+                users.Add(userToAdd);
+                LoginUser = userToAdd;
                 MessageBox.Show("You're now Registered");
-                MainWindow window = new MainWindow();
+                MainWindow window = new MainWindow(users, LoginUser);
                 window.Show();
                 this.Close();
             }
@@ -117,6 +125,7 @@ namespace Bibliothicc
                     if(existingUser.passwordHash == user.passwordHash)
                     {
                         userPasswordAligns = true;
+                        LoginUser = user;
                         break;
                     }
                 }
@@ -137,7 +146,7 @@ namespace Bibliothicc
             else
             {
                 MessageBox.Show("Login successful");
-                MainWindow window = new MainWindow();
+                MainWindow window = new MainWindow(users, LoginUser);
                 window.Show();
                 this.Close();
             }

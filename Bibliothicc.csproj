@@ -8,4 +8,8 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Bibliothicc_ClassLibrary\Bibliothicc_ClassLibrary.csproj" />
+  </ItemGroup>
+
 </Project>

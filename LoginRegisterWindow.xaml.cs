@@ -57,6 +57,16 @@ namespace Bibliothicc
 
         private void TryRegister()
         {
+            bool userAlreadyExists = false;
+
+            foreach(User user in users)
+            {
+                if(TextBoxUserName.Text == user.Username)
+                {
+                    userAlreadyExists = true;
+                }
+            }
+
             if (TextBoxUserName.Text == string.Empty)
             {
                 MessageBox.Show("Username Required!");
@@ -71,7 +81,11 @@ namespace Bibliothicc
             }
             else if (TextBoxRepeatPasswd.Text != TextBoxPasswd.Text)
             {
-                MessageBox.Show("Passwords don't align!");
+                MessageBox.Show("Passwords don't align.");
+            }
+            else if (userAlreadyExists)
+            {
+                MessageBox.Show($"Username {TextBoxUserName.Text} already taken please choose another Name.");
             }
             else
             {

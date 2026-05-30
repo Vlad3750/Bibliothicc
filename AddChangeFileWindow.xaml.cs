@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -56,6 +58,32 @@ namespace Bibliothicc
         {
             ListViewCategoriesToAdd.Items.Remove(ListViewObject);
             ListViewCategoriesToAdd.Items.Refresh();
+        }
+
+        private void ButtonFileOpenerPath_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Text files (*.txt)|*.txt";
+            if (openFileDialog.ShowDialog() == true)
+            {
+                TextBoxPath.Text = openFileDialog.FileName;
+                if(TextBoxName.Text == string.Empty)
+                {
+                    string fileName = System.IO.Path.GetFileName(openFileDialog.FileName);
+                    TextBoxName.Text = fileName.Substring(0, fileName.Length - 4);
+                }
+            }
+
+        }
+
+        private void ButtonFileOpenerThumbnail_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "(*.jpeg)|*.jpeg | (*.png)|*.png";
+            if (openFileDialog.ShowDialog() == true)
+            {
+                TextBoxThumbnail.Text = openFileDialog.FileName;
+            }
         }
     }
 }

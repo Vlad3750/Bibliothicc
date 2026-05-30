@@ -60,5 +60,14 @@ namespace Bibliothicc
         {
 
         }
+
+        private void ListViewItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            var item = ((FrameworkElement)e.OriginalSource).DataContext;
+            if (item != null)
+            {
+                //double click code
+            }
+        }
     }
 }

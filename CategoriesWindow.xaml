@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Bibliothicc"
         mc:Ignorable="d"
-        Title="CategoriesWindow" Height="300" Width="300">
+        Title="CategoriesWindow" Height="300" Width="350">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
@@ -17,7 +17,12 @@
                 <ColumnDefinition Width="200"/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <ListView x:Name="ListViewSystemCategories" Margin="5">
+            <ListView x:Name="ListViewSystemCategories" Margin="5" ItemsSource="{Binding Items}">
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <EventSetter Event="MouseDoubleClick" Handler="ListViewItem_MouseDoubleClick"/>
+                    </Style>
+                </ListView.ItemContainerStyle>
                 <DockPanel Width="176">
                     <Label DockPanel.Dock="Right" HorizontalAlignment="Right" Content="✓"></Label>
                     <ListViewItem Content="TestCategory"></ListViewItem>
@@ -27,7 +32,7 @@
                     <ListViewItem Content="TestCategory1"></ListViewItem>
                 </DockPanel>
                 <DockPanel Width="176">
-                    <Label DockPanel.Dock="Right" HorizontalAlignment="Right" Content="O"></Label>
+                    <Label DockPanel.Dock="Right" HorizontalAlignment="Right" Content="○"></Label>
                     <ListViewItem Content="TestCategor2"></ListViewItem>
                 </DockPanel>
             </ListView>

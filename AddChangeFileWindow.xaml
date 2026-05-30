@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Bibliothicc"
         mc:Ignorable="d"
-        Title="AddChangeFileWindow" Height="350" Width="400">
+        Title="AddChangeFileWindow" Height="350" Width="auto" MinWidth="350" MaxWidth="550">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
@@ -21,18 +21,24 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="4*"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             
             <Label Content="Path:" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right"></Label>
-            <TextBox x:Name="TextBoxPath" Grid.Row="0" Grid.Column="1" Height="35"></TextBox>
+            <DockPanel Grid.Row="0" Grid.Column="1">
+                <Button x:Name="ButtonFileOpenerPath" DockPanel.Dock="Right" Height="35" Width="35" FontSize="20" BorderBrush="#FFABADB3" Click="ButtonFileOpenerPath_Click">📂</Button>
+                <TextBox x:Name="TextBoxPath" VerticalContentAlignment="Center" FontSize="15" Height="35"></TextBox>
+            </DockPanel>
 
             <Label Content="Name:" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right"></Label>
-            <TextBox x:Name="TextBoxName" Grid.Row="1" Grid.Column="1" Height="35"></TextBox>
+            <TextBox x:Name="TextBoxName" Grid.Row="1" Grid.Column="1" Height="35" VerticalContentAlignment="Center" FontSize="15"></TextBox>
 
             <Label Content="Thumbnail:" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right"></Label>
-            <TextBox x:Name="TextBoxThumbnail" Grid.Row="2" Grid.Column="2" Height="35"></TextBox>
+            <DockPanel Grid.Row="2" Grid.Column="1">
+                <Button x:Name="ButtonFileOpenerThumbnail" DockPanel.Dock="Right" Height="35" Width="35" FontSize="20" BorderBrush="#FFABADB3" Click="ButtonFileOpenerThumbnail_Click">📂</Button>
+                <TextBox x:Name="TextBoxThumbnail" Height="35" VerticalContentAlignment="Center" FontSize="15"></TextBox>
+            </DockPanel>
 
             <Label Content="Category:" Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right"></Label>
             <DockPanel HorizontalAlignment="Left" Grid.Row="3" Grid.Column="1" VerticalAlignment="Center">

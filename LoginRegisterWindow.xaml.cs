@@ -83,7 +83,6 @@ namespace Bibliothicc
         }
         private void TryLogin()
         {
-            bool userExists = false;
             User existingUser = new User();
             bool userNameExists = false;
             bool userPasswordAligns = false;
@@ -103,7 +102,7 @@ namespace Bibliothicc
                 {
                     if(existingUser.passwordHash == user.passwordHash)
                     {
-                        userExists = true;
+                        userPasswordAligns = true;
                         break;
                     }
                 }
@@ -117,7 +116,7 @@ namespace Bibliothicc
             {
                 MessageBox.Show("Password Required!");
             }
-            else if (!userExists)
+            else if (!userPasswordAligns)
             {
                 MessageBox.Show("Username or Password is false!");
             }

@@ -42,7 +42,11 @@ namespace Bibliothicc
 
             if (window.ShowDialog() == true)
             {
-                AddNewFileToLib();
+                ListViewItem FileToAdd = new ListViewItem();
+
+                FileToAdd.Content = window.TextBoxFileName.Text;
+                ListViewFiles.Items.Add(FileToAdd);
+                ListViewLibraries.Items.Refresh();
             }
         }
 
@@ -79,14 +83,12 @@ namespace Bibliothicc
 
             if(window.ShowDialog() == true)
             {
-                AddNewLibToCollection();
-            }
-        }
+                ListViewItem LibToAdd = new ListViewItem();
 
-        private void AddNewLibToCollection()
-        {
-            MessageBox.Show("New lib added to Colletion");
-            //ListViewLibraries.Items.Add();
+                LibToAdd.Content = window.TextBoxLibName.Text;
+                ListViewLibraries.Items.Add(LibToAdd);
+                ListViewLibraries.Items.Refresh();
+            }
         }
 
         private void AddNewFileToLib()
@@ -100,12 +102,40 @@ namespace Bibliothicc
         }
         private void DeleteSelectedFile()
         {
-            MessageBox.Show("{filename} has been deleted");
+            if(ListViewFiles.SelectedItem == null)
+            {
+                MessageBox.Show("Please Select a File to delete it");
+            }
+            else
+            {
+                MessageBox.Show($"{ListViewFiles.SelectedItem.ToString().Substring(37)} has been deleted");
+                ListViewFiles.Items.Remove(ListViewFiles.SelectedItem);
+                ListViewFiles.Items.Refresh();
+            }
         }
+
 
         private string GetDataTypeLib()
         {
             return "TestDataType";
+        }
+
+        private void TextBoxSearchBar_GotFocus(object sender, RoutedEventArgs e)
+        {
+            if(TextBoxSearchBar.Text == "Search here ..." && TextBoxSearchBar.Foreground == Brushes.LightGray)
+            {
+                TextBoxSearchBar.Text = "";
+            }
+            TextBoxSearchBar.Foreground = Brushes.Black;
+        }
+
+        private void TextBoxSearchBar_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if(TextBoxSearchBar.Text == string.Empty)
+            {
+                TextBoxSearchBar.Text = "Search here ...";
+                TextBoxSearchBar.Foreground = Brushes.LightGray;
+            }
         }
     }
 }

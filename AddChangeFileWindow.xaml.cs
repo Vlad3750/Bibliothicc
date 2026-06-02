@@ -31,15 +31,21 @@ namespace Bibliothicc
 
         private void ButtonAddChange_Click(object sender, RoutedEventArgs e)
         {
-            if (isPressedAdd)
+            if(TextBoxPath.Text == string.Empty)
+            {
+                MessageBox.Show("File is missing a path");
+            }
+
+            else if (isPressedAdd)
             {
                 MessageBox.Show("New File added");
+                DialogResult = true;
             }
             else
             {
                 MessageBox.Show("File changed");
+                DialogResult = true;
             }
-            DialogResult = true;
         }
 
         private void ButtonAddCategory_Click(object sender, RoutedEventArgs e)
@@ -67,10 +73,10 @@ namespace Bibliothicc
             if (openFileDialog.ShowDialog() == true)
             {
                 TextBoxPath.Text = openFileDialog.FileName;
-                if(TextBoxName.Text == string.Empty)
+                if(TextBoxFileName.Text == string.Empty)
                 {
                     string fileName = System.IO.Path.GetFileName(openFileDialog.FileName);
-                    TextBoxName.Text = fileName.Substring(0, fileName.Length - 4);
+                    TextBoxFileName.Text = fileName.Substring(0, fileName.Length - 4);
                 }
             }
 

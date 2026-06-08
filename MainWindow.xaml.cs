@@ -20,10 +20,14 @@ namespace Bibliothicc
         bool LoggedOn = false;
         List<User> users;
 
-        public MainWindow(List<User> users, User loggedUser)
+        List<Library> libs;
+        string[] acceptedMimeTypes;
+
+        public MainWindow(List<User> users, List<Library> libs, User loggedUser)
         {
             InitializeComponent();
             this.users = users;
+            this.libs = libs;
             LabelUserName.Content = loggedUser.Username;
         }
 
@@ -79,15 +83,26 @@ namespace Bibliothicc
 
         private void ButtonAddLib_Click(object sender, RoutedEventArgs e)
         {
-            AddLibWindow window = new AddLibWindow();
+            AddLibWindow window = new AddLibWindow(acceptedMimeTypes);
 
             if(window.ShowDialog() == true)
             {
+                acceptedMimeTypes = window.acceptedMimeTypes;
                 ListViewItem LibToAdd = new ListViewItem();
+                Library LibToAddToCol = new Library()
+                {
+                    Name = window.TextBoxLibName.Text,
+                    FileType = window.fileNameString
+                };
 
                 LibToAdd.Content = window.TextBoxLibName.Text;
                 ListViewLibraries.Items.Add(LibToAdd);
                 ListViewLibraries.Items.Refresh();
+
+                libs.Add(LibToAddToCol);
+
+                MessageBox.Show(string.Join(", ", acceptedMimeTypes), LibToAddToCol.FileType);
+                MessageBox.Show($"New Library for {window.fileNameString}s added to Collection");
             }
         }
 
@@ -136,6 +151,17 @@ namespace Bibliothicc
                 TextBoxSearchBar.Text = "Search here ...";
                 TextBoxSearchBar.Foreground = Brushes.LightGray;
             }
+        }
+
+        private void ButtonSetttings_Click(object sender, RoutedEventArgs e)
+        {
+            SettingsWindows window = new SettingsWindows();
+            window.Show();
+        }
+
+        private void ButtonStats_Click(object sender, RoutedEventArgs e)
+        {
+            
         }
     }
 }

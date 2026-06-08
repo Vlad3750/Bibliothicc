@@ -9,7 +9,32 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Bilder\button_an.png" />
+    <None Remove="Bilder\button_aus.png" />
+    <None Remove="Bilder\log_out_icon.png" />
+    <None Remove="Bilder\magnifyingglass.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Bilder\button_an.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Bilder\button_aus.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Bilder\magnifyingglass.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Bibliothicc_ClassLibrary\Bibliothicc_ClassLibrary.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Bilder\log_out_icon.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
 </Project>

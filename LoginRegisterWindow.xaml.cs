@@ -21,6 +21,7 @@ namespace Bibliothicc
     {
         bool IsActiveLogin = true;
         List<User> users = new List<User>();
+        List<Library> libs = new List<Library>();
         User LoginUser = null;
 
         public LoginRegisterWindow(List<User> users)
@@ -76,15 +77,15 @@ namespace Bibliothicc
             {
                 MessageBox.Show("Username Required!");
             }
-            else if (TextBoxPasswd.Text == string.Empty)
+            else if (PasswordBoxPasswd.Password == string.Empty)
             {
                 MessageBox.Show("Password Required!");
             }
-            else if(TextBoxRepeatPasswd.Text == string.Empty)
+            else if(PasswordBoxRepeatPasswd.Password == string.Empty)
             {
                 MessageBox.Show("Please repead your Password!");
             }
-            else if (TextBoxRepeatPasswd.Text != TextBoxPasswd.Text)
+            else if (PasswordBoxRepeatPasswd.Password != PasswordBoxPasswd.Password)
             {
                 MessageBox.Show("Passwords don't align.");
             }
@@ -97,12 +98,12 @@ namespace Bibliothicc
                 User userToAdd = new User()
                 {
                     Username = TextBoxUserName.Text,
-                    passwordHash = TextBoxPasswd.Text,
+                    passwordHash = PasswordBoxPasswd.Password,
                 };
                 users.Add(userToAdd);
                 LoginUser = userToAdd;
                 MessageBox.Show("You're now Registered");
-                MainWindow window = new MainWindow(users, LoginUser);
+                MainWindow window = new MainWindow(users, libs, LoginUser);
                 window.Show();
                 this.Close();
             }
@@ -122,14 +123,10 @@ namespace Bibliothicc
             }
             if (existingUser != null)
             {
-                foreach(User user in users)
+                if(existingUser.passwordHash == PasswordBoxPasswd.Password)
                 {
-                    if(existingUser.passwordHash == user.passwordHash)
-                    {
-                        userPasswordAligns = true;
-                        LoginUser = user;
-                        break;
-                    }
+                    userPasswordAligns = true;
+                    LoginUser = existingUser;
                 }
             }
 
@@ -137,7 +134,7 @@ namespace Bibliothicc
             {
                 MessageBox.Show("Username Required!");
             }
-            else if (TextBoxPasswd.Text == string.Empty)
+            else if (PasswordBoxPasswd.Password == string.Empty)
             {
                 MessageBox.Show("Password Required!");
             }
@@ -148,7 +145,7 @@ namespace Bibliothicc
             else
             {
                 MessageBox.Show("Login successful");
-                MainWindow window = new MainWindow(users, LoginUser);
+                MainWindow window = new MainWindow(users, libs, LoginUser);
                 window.Show();
                 this.Close();
             }

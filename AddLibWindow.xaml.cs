@@ -9,6 +9,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Bibliothicc
 {
@@ -17,15 +18,41 @@ namespace Bibliothicc
     /// </summary>
     public partial class AddLibWindow : Window
     {
-        public AddLibWindow()
+        public string[] acceptedMimeTypes;
+
+        public string fileNameString;
+        public AddLibWindow(string[] acceptedMimeTypes)
         {
             InitializeComponent();
+            this.acceptedMimeTypes = acceptedMimeTypes;
         }
 
         private void ButtonAdd_Click(object sender, RoutedEventArgs e)
         {
-            DialogResult = true;
-            this.Close();
+            if (TextBoxLibName.Text == string.Empty)
+            {
+                MessageBox.Show("Please choose a name for you're Library");
+            }
+            else
+            {
+                if (ComboBoxDataTyp.SelectedIndex == 0)
+                {
+                    acceptedMimeTypes = [".mp4"];
+                    fileNameString = "Video";
+                }
+                else if (ComboBoxDataTyp.SelectedIndex == 1)
+                {
+                    acceptedMimeTypes = [".mkv"];
+                    fileNameString = "Movie";
+                }
+                else if (ComboBoxDataTyp.SelectedIndex == 2)
+                {
+                    acceptedMimeTypes = [".txt", ".md", ".docx", ".pdf"];
+                    fileNameString = "Text";
+                }
+                DialogResult = true;
+                this.Close();
+            }
         }
     }
 }

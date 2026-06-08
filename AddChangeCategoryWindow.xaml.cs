@@ -18,20 +18,28 @@ namespace Bibliothicc
     public partial class AddChangeCategoryWindow : Window
     {
         bool isPressedAdd = true;
+        public string categoryName = "";
 
-        public AddChangeCategoryWindow(string LabelCategory, string ButtonContentCategory, bool AddOrChange)
+        public AddChangeCategoryWindow(string LabelCategory, string ButtonContentCategory, bool AddOrChange, ListView categoryListView)
         {
             InitializeComponent();
 
             LabelAddChangeCategory.Content = LabelCategory + " Category:";
             ButtonAddChangeCategory.Content = ButtonContentCategory;
             isPressedAdd = AddOrChange;
+            if (!isPressedAdd)
+            {
+                var item = (ListViewItem)categoryListView.SelectedItem;
+                categoryName = item.Content.ToString();
+                TextBoxAddChangeCategory.Text = categoryName;
+            }
         }
 
         private void ButtonAddChangeCategory_Click(object sender, RoutedEventArgs e)
         {
             if (isPressedAdd)
             {
+                categoryName = TextBoxAddChangeCategory.Text;
                 MessageBox.Show("New Category Added");
             }
             else

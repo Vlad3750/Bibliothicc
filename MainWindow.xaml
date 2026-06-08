@@ -30,7 +30,7 @@
                     <ColumnDefinition Width="70"/>
                 </Grid.ColumnDefinitions>
                 <Button x:Name="ButtonStats" Content="Stats" Background="Transparent" Click="ButtonStats_Click"/>
-                <Button x:Name="ButtonLoginLogout" Grid.Column="1" Margin="10 0" Background="Transparent" Click="ButtonLoginLogout_Click">
+                <Button x:Name="ButtonLoginLogout" Grid.Column="1" Padding="10 0" Background="Transparent" Click="ButtonLoginLogout_Click">
                     <DockPanel>
                         <Image Source="/Bilder/log_out_icon.png" Width="20" DockPanel.Dock="Right"/>
                         <Label x:Name="LabelUserName">user1</Label>

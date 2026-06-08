@@ -20,7 +20,7 @@ namespace Bibliothicc
         bool LoggedOn = false;
         List<User> users;
 
-        List<Library> libs;
+        public List<Library> libs;
         string[] acceptedMimeTypes;
 
         public MainWindow(List<User> users, List<Library> libs, User loggedUser)

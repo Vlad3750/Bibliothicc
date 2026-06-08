@@ -49,15 +49,19 @@
                             </Style>
                         </Button.Resources>
                     </Button>
-                    <ListView x:Name="ListViewCategoriesToAdd" BorderThickness="0" Width="auto">
-                    <Border x:Name="ListViewObject" BorderBrush="LightGray" BorderThickness="1" CornerRadius="10">
-                            <DockPanel>
-                                <Button x:Name="ButtonRemoveCategory" DockPanel.Dock="Right" Padding="0 0 5 0" BorderThickness="0" Background="Transparent" Content="✕" Click="ButtonRemoveCategory_Click"></Button>
-                                <ListViewItem Content="TestCategory"></ListViewItem>
-                            </DockPanel>
-                        </Border>
-                    </ListView>
-                </DockPanel>
+                <ListView x:Name="ListViewCategoriesToAdd" BorderThickness="0" Width="auto">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <Border BorderBrush="LightGray" BorderThickness="1" CornerRadius="10">
+                                <DockPanel>
+                                    <Button DockPanel.Dock="Right" Padding="0 0 5 0" BorderThickness="0" Background="Transparent" Content="✕" Click="ButtonRemoveCategory_Click"/>
+                                    <Label Content="{Binding Name}"/>
+                                </DockPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </DockPanel>
         </Grid>
         <Grid Grid.Row="2" HorizontalAlignment="Center">
             <Grid.ColumnDefinitions>

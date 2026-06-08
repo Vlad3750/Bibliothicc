@@ -27,6 +27,8 @@ namespace Bibliothicc
             LabelAddChange.Content = LabelAddChangeText + LabelDataTypeText;
             ButtonAddChange.Content = ButtonContentAddChange;
             isPressedAdd = AddOrChange;
+
+            ListViewCategoriesToAdd.Items.Add(new CategoryItem { Name = "TestCategory1" });
         }
 
         private void ButtonAddChange_Click(object sender, RoutedEventArgs e)
@@ -52,18 +54,17 @@ namespace Bibliothicc
         {
             CategoriesWindow window = new CategoriesWindow(ListViewCategoriesToAdd);
 
-            if(window.ShowDialog() == true)
+            if (window.ShowDialog() == true)
             {
-                //ListViewCategoriesToAdd.Items.Add();
+                ListViewCategoriesToAdd.Items.Refresh();
             }
-
-
         }
 
         private void ButtonRemoveCategory_Click(object sender, RoutedEventArgs e)
         {
-            ListViewCategoriesToAdd.Items.Remove(ListViewObject);
-            ListViewCategoriesToAdd.Items.Refresh();
+            var button = (Button)sender;
+            var item = (CategoryItem)button.DataContext;
+            ListViewCategoriesToAdd.Items.Remove(item);
         }
 
         private void ButtonFileOpenerPath_Click(object sender, RoutedEventArgs e)

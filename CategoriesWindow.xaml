@@ -17,24 +17,20 @@
                 <ColumnDefinition Width="200"/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <ListView x:Name="ListViewSystemCategories" Margin="5" ItemsSource="{Binding Items}">
+            <ListView x:Name="ListViewSystemCategories" Margin="5">
                 <ListView.ItemContainerStyle>
                     <Style TargetType="ListViewItem">
                         <EventSetter Event="MouseDoubleClick" Handler="ListViewItem_MouseDoubleClick"/>
                     </Style>
                 </ListView.ItemContainerStyle>
-                <DockPanel Width="176">
-                    <Label DockPanel.Dock="Right" HorizontalAlignment="Right" Content="✓"></Label>
-                    <ListViewItem Content="TestCategory"></ListViewItem>
-                </DockPanel>
-                <DockPanel Width="176">
-                    <Label DockPanel.Dock="Right" HorizontalAlignment="Right" Content="○"></Label>
-                    <ListViewItem Content="TestCategory1"></ListViewItem>
-                </DockPanel>
-                <DockPanel Width="176">
-                    <Label DockPanel.Dock="Right" HorizontalAlignment="Right" Content="○"></Label>
-                    <ListViewItem Content="TestCategor2"></ListViewItem>
-                </DockPanel>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <DockPanel Width="170">
+                            <Label DockPanel.Dock="Right" Content="{Binding Symbol}"/>
+                            <Label Content="{Binding Name}"/>
+                        </DockPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
             </ListView>
             <Grid Grid.Column="1" Width="100" Height="200">
                 <Grid.RowDefinitions>

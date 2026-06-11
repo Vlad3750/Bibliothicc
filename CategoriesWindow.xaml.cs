@@ -12,6 +12,12 @@ using System.Windows.Shapes;
 
 namespace Bibliothicc
 {
+    public class CategoryItem
+    {
+        public string Name { get; set; }
+        public string Symbol { get; set; } = "○";
+    }
+
     /// <summary>
     /// Interaktionslogik für CategoriesWindow.xaml
     /// </summary>
@@ -22,6 +28,9 @@ namespace Bibliothicc
         {
             InitializeComponent();
             LVCategoriesToAdd = ListViewCategoriesToAdd;
+            //ListViewSystemCategories.Items.Add(new CategoryItem { Name = "TestCategory1", Symbol = "✓" });
+            //ListViewSystemCategories.Items.Add(new CategoryItem { Name = "TestCategory2" });
+            //ListViewSystemCategories.Items.Add(new CategoryItem { Name = "TestCategory3" });
         }
 
         private void ButtonAddCategory_Click(object sender, RoutedEventArgs e)
@@ -29,36 +38,56 @@ namespace Bibliothicc
             string LabelCategory = "Add";
             string ButtonContentCategory = "Add";
 
-            AddChangeCategoryWindow window = new AddChangeCategoryWindow(LabelCategory, ButtonContentCategory, true);
+            AddChangeCategoryWindow window = new AddChangeCategoryWindow(LabelCategory, ButtonContentCategory, true, ListViewSystemCategories);
 
             if (window.ShowDialog() == true)
             {
-                AddNewCategoryToSystem();
+                ListViewSystemCategories.Items.Add(new CategoryItem { Name = window.categoryName });
             }
         }
 
         private void ButtonChangeCategory_Click(object sender, RoutedEventArgs e)
         {
-            string LabelCategory = "Change";
-            string ButtonContentCategory = "Change";
-
-            AddChangeCategoryWindow window = new AddChangeCategoryWindow(LabelCategory, ButtonContentCategory, false);
-
-            if (window.ShowDialog() == true)
+            if(ListViewSystemCategories.SelectedItem != null)
             {
-                ChangeCategoryName();
+                string LabelCategory = "Change";
+                string ButtonContentCategory = "Change";
+
+                AddChangeCategoryWindow window = new AddChangeCategoryWindow(LabelCategory, ButtonContentCategory, false, ListViewSystemCategories);
+
+                if (window.ShowDialog() == true)
+                {
+                    var item = (ListViewItem)ListViewSystemCategories.SelectedItem;
+                    item.Content = window.categoryName;
+                    ListViewSystemCategories.Items.Refresh();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Please select a category to change its name");
             }
         }
 
         // Double clicking an ListViewItem -> adds it to ListViewCategoriesToAdd
 
-        private void AddNewCategoryToSystem()
+        private void ListViewItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
+            var item = (ListViewItem)sender;
+            var data = (CategoryItem)item.DataContext;
 
-        }
-        private void ChangeCategoryName()
-        {
+            if (data.Symbol == "○")
+            {
+                data.Symbol = "✓";
+                LVCategoriesToAdd.Items.Add(new CategoryItem { Name = data.Name });
+            }
+            else
+            {
+                MessageBox.Show("Category already added to file");
+            }
 
+            ListViewSystemCategories.Items.Refresh();
+            DialogResult = true;
+            this.Close();
         }
     }
 }

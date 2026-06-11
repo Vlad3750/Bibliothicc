@@ -10,6 +10,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Bibliothicc_ClassLibrary;
 
 namespace Bibliothicc
 {
@@ -19,7 +20,15 @@ namespace Bibliothicc
     public partial class LoginRegisterWindow : Window
     {
         bool IsActiveLogin = true;
+        List<User> users = new List<User>();
+        List<Library> libs = new List<Library>();
+        User LoginUser = null;
 
+        public LoginRegisterWindow(List<User> users)
+        {
+            InitializeComponent();
+            this.users = users;
+        }
         public LoginRegisterWindow()
         {
             InitializeComponent();
@@ -54,17 +63,92 @@ namespace Bibliothicc
 
         private void TryRegister()
         {
-            MessageBox.Show("You're now Registered");
-            MainWindow window = new MainWindow();
-            window.Show();
-            this.Close();
+            bool userAlreadyExists = false;
+
+            foreach(User user in users)
+            {
+                if(TextBoxUserName.Text == user.Username)
+                {
+                    userAlreadyExists = true;
+                }
+            }
+
+            if (TextBoxUserName.Text == string.Empty)
+            {
+                MessageBox.Show("Username Required!");
+            }
+            else if (PasswordBoxPasswd.Password == string.Empty)
+            {
+                MessageBox.Show("Password Required!");
+            }
+            else if(PasswordBoxRepeatPasswd.Password == string.Empty)
+            {
+                MessageBox.Show("Please repead your Password!");
+            }
+            else if (PasswordBoxRepeatPasswd.Password != PasswordBoxPasswd.Password)
+            {
+                MessageBox.Show("Passwords don't align.");
+            }
+            else if (userAlreadyExists)
+            {
+                MessageBox.Show($"Username {TextBoxUserName.Text} already taken please choose another Name.");
+            }
+            else
+            {
+                User userToAdd = new User()
+                {
+                    Username = TextBoxUserName.Text,
+                    passwordHash = PasswordBoxPasswd.Password,
+                };
+                users.Add(userToAdd);
+                LoginUser = userToAdd;
+                MessageBox.Show("You're now Registered");
+                MainWindow window = new MainWindow(users, libs, LoginUser);
+                window.Show();
+                this.Close();
+            }
         }
         private void TryLogin()
         {
-            MessageBox.Show("Login successful");
-            MainWindow window = new MainWindow();
-            window.Show();
-            this.Close();
+            User existingUser = null;
+            bool userPasswordAligns = false;
+
+            foreach(User user in users)
+            {
+                if(TextBoxUserName.Text == user.Username)
+                {
+                    existingUser = user;
+                    break;
+                }
+            }
+            if (existingUser != null)
+            {
+                if(existingUser.passwordHash == PasswordBoxPasswd.Password)
+                {
+                    userPasswordAligns = true;
+                    LoginUser = existingUser;
+                }
+            }
+
+            if(TextBoxUserName.Text == string.Empty)
+            {
+                MessageBox.Show("Username Required!");
+            }
+            else if (PasswordBoxPasswd.Password == string.Empty)
+            {
+                MessageBox.Show("Password Required!");
+            }
+            else if (!userPasswordAligns)
+            {
+                MessageBox.Show("Username or Password is false!");
+            }
+            else
+            {
+                MessageBox.Show("Login successful");
+                MainWindow window = new MainWindow(users, libs, LoginUser);
+                window.Show();
+                this.Close();
+            }
         }
     }
 }

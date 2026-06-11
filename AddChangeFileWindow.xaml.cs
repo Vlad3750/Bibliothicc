@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -25,37 +27,70 @@ namespace Bibliothicc
             LabelAddChange.Content = LabelAddChangeText + LabelDataTypeText;
             ButtonAddChange.Content = ButtonContentAddChange;
             isPressedAdd = AddOrChange;
+
+            ListViewCategoriesToAdd.Items.Add(new CategoryItem { Name = "TestCategory1" });
         }
 
         private void ButtonAddChange_Click(object sender, RoutedEventArgs e)
         {
-            if (isPressedAdd)
+            if(TextBoxPath.Text == string.Empty)
+            {
+                MessageBox.Show("File is missing a path");
+            }
+
+            else if (isPressedAdd)
             {
                 MessageBox.Show("New File added");
+                DialogResult = true;
             }
             else
             {
                 MessageBox.Show("File changed");
+                DialogResult = true;
             }
-            DialogResult = true;
         }
 
         private void ButtonAddCategory_Click(object sender, RoutedEventArgs e)
         {
             CategoriesWindow window = new CategoriesWindow(ListViewCategoriesToAdd);
 
-            if(window.ShowDialog() == true)
+            if (window.ShowDialog() == true)
             {
-                //ListViewCategoriesToAdd.Items.Add();
+                ListViewCategoriesToAdd.Items.Refresh();
             }
-
-
         }
 
         private void ButtonRemoveCategory_Click(object sender, RoutedEventArgs e)
         {
-            ListViewCategoriesToAdd.Items.Remove(ListViewObject);
-            ListViewCategoriesToAdd.Items.Refresh();
+            var button = (Button)sender;
+            var item = (CategoryItem)button.DataContext;
+            ListViewCategoriesToAdd.Items.Remove(item);
+        }
+
+        private void ButtonFileOpenerPath_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Text files (*.txt)|*.txt";
+            if (openFileDialog.ShowDialog() == true)
+            {
+                TextBoxPath.Text = openFileDialog.FileName;
+                if(TextBoxFileName.Text == string.Empty)
+                {
+                    string fileName = System.IO.Path.GetFileName(openFileDialog.FileName);
+                    TextBoxFileName.Text = fileName.Substring(0, fileName.Length - 4);
+                }
+            }
+
+        }
+
+        private void ButtonFileOpenerThumbnail_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "(*.jpeg)|*.jpeg | (*.png)|*.png";
+            if (openFileDialog.ShowDialog() == true)
+            {
+                TextBoxThumbnail.Text = openFileDialog.FileName;
+            }
         }
     }
 }

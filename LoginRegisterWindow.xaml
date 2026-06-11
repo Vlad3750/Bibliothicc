@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Bibliothicc"
         mc:Ignorable="d"
-        Title="LoginRegisterWindow" Height="auto" Width="400">
+        Title="LoginRegisterWindow" Height="auto" MaxHeight="300" Width="400">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
@@ -21,7 +21,7 @@
                     <ColumnDefinition Width="2.7*"/>
                 </Grid.ColumnDefinitions>
                 <Label Content="Repeat Password:" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right"></Label>
-                <TextBox x:Name="TextBoxRepeatPasswd" Grid.Column="1" Height="35"></TextBox>
+                <PasswordBox x:Name="PasswordBoxRepeatPasswd" Grid.Column="1" Height="35" VerticalContentAlignment="Center"></PasswordBox>
             </Grid>
 
             <Grid DockPanel.Dock="Top" Margin="0 3">
@@ -29,8 +29,12 @@
                     <ColumnDefinition/>
                     <ColumnDefinition Width="2.7*"/>
                 </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
                 <Label Content="Username:" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right"></Label>
-                <TextBox x:Name="TextBoxUserName" Grid.Column="1" Height="35"></TextBox>
+                <TextBox x:Name="TextBoxUserName" Grid.Column="1" Height="35" VerticalContentAlignment="Center"></TextBox>
             </Grid>
 
             <Grid DockPanel.Dock="Top" Margin="0 3">
@@ -39,7 +43,7 @@
                     <ColumnDefinition Width="2.7*"/>
                 </Grid.ColumnDefinitions>
                 <Label Content="Password:" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right"></Label>
-                <TextBox x:Name="TextBoxPasswd" Grid.Column="1" Height="35"></TextBox>
+                <PasswordBox x:Name="PasswordBoxPasswd" Grid.Column="1" Height="35" VerticalContentAlignment="Center"></PasswordBox>
             </Grid>
 
         </DockPanel>

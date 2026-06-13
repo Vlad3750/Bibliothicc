@@ -13,7 +13,7 @@ namespace Bibliothicc.Models
 
         public Library(List<Media> col)
         {
-            collection = col;
+            Collection = col;
         }
 
     }

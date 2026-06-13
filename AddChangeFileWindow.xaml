@@ -28,20 +28,20 @@
             <Label Content="Path:" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right"></Label>
             <DockPanel Grid.Row="0" Grid.Column="1">
                 <Button x:Name="ButtonFileOpenerPath" DockPanel.Dock="Right" Height="35" Width="35" FontSize="20" BorderBrush="#FFABADB3" Click="ButtonFileOpenerPath_Click">📂</Button>
-                <TextBox x:Name="TextBoxPath" VerticalContentAlignment="Center" FontSize="15" Height="35"></TextBox>
+                <Label x:Name="LabelPath" BorderThickness="1" BorderBrush="#FFABADB3" VerticalContentAlignment="Center" FontSize="15" Height="35"></Label>
             </DockPanel>
 
             <Label Content="Name:" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right"></Label>
             <TextBox x:Name="TextBoxFileName" Grid.Row="1" Grid.Column="1" Height="35" VerticalContentAlignment="Center" FontSize="15"></TextBox>
 
-            <Label Content="Thumbnail:" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right"></Label>
-            <DockPanel Grid.Row="2" Grid.Column="1">
+            <Label x:Name="LabelThumbnail" Content="Thumbnail:" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right"></Label>
+            <DockPanel x:Name="DockPanelThumbnail" Grid.Row="2" Grid.Column="1">
                 <Button x:Name="ButtonFileOpenerThumbnail" DockPanel.Dock="Right" Height="35" Width="35" FontSize="20" BorderBrush="#FFABADB3" Click="ButtonFileOpenerThumbnail_Click">📂</Button>
-                <TextBox x:Name="TextBoxThumbnail" Height="35" VerticalContentAlignment="Center" FontSize="15"></TextBox>
+                <Label x:Name="LabelShowcaseThumbnail" BorderThickness="1" BorderBrush="#FFABADB3" Height="35" VerticalContentAlignment="Center" FontSize="15"></Label>
             </DockPanel>
 
-            <Label Content="Category:" Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right"></Label>
-            <DockPanel HorizontalAlignment="Left" Grid.Row="3" Grid.Column="1" VerticalAlignment="Center">
+            <Label x:Name="LabelCategory" Content="Category:" Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right"></Label>
+            <DockPanel x:Name="DockPanelCategory" HorizontalAlignment="Left" Grid.Row="3" Grid.Column="1" VerticalAlignment="Center">
                     <Button x:Name="ButtonAddCategory" DockPanel.Dock="Right" Width="20" Height="20" Content="+" Click="ButtonAddCategory_Click">
                         <Button.Resources>
                             <Style TargetType="Border">

@@ -9,6 +9,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Bibliothicc_ClassLibrary;
 
 namespace Bibliothicc
 {
@@ -24,13 +25,21 @@ namespace Bibliothicc
     public partial class CategoriesWindow : Window
     {
         ListView LVCategoriesToAdd;
+
+        List<Category> SystemCategories = new List<Category>();
         public CategoriesWindow(ListView ListViewCategoriesToAdd)
         {
             InitializeComponent();
             LVCategoriesToAdd = ListViewCategoriesToAdd;
-            //ListViewSystemCategories.Items.Add(new CategoryItem { Name = "TestCategory1", Symbol = "✓" });
-            //ListViewSystemCategories.Items.Add(new CategoryItem { Name = "TestCategory2" });
-            //ListViewSystemCategories.Items.Add(new CategoryItem { Name = "TestCategory3" });
+            foreach(Category category in SystemCategories)
+            {
+                CategoryItem categoryToAdd = new CategoryItem() { Name = category.Name };
+
+                if (LVCategoriesToAdd.Items.Contains(categoryToAdd))
+                {
+                    ListViewSystemCategories.Items.Add(new CategoryItem { Name = category.Name, Symbol = "✓" });
+                }
+            }
         }
 
         private void ButtonAddCategory_Click(object sender, RoutedEventArgs e)

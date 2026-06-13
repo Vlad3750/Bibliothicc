@@ -43,8 +43,7 @@
             <Button x:Name="ButtonOtherLibs" DockPanel.Dock="Bottom" Height="30" Content="Other Libs"></Button>
             <DockPanel VerticalAlignment="Top">
                 <Button x:Name="ButtonAddLib" DockPanel.Dock="Bottom" Height="30" Click="ButtonAddLib_Click">+</Button>
-                <ListView x:Name="ListViewLibraries" Padding="5">
-                    <ListViewItem>TestLib</ListViewItem>
+                <ListView x:Name="ListViewLibraries" Padding="5" SelectionChanged="ListViewLibraries_SelectionChanged">
                 </ListView>
             </DockPanel>
         </DockPanel>

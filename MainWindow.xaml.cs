@@ -20,15 +20,26 @@ namespace Bibliothicc
         bool LoggedOn = false;
         List<User> users;
 
+        Library currentLib;
         public List<Library> libs;
-        string[] acceptedMimeTypes;
 
         public MainWindow(List<User> users, List<Library> libs, User loggedUser)
         {
             InitializeComponent();
+
             this.users = users;
             this.libs = libs;
             LabelUserName.Content = loggedUser.Username;
+
+            if(libs.Count != 0)
+            {
+                currentLib = libs[0];
+            }
+
+            if (ListViewLibraries.Items.Count == 0)
+            {
+                ButtonAddLib_Click(ButtonAddLib, new RoutedEventArgs());
+            }
         }
 
         private void ButtonQuit_Click(object sender, RoutedEventArgs e)
@@ -42,7 +53,7 @@ namespace Bibliothicc
             string LabelDataType = GetDataTypeLib() + ":";
             string ButtonContentAddChange = "Add";
 
-            AddChangeFileWindow window = new AddChangeFileWindow(LabelAddChange, LabelDataType, ButtonContentAddChange, true);
+            AddChangeFileWindow window = new AddChangeFileWindow(LabelAddChange, LabelDataType, ButtonContentAddChange, true, currentLib.FileType);
 
             if (window.ShowDialog() == true)
             {
@@ -50,21 +61,32 @@ namespace Bibliothicc
 
                 FileToAdd.Content = window.TextBoxFileName.Text;
                 ListViewFiles.Items.Add(FileToAdd);
-                ListViewLibraries.Items.Refresh();
+                ListViewFiles.Items.Refresh();
+
+                currentLib.mediaCollection.Add(window.itemToAdd);
             }
         }
 
         private void ButtonChange_Click(object sender, RoutedEventArgs e)
         {
-            string LabelAddChange = "Change ";
-            string LabelDataType = GetDataTypeLib() + ":";
-            string ButtonContentAddChange = "Change";
-
-            AddChangeFileWindow window = new AddChangeFileWindow(LabelAddChange, LabelDataType, ButtonContentAddChange, false);
-
-            if (window.ShowDialog() == true)
+            if (ListViewFiles.SelectedItem == null)
             {
-                ChangeFileInLib();
+                MessageBox.Show("Please select a file to change it");
+            }
+
+            else
+            {
+                string LabelAddChange = "Change ";
+                string LabelDataType = GetDataTypeLib() + ":";
+                string ButtonContentAddChange = "Change";
+
+                AddChangeFileWindow window = new AddChangeFileWindow(LabelAddChange, LabelDataType, currentLib.mediaCollection[ListViewFiles.SelectedIndex], ButtonContentAddChange, false, currentLib.FileType);
+
+                if (window.ShowDialog() == true)
+                {
+                    ChangeFileInLib();
+                    currentLib.mediaCollection[ListViewFiles.SelectedIndex] = window.itemToChange;
+                }
             }
         }
 
@@ -83,13 +105,12 @@ namespace Bibliothicc
 
         private void ButtonAddLib_Click(object sender, RoutedEventArgs e)
         {
-            AddLibWindow window = new AddLibWindow(acceptedMimeTypes);
+            AddLibWindow window = new AddLibWindow();
 
             if(window.ShowDialog() == true)
             {
-                acceptedMimeTypes = window.acceptedMimeTypes;
                 ListViewItem LibToAdd = new ListViewItem();
-                Library LibToAddToCol = new Library()
+                Library LibToAddToColllection = new Library()
                 {
                     Name = window.TextBoxLibName.Text,
                     FileType = window.fileNameString
@@ -99,22 +120,17 @@ namespace Bibliothicc
                 ListViewLibraries.Items.Add(LibToAdd);
                 ListViewLibraries.Items.Refresh();
 
-                libs.Add(LibToAddToCol);
+                libs.Add(LibToAddToColllection);
 
-                MessageBox.Show(string.Join(", ", acceptedMimeTypes), LibToAddToCol.FileType);
+                currentLib = LibToAddToColllection;
+                ListViewLibraries.SelectedItem = LibToAdd;
+
+
+                // MessageBox.Show(string.Join(", ", acceptedMimeTypes), LibToAddToColllection.FileType);
                 MessageBox.Show($"New Library for {window.fileNameString}s added to Collection");
             }
         }
 
-        private void AddNewFileToLib()
-        {
-
-        }
-
-        private void ChangeFileInLib()
-        {
-
-        }
         private void DeleteSelectedFile()
         {
             if(ListViewFiles.SelectedItem == null)
@@ -132,7 +148,7 @@ namespace Bibliothicc
 
         private string GetDataTypeLib()
         {
-            return "TestDataType";
+            return currentLib.FileType;
         }
 
         private void TextBoxSearchBar_GotFocus(object sender, RoutedEventArgs e)
@@ -162,6 +178,11 @@ namespace Bibliothicc
         private void ButtonStats_Click(object sender, RoutedEventArgs e)
         {
             
+        }
+
+        private void ListViewLibraries_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            currentLib = libs[ListViewLibraries.SelectedIndex];
         }
     }
 }

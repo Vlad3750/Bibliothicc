@@ -29,8 +29,9 @@
             <Label Content="DataTyp:" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right"></Label>
             <ComboBox x:Name="ComboBoxDataTyp" Grid.Row="1" Grid.Column="1" Height="35" VerticalContentAlignment="Center">
                 <ComboBoxItem Content="Video (.mp4)" IsSelected="True"/>
-                <ComboBoxItem Content="Movie (.mkv)"/>
+                <ComboBoxItem Content="Movie (.mkv/.mp4)"/>
                 <ComboBoxItem Content="Text (.txt/.md/.docx/.pdf)"/>
+                <ComboBoxItem Content="Picture (.png/.jpeg/./.svg)"/>
             </ComboBox>
         </Grid>
         <Grid Grid.Row="2" HorizontalAlignment="Center">

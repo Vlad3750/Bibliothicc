@@ -18,13 +18,11 @@ namespace Bibliothicc
     /// </summary>
     public partial class AddLibWindow : Window
     {
-        public string[] acceptedMimeTypes;
-
         public string fileNameString;
-        public AddLibWindow(string[] acceptedMimeTypes)
+
+        public AddLibWindow()
         {
             InitializeComponent();
-            this.acceptedMimeTypes = acceptedMimeTypes;
         }
 
         private void ButtonAdd_Click(object sender, RoutedEventArgs e)
@@ -37,18 +35,19 @@ namespace Bibliothicc
             {
                 if (ComboBoxDataTyp.SelectedIndex == 0)
                 {
-                    acceptedMimeTypes = [".mp4"];
                     fileNameString = "Video";
                 }
                 else if (ComboBoxDataTyp.SelectedIndex == 1)
                 {
-                    acceptedMimeTypes = [".mkv"];
                     fileNameString = "Movie";
                 }
                 else if (ComboBoxDataTyp.SelectedIndex == 2)
                 {
-                    acceptedMimeTypes = [".txt", ".md", ".docx", ".pdf"];
                     fileNameString = "Text";
+                }
+                else if (ComboBoxDataTyp.SelectedIndex == 3)
+                {
+                    fileNameString = "Image";
                 }
                 DialogResult = true;
                 this.Close();

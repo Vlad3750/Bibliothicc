@@ -21,7 +21,7 @@
                     <ColumnDefinition Width="2.7*"/>
                 </Grid.ColumnDefinitions>
                 <Label Content="Repeat Password:" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right"></Label>
-                <PasswordBox x:Name="PasswordBoxRepeatPasswd" Grid.Column="1" Height="35" VerticalContentAlignment="Center"></PasswordBox>
+                <PasswordBox x:Name="PasswordBoxRepeatPasswd" Password="1" Grid.Column="1" Height="35" VerticalContentAlignment="Center"></PasswordBox>
             </Grid>
 
             <Grid DockPanel.Dock="Top" Margin="0 3">
@@ -34,7 +34,7 @@
                     <RowDefinition/>
                 </Grid.RowDefinitions>
                 <Label Content="Username:" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right"></Label>
-                <TextBox x:Name="TextBoxUserName" Grid.Column="1" Height="35" VerticalContentAlignment="Center"></TextBox>
+                <TextBox x:Name="TextBoxUserName" Grid.Column="1" Height="35" VerticalContentAlignment="Center">user1</TextBox>
             </Grid>
 
             <Grid DockPanel.Dock="Top" Margin="0 3">
@@ -43,7 +43,7 @@
                     <ColumnDefinition Width="2.7*"/>
                 </Grid.ColumnDefinitions>
                 <Label Content="Password:" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right"></Label>
-                <PasswordBox x:Name="PasswordBoxPasswd" Grid.Column="1" Height="35" VerticalContentAlignment="Center"></PasswordBox>
+                <PasswordBox x:Name="PasswordBoxPasswd" Password="1" Grid.Column="1" Height="35" VerticalContentAlignment="Center"></PasswordBox>
             </Grid>
 
         </DockPanel>

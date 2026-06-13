@@ -103,6 +103,7 @@ namespace Bibliothicc
                 users.Add(userToAdd);
                 LoginUser = userToAdd;
                 MessageBox.Show("You're now Registered");
+
                 MainWindow window = new MainWindow(users, libs, LoginUser);
                 window.Show();
                 this.Close();

@@ -80,7 +80,6 @@
                 <ScrollBar Margin="0 10"></ScrollBar>
             </DockPanel>
             <ListView x:Name="ListViewFiles">
-                <ListViewItem>TestItem</ListViewItem>
             </ListView>
         </DockPanel>
     </DockPanel>

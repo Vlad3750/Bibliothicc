@@ -38,10 +38,10 @@ namespace Bibliothicc
             getFilters = filters;
             if (filters == "Text")
             {
-                LabelCategory.Visibility = Visibility.Hidden;
-                LabelThumbnail.Visibility = Visibility.Hidden;
-                DockPanelCategory.Visibility = Visibility.Hidden;
-                DockPanelThumbnail.Visibility = Visibility.Hidden;
+                LabelCategory.Visibility = Visibility.Collapsed;
+                LabelThumbnail.Visibility = Visibility.Collapsed;
+                DockPanelCategory.Visibility = Visibility.Collapsed;
+                DockPanelThumbnail.Visibility = Visibility.Collapsed;
 
                 filtersForFiles = "Text file (*.txt)|*.txt|Markdown (*.md)|*.md|Word (*.docx)|*.docx|PDF (*.pdf)|*.pdf";
             }
@@ -55,6 +55,9 @@ namespace Bibliothicc
             }
             else if (filters == "Image")
             {
+                LabelCategory.Visibility = Visibility.Collapsed;
+                DockPanelCategory.Visibility = Visibility.Collapsed;
+
                 ButtonFileOpenerThumbnail.Visibility = Visibility.Hidden;
                 filtersForFiles = "JPG (*.jpeg, *.jpg)|*.jpeg;*.jpg |PNG (*.png)|*.png";
             }
@@ -62,23 +65,19 @@ namespace Bibliothicc
 
         public AddChangeFileWindow(string LabelAddChangeText, string LabelDataTypeText, Media itemToChange, string ButtonContentAddChange, bool AddOrChange, string filters): this(LabelAddChangeText, LabelDataTypeText, ButtonContentAddChange, AddOrChange, filters)
         {
-            InitializeComponent();
-
             if (!isPressedAdd)
             {
                 this.itemToChange = itemToChange;
-            }
-
-            if (itemToChange != null)
-            {
-                LabelPath.Content = itemToChange.FileUrl;
-                LabelThumbnail.Content = itemToChange.CoverUrl;
-                TextBoxFileName.Text = itemToChange.Name;
-                foreach(Category category in itemToChange.CategoryList)
+                LabelPath.Content = this.itemToChange.FileUrl;
+                LabelThumbnail.Content = this.itemToChange.CoverUrl;
+                TextBoxFileName.Text = this.itemToChange.Title;
+                if (getFilters != "Text" && getFilters != "Image")
                 {
-                    ListViewCategoriesToAdd.Items.Add(new CategoryItem() { Name = category.Name, Symbol = "✓" });
+                    foreach (Category category in this.itemToChange.CategoryList)
+                    {
+                        ListViewCategoriesToAdd.Items.Add(new CategoryItem() { Name = category.Name, Symbol = "✓" });
+                    }
                 }
-
             }
         }
 
@@ -91,11 +90,13 @@ namespace Bibliothicc
 
             else if (isPressedAdd)
             {
+                itemToAdd.Title = TextBoxFileName.Text;
                 MessageBox.Show("New File added");
                 DialogResult = true;
             }
             else
             {
+                itemToChange.Title = TextBoxFileName.Text;
                 MessageBox.Show("File changed");
                 DialogResult = true;
             }
@@ -112,11 +113,11 @@ namespace Bibliothicc
                 {
                     if(itemToChange != null)
                     {
-                        itemToAdd.CategoryList.Add(new Category() { Name = lvItem.Content.ToString() });
+                        itemToChange.CategoryList.Add(new Category() { Name = lvItem.Content.ToString() });
                     }
                     else
                     {
-                        itemToChange.CategoryList.Add(new Category() { Name = lvItem.Content.ToString() });
+                        itemToAdd.CategoryList.Add(new Category() { Name = lvItem.Content.ToString() });
                     }
                 }
             }
@@ -145,12 +146,18 @@ namespace Bibliothicc
                 if (TextBoxFileName.Text == string.Empty)
                 {
                     string fileName = System.IO.Path.GetFileName(openFileDialog.FileName);
-                    TextBoxFileName.Text = fileName.Substring(0, fileName.Length - 4);
-                    if(itemToChange != null)
+                    TextBoxFileName.Text = System.IO.Path.GetFileNameWithoutExtension(fileName);
+                    if (itemToChange != null)
                     {
-                        itemToAdd.FileUrl = LabelPath.Content.ToString();
+                        itemToChange.FileUrl = openFileDialog.FileName;
+                        itemToChange.Name = fileName;
+                        itemToChange.MimeType = System.IO.Path.GetExtension(fileName);
+                    }
+                    else
+                    {
+                        itemToAdd.FileUrl = openFileDialog.FileName;
                         itemToAdd.Name = fileName;
-                        itemToAdd.Title = TextBoxFileName.Text;
+                        itemToAdd.MimeType = System.IO.Path.GetExtension(fileName);
                     }
 
                 }
@@ -165,7 +172,6 @@ namespace Bibliothicc
             {
                 LabelThumbnail.Content = openFileDialog.FileName;
                 itemToAdd.CoverUrl = LabelThumbnail.Content.ToString();
-
             }
         }
     }

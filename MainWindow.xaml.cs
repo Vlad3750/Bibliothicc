@@ -84,8 +84,11 @@ namespace Bibliothicc
 
                 if (window.ShowDialog() == true)
                 {
-                    ChangeFileInLib();
                     currentLib.mediaCollection[ListViewFiles.SelectedIndex] = window.itemToChange;
+
+                    ListViewItem changedFile = (ListViewItem)ListViewFiles.Items[ListViewFiles.SelectedIndex];
+                    changedFile.Content = window.TextBoxFileName.Text;
+                    ListViewFiles.Items.Refresh();
                 }
             }
         }
@@ -183,6 +186,19 @@ namespace Bibliothicc
         private void ListViewLibraries_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             currentLib = libs[ListViewLibraries.SelectedIndex];
+
+            if(currentLib.FileType == "Text" || currentLib.FileType == "Image")
+            {
+                DockPanelCategory.Visibility = Visibility.Collapsed;
+                ButtonPlay.Visibility = Visibility.Hidden;
+                ButtonStats.Visibility = Visibility.Hidden;
+            }
+            else
+            {
+                DockPanelCategory.Visibility = Visibility.Visible;
+                ButtonPlay.Visibility = Visibility.Visible;
+                ButtonStats.Visibility = Visibility.Visible;
+            }
         }
     }
 }

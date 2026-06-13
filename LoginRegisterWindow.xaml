@@ -5,55 +5,60 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Bibliothicc"
         mc:Ignorable="d"
-        Title="LoginRegisterWindow" Height="auto" MaxHeight="300" Width="400">
+        Title="Bibliothicc — Login" Height="auto" MaxHeight="600" Width="380"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
+        Background="{StaticResource BgDeepBrush}">
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="2*"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-        <Label x:Name="LabelLoginREgister" Content="Login:" FontSize="20"></Label>
-        <DockPanel Grid.Row="1" Margin="0 0 3 0">
+        <Border Background="{StaticResource BgSurfaceBrush}"
+                CornerRadius="12" Margin="24"
+                BorderBrush="{StaticResource BorderBrush2}" BorderThickness="1">
+            <StackPanel Margin="32,28">
+                <!-- Header -->
+                <TextBlock Text="📚" FontSize="32" HorizontalAlignment="Center" Margin="0,0,0,8"/>
+                <TextBlock x:Name="LabelLoginRegister" Text="Welcome back"
+                           FontSize="22" FontWeight="Bold"
+                           Foreground="{StaticResource TextPrimaryBrush}"
+                           HorizontalAlignment="Center" Margin="0,0,0,4"/>
+                <TextBlock Text="Sign in to your library"
+                           FontSize="13" Foreground="{StaticResource TextMutedBrush}"
+                           HorizontalAlignment="Center" Margin="0,0,0,24"/>
 
-            <Grid x:Name="GridRepeatPasswd" DockPanel.Dock="Bottom" Margin="0 3" Visibility="Collapsed">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition Width="2.7*"/>
-                </Grid.ColumnDefinitions>
-                <Label Content="Repeat Password:" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right"></Label>
-                <PasswordBox x:Name="PasswordBoxRepeatPasswd" Password="1" Grid.Column="1" Height="35" VerticalContentAlignment="Center"></PasswordBox>
-            </Grid>
+                <!-- Username -->
+                <TextBlock Text="Username" FontSize="12" FontWeight="SemiBold"
+                           Foreground="{StaticResource TextSecondaryBrush}" Margin="0,0,0,6"/>
+                <TextBox x:Name="TextBoxUserName" Style="{StaticResource ModernTextBox}"
+                         Height="38" Text="user1" Padding="4" FontSize="12" Margin="0,0,0,14"/>
 
-            <Grid DockPanel.Dock="Top" Margin="0 3">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition Width="2.7*"/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                </Grid.RowDefinitions>
-                <Label Content="Username:" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right"></Label>
-                <TextBox x:Name="TextBoxUserName" Grid.Column="1" Height="35" VerticalContentAlignment="Center">user1</TextBox>
-            </Grid>
+                <!-- Password -->
+                <TextBlock Text="Password" FontSize="12" FontWeight="SemiBold"
+                           Foreground="{StaticResource TextSecondaryBrush}" Margin="0,0,0,6"/>
+                <PasswordBox x:Name="PasswordBoxPasswd" Style="{StaticResource ModernPasswordBox}"
+                             Height="38" Password="1" Padding="4" FontSize="12" Margin="0,0,0,14"/>
 
-            <Grid DockPanel.Dock="Top" Margin="0 3">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition Width="2.7*"/>
-                </Grid.ColumnDefinitions>
-                <Label Content="Password:" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right"></Label>
-                <PasswordBox x:Name="PasswordBoxPasswd" Password="1" Grid.Column="1" Height="35" VerticalContentAlignment="Center"></PasswordBox>
-            </Grid>
+                <!-- Repeat Password (register only) -->
+                <Grid x:Name="GridRepeatPasswd" Visibility="Collapsed" Margin="0,0,0,14">
+                    <StackPanel>
+                        <TextBlock Text="Repeat Password" FontSize="12" FontWeight="SemiBold"
+                                   Foreground="{StaticResource TextSecondaryBrush}" Margin="0,0,0,6"/>
+                        <PasswordBox x:Name="PasswordBoxRepeatPasswd"
+                                     Style="{StaticResource ModernPasswordBox}"
+                                     Height="38" Password="1" Padding="4" FontSize="12"/>
+                    </StackPanel>
+                </Grid>
 
-        </DockPanel>
-        <Grid Grid.Row="2" HorizontalAlignment="Center">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
-            <Button x:Name="ButtonLogin" Width="100" Height="30" Margin="10" IsDefault="True" Click="ButtonLogin_Click">Login</Button>
-            <Button x:Name="ButtonRegister" Width="100" Height="30" Margin="10" IsCancel="True" Grid.Column="1" Click="ButtonRegister_Click">Register</Button>
-        </Grid>
+                <!-- Buttons -->
+                <Button x:Name="ButtonLogin" Style="{StaticResource AccentButton}"
+                        Height="40" IsDefault="True" Margin="0,4,0,10"
+                        Click="ButtonLogin_Click">
+                    <TextBlock Text="Sign In" FontSize="14" FontWeight="SemiBold"/>
+                </Button>
+                <Button x:Name="ButtonRegister" Style="{StaticResource GhostButton}"
+                        Height="36" Click="ButtonRegister_Click">
+                    <TextBlock Text="Create account" FontSize="13"
+                               Foreground="{StaticResource AccentBrush}"/>
+                </Button>
+            </StackPanel>
+        </Border>
     </Grid>
 </Window>

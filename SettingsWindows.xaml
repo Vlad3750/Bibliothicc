@@ -5,14 +5,39 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Bibliothicc"
         mc:Ignorable="d"
-        Title="SettingsWindows" Height="250" Width="400">
-    <DockPanel>
-        <Label DockPanel.Dock="Top" FontSize="15">Settings:</Label>
-        <DockPanel HorizontalAlignment="Center" VerticalAlignment="Top">
-            <Label Margin="0 0 20 0">Darkmode:</Label>
-                <Button x:Name="ButtonDarkmode" Background="Transparent" VerticalContentAlignment="Center" Width="50" BorderThickness="0" Click="Button_Click">
-                    <Image Source="/Bilder/button_aus.png"/>
-                </Button>
-        </DockPanel>
-    </DockPanel>
+        Title="Settings" Height="240" Width="360"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize"
+        Background="{StaticResource BgDeepBrush}">
+    <Grid>
+        <Border Background="{StaticResource BgSurfaceBrush}"
+                CornerRadius="12" Margin="16"
+                BorderBrush="{StaticResource BorderBrush2}" BorderThickness="1">
+            <StackPanel Margin="24,20">
+                <TextBlock Text="Settings" FontSize="18" FontWeight="Bold"
+                           Foreground="{StaticResource TextPrimaryBrush}"
+                           Margin="0,0,0,24"/>
+
+                <!-- Darkmode toggle row -->
+                <Border Background="{StaticResource BgElevatedBrush}"
+                        CornerRadius="8" Padding="14,12" Margin="0,0,0,12">
+                    <DockPanel>
+                        <Button x:Name="ButtonDarkmode" DockPanel.Dock="Right"
+                                Style="{StaticResource IconButton}"
+                                Background="Transparent" BorderThickness="0"
+                                Width="50" Height="26"
+                                Click="Button_Click">
+                            <Image Source="/Bilder/button_aus.png" Width="44" Height="22"/>
+                        </Button>
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock Text="Dark Mode" FontSize="13" FontWeight="SemiBold"
+                                       Foreground="{StaticResource TextPrimaryBrush}"/>
+                            <TextBlock Text="Toggle dark/light theme" FontSize="11"
+                                       Foreground="{StaticResource TextMutedBrush}"/>
+                        </StackPanel>
+                    </DockPanel>
+                </Border>
+            </StackPanel>
+        </Border>
+    </Grid>
 </Window>

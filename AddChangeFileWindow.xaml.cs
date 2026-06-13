@@ -32,7 +32,7 @@ namespace Bibliothicc
         {
             InitializeComponent();
 
-            LabelAddChange.Content = LabelAddChangeText + LabelDataTypeText;
+            LabelAddChange.Text = LabelAddChangeText + LabelDataTypeText;
             ButtonAddChange.Content = ButtonContentAddChange;
             isPressedAdd = AddOrChange;
             getFilters = filters;
@@ -69,7 +69,7 @@ namespace Bibliothicc
             {
                 this.itemToChange = itemToChange;
                 LabelPath.Content = this.itemToChange.FileUrl;
-                LabelThumbnail.Content = this.itemToChange.CoverUrl;
+                LabelThumbnail.Text = this.itemToChange.CoverUrl;
                 TextBoxFileName.Text = this.itemToChange.Title;
                 if (getFilters != "Text" && getFilters != "Image")
                 {
@@ -170,8 +170,8 @@ namespace Bibliothicc
             openFileDialog.Filter = "(*.jpeg, *.jpg)|*.jpeg;*.jpg | (*.png)|*.png";
             if (openFileDialog.ShowDialog() == true)
             {
-                LabelThumbnail.Content = openFileDialog.FileName;
-                itemToAdd.CoverUrl = LabelThumbnail.Content.ToString();
+                LabelThumbnail.Text = openFileDialog.FileName;
+                itemToAdd.CoverUrl = LabelThumbnail.Text;
             }
         }
     }

@@ -5,44 +5,62 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Bibliothicc"
         mc:Ignorable="d"
-        Title="CategoriesWindow" Height="300" Width="350">
+        Title="Categories" Height="350" Width="450"
+        WindowStartupLocation="CenterOwner"
+        Background="{StaticResource BgDeepBrush}">
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="auto"/>
-            <RowDefinition/>
-        </Grid.RowDefinitions>
-        <Label Content="Categories:" FontSize="20"></Label>
-        <Grid Grid.Row="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="200"/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
-            <ListView x:Name="ListViewSystemCategories" Margin="5">
-                <ListView.ItemContainerStyle>
-                    <Style TargetType="ListViewItem">
-                        <EventSetter Event="MouseDoubleClick" Handler="ListViewItem_MouseDoubleClick"/>
-                    </Style>
-                </ListView.ItemContainerStyle>
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <DockPanel Width="170">
-                            <Label DockPanel.Dock="Right" Content="{Binding Symbol}"/>
-                            <Label Content="{Binding Name}"/>
-                        </DockPanel>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-            <Grid Grid.Column="1" Width="100" Height="200">
-                <Grid.RowDefinitions>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                </Grid.RowDefinitions>
-                <Button x:Name="ButtonAddCategory" Content="Add" Margin="10" Click="ButtonAddCategory_Click"/>
-                <Button x:Name="ButtonChangeCategory" Content="Change" Margin="10" Grid.Row="1" Click="ButtonChangeCategory_Click"/>
-                <Button x:Name="ButtonBack" IsCancel="True" Content="Back" Margin="10" Grid.Row="2"/>
-            </Grid>
-        </Grid>
-        
+        <Border Background="{StaticResource BgSurfaceBrush}"
+                CornerRadius="12" Margin="16"
+                BorderBrush="{StaticResource BorderBrush2}" BorderThickness="1">
+            <DockPanel Margin="20,16">
+                <!-- Title -->
+                <TextBlock DockPanel.Dock="Top" Text="Categories"
+                           FontSize="18" FontWeight="Bold"
+                           Foreground="{StaticResource TextPrimaryBrush}"
+                           Margin="0,0,0,16"/>
+
+                <!-- Action buttons at bottom -->
+                <DockPanel DockPanel.Dock="Bottom" Margin="0,12,0,0">
+                    <Button x:Name="ButtonBack" DockPanel.Dock="Right"
+                            Style="{StaticResource GhostButton}"
+                            Width="80" Height="34" IsCancel="True">
+                        <TextBlock Text="Close"/>
+                    </Button>
+                    <Button x:Name="ButtonChangeCategory" DockPanel.Dock="Right"
+                            Style="{StaticResource BaseButton}"
+                            Width="100" Height="34" Margin="0,0,8,0"
+                            Click="ButtonChangeCategory_Click">
+                        <TextBlock Text="✎  Rename"/>
+                    </Button>
+                    <Button x:Name="ButtonAddCategory" Style="{StaticResource AccentButton}"
+                            Height="34" Click="ButtonAddCategory_Click">
+                        <TextBlock Text="+ New Category" FontWeight="SemiBold"/>
+                    </Button>
+                </DockPanel>
+
+                <!-- Category list -->
+                <ListView x:Name="ListViewSystemCategories"
+                          Style="{StaticResource ModernListView}">
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem" BasedOn="{StaticResource ModernListViewItem}">
+                            <EventSetter Event="MouseDoubleClick" Handler="ListViewItem_MouseDoubleClick"/>
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <DockPanel>
+                                <TextBlock DockPanel.Dock="Right"
+                                           Text="{Binding Symbol}"
+                                           Foreground="{StaticResource AccentBrush}"
+                                           FontSize="14" VerticalAlignment="Center"/>
+                                <TextBlock Text="{Binding Name}"
+                                           Foreground="{StaticResource TextPrimaryBrush}"
+                                           FontSize="13" VerticalAlignment="Center"/>
+                            </DockPanel>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </DockPanel>
+        </Border>
     </Grid>
 </Window>

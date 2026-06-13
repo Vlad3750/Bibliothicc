@@ -24,7 +24,7 @@ namespace Bibliothicc
         {
             InitializeComponent();
 
-            LabelAddChangeCategory.Content = LabelCategory + " Category:";
+            LabelAddChangeCategory.Text = LabelCategory + " Category:";
             ButtonAddChangeCategory.Content = ButtonContentCategory;
             isPressedAdd = AddOrChange;
             if (!isPressedAdd)

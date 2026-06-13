@@ -44,6 +44,7 @@ namespace Bibliothicc
             {
                 GridRepeatPasswd.Visibility = Visibility.Collapsed;
                 IsActiveLogin = true;
+                ButtonRegister.IsDefault = true;
             }
         }
 
@@ -57,6 +58,7 @@ namespace Bibliothicc
             {
                 GridRepeatPasswd.Visibility = Visibility.Visible;
                 IsActiveLogin = false;
+                ButtonLogin.IsDefault = true;
             }
         }
 

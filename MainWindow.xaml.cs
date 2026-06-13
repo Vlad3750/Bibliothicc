@@ -132,6 +132,11 @@ namespace Bibliothicc
                 // MessageBox.Show(string.Join(", ", acceptedMimeTypes), LibToAddToColllection.FileType);
                 MessageBox.Show($"New Library for {window.fileNameString}s added to Collection");
             }
+            else if(ListViewLibraries.Items.Count == 0)
+            {
+                MessageBox.Show("You don't have any libraries, please create one");
+                ButtonAddLib_Click(ButtonAddLib, new RoutedEventArgs());
+            }
         }
 
         private void DeleteSelectedFile()

@@ -1,4 +1,6 @@
-﻿using System.Text;
+﻿using Bibliothicc_ClassLibrary;
+using System.Drawing;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -8,7 +10,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Bibliothicc_ClassLibrary;
 
 namespace Bibliothicc
 {
@@ -19,7 +20,7 @@ namespace Bibliothicc
     {
         bool LoggedOn = false;
         List<User> users;
-        bool isDarkModeOn = true;
+        bool isLightModeOn = true;
 
         Library currentLib;
         public List<Library> libs;
@@ -162,11 +163,11 @@ namespace Bibliothicc
 
         private void TextBoxSearchBar_GotFocus(object sender, RoutedEventArgs e)
         {
-            if(TextBoxSearchBar.Text == "Search here ..." && TextBoxSearchBar.Foreground == Brushes.LightGray)
+            if(TextBoxSearchBar.Text == "Search here ..." && TextBoxSearchBar.Foreground == (SolidColorBrush)Application.Current.Resources["TextSecondaryBrush"])
             {
                 TextBoxSearchBar.Text = "";
             }
-            TextBoxSearchBar.Foreground = Brushes.Black;
+            TextBoxSearchBar.Foreground = (SolidColorBrush)Application.Current.Resources["TextPrimaryBrush"];
         }
 
         private void TextBoxSearchBar_LostFocus(object sender, RoutedEventArgs e)
@@ -174,21 +175,40 @@ namespace Bibliothicc
             if(TextBoxSearchBar.Text == string.Empty)
             {
                 TextBoxSearchBar.Text = "Search here ...";
-                TextBoxSearchBar.Foreground = Brushes.LightGray;
+                TextBoxSearchBar.Foreground = (SolidColorBrush)Application.Current.Resources["TextSecondaryBrush"];
             }
         }
 
         private void ButtonSetttings_Click(object sender, RoutedEventArgs e)
         {
-            SettingsWindows window = new SettingsWindows(isDarkModeOn);
+            SettingsWindows window = new SettingsWindows(isLightModeOn);
             window.ShowDialog();
 
-            isDarkModeOn = window.isDark;
-        }
-
-        private void ButtonStats_Click(object sender, RoutedEventArgs e)
-        {
-            
+            isLightModeOn = window.isDark;
+            if (isLightModeOn)
+            {
+                var img = new System.Windows.Controls.Image()
+                {
+                    Source = new BitmapImage(new Uri("pack://application:,,,/Bilder/log_out_icon_white.png")),
+                    Width = 16,
+                    Height = 16,
+                    Stretch = Stretch.Uniform
+                };
+                RenderOptions.SetBitmapScalingMode(img, BitmapScalingMode.HighQuality);
+                ButtonLoginLogout.Content = img;
+            }
+            else
+            {
+                var img = new System.Windows.Controls.Image()
+                {
+                    Source = new BitmapImage(new Uri("pack://application:,,,/Bilder/log_out_icon.png")),
+                    Width = 16,
+                    Height = 16,
+                    Stretch = Stretch.Uniform
+                };
+                RenderOptions.SetBitmapScalingMode(img, BitmapScalingMode.HighQuality);
+                ButtonLoginLogout.Content = img;
+            }
         }
 
         private void ListViewLibraries_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -199,13 +219,11 @@ namespace Bibliothicc
             {
                 DockPanelCategory.Visibility = Visibility.Collapsed;
                 ButtonPlay.Visibility = Visibility.Hidden;
-                ButtonStats.Visibility = Visibility.Hidden;
             }
             else
             {
                 DockPanelCategory.Visibility = Visibility.Visible;
                 ButtonPlay.Visibility = Visibility.Visible;
-                ButtonStats.Visibility = Visibility.Visible;
             }
         }
     }

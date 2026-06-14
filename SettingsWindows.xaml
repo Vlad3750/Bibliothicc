@@ -27,10 +27,10 @@
                                 Background="Transparent" BorderThickness="0"
                                 Width="50" Height="26"
                                 Click="Button_Click">
-                            <Image Source="/Bilder/button_aus.png" Width="44" Height="22"/>
+                            <Image Source="/Bilder/button_aus.png" Width="44" Height="22" RenderOptions.BitmapScalingMode="HighQuality"/>
                         </Button>
                         <StackPanel VerticalAlignment="Center">
-                            <TextBlock Text="Dark Mode" FontSize="13" FontWeight="SemiBold"
+                            <TextBlock Text="Light Mode" FontSize="13" FontWeight="SemiBold"
                                        Foreground="{DynamicResource TextPrimaryBrush}"/>
                             <TextBlock Text="Toggle dark/light theme" FontSize="11"
                                        Foreground="{DynamicResource TextMutedBrush}"/>

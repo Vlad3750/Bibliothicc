@@ -21,16 +21,16 @@ namespace Bibliothicc
         public Image buttonOff = new Image();
         public bool isDark;
 
-        public SettingsWindows(bool isDarkModeOn)
+        public SettingsWindows(bool isDarlModeOn)
         {
             InitializeComponent();
 
-            isDark = isDarkModeOn;
+            isDark = isDarlModeOn;
 
             buttonOn.Source = new BitmapImage(new Uri("pack://application:,,,/Bilder/button_an.png"));
             buttonOff.Source = new BitmapImage(new Uri("pack://application:,,,/Bilder/button_aus.png"));
 
-            if (isDarkModeOn)
+            if (isDarlModeOn)
             {
                 ButtonDarkmode.Content = buttonOff;
             }

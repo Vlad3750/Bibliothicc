@@ -37,7 +37,7 @@
                     <DockPanel>
                         <Button x:Name="ButtonLoginLogout" DockPanel.Dock="Right" Style="{DynamicResource IconButton}"
                             Width="30" Height="30" ToolTip="Logout" Click="ButtonLoginLogout_Click">
-                            <Image Source="/Bilder/log_out_icon.png"
+                            <Image Source="/Bilder/log_out_icon_white.png"
                                 Width="16" Height="16"
                                 Stretch="Uniform"
                                 RenderOptions.BitmapScalingMode="HighQuality"/>
@@ -132,13 +132,6 @@
                 <DockPanel>
                     <!-- Right: Category filter + Stats + Play -->
                     <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Center">
-                        <Button x:Name="ButtonStats" Style="{DynamicResource GhostButton}"
-                                Padding="10,6" Margin="0,0,8,0"
-                                Visibility="Visible"
-                                Click="ButtonStats_Click">
-                            <TextBlock Text="📊 Stats"/>
-                        </Button>
-
                         <DockPanel x:Name="DockPanelCategory" VerticalAlignment="Center" Margin="0,0,8,0">
                             <TextBlock DockPanel.Dock="Left" Text="Filter:" VerticalAlignment="Center"
                                        Foreground="{DynamicResource TextSecondaryBrush}"

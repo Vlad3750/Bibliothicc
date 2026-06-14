@@ -28,7 +28,9 @@ namespace Bibliothicc
         string filtersForFiles = "";
         string getFilters;
 
-        public AddChangeFileWindow(string LabelAddChangeText, string LabelDataTypeText, string ButtonContentAddChange, bool AddOrChange, string filters)
+        List<Category> systemCategories;
+
+        public AddChangeFileWindow(string LabelAddChangeText, string LabelDataTypeText, string ButtonContentAddChange, bool AddOrChange, string filters, List<Category> systemCategories)
         {
             InitializeComponent();
 
@@ -36,6 +38,8 @@ namespace Bibliothicc
             ButtonAddChange.Content = ButtonContentAddChange;
             isPressedAdd = AddOrChange;
             getFilters = filters;
+            this.systemCategories = systemCategories;
+
             if (filters == "Text")
             {
                 LabelCategory.Visibility = Visibility.Collapsed;
@@ -63,7 +67,7 @@ namespace Bibliothicc
             }
         }
 
-        public AddChangeFileWindow(string LabelAddChangeText, string LabelDataTypeText, Media itemToChange, string ButtonContentAddChange, bool AddOrChange, string filters): this(LabelAddChangeText, LabelDataTypeText, ButtonContentAddChange, AddOrChange, filters)
+        public AddChangeFileWindow(string LabelAddChangeText, string LabelDataTypeText, Media itemToChange, string ButtonContentAddChange, bool AddOrChange, string filters, List<Category> systemCategories): this(LabelAddChangeText, LabelDataTypeText, ButtonContentAddChange, AddOrChange, filters, systemCategories)
         {
             if (!isPressedAdd)
             {
@@ -104,23 +108,9 @@ namespace Bibliothicc
 
         private void ButtonAddCategory_Click(object sender, RoutedEventArgs e)
         {
-            CategoriesWindow window = new CategoriesWindow(ListViewCategoriesToAdd);
-
-            if (window.ShowDialog() == true)
-            {
-                ListViewCategoriesToAdd.Items.Refresh();
-                foreach(ListViewItem lvItem in ListViewCategoriesToAdd.Items)
-                {
-                    if(itemToChange != null)
-                    {
-                        itemToChange.CategoryList.Add(new Category() { Name = lvItem.Content.ToString() });
-                    }
-                    else
-                    {
-                        itemToAdd.CategoryList.Add(new Category() { Name = lvItem.Content.ToString() });
-                    }
-                }
-            }
+            CategoriesWindow window = new CategoriesWindow(ListViewCategoriesToAdd, systemCategories);
+            window.ShowDialog();
+            ListViewCategoriesToAdd.Items.Refresh();
         }
 
         private void ButtonRemoveCategory_Click(object sender, RoutedEventArgs e)

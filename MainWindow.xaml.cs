@@ -19,11 +19,14 @@ namespace Bibliothicc
     public partial class MainWindow : Window
     {
         bool LoggedOn = false;
-        List<User> users;
         bool isLightModeOn = true;
 
-        Library currentLib;
         public List<Library> libs;
+        List<User> users;
+
+        Library currentLib;
+        User currentUser;
+
 
         public MainWindow(List<User> users, List<Library> libs, User loggedUser)
         {
@@ -31,6 +34,7 @@ namespace Bibliothicc
 
             this.users = users;
             this.libs = libs;
+            this.currentUser = loggedUser;
             LabelUserName.Content = loggedUser.Username;
 
             if(libs.Count != 0)
@@ -55,17 +59,13 @@ namespace Bibliothicc
             string LabelDataType = GetDataTypeLib() + ":";
             string ButtonContentAddChange = "Add";
 
-            AddChangeFileWindow window = new AddChangeFileWindow(LabelAddChange, LabelDataType, ButtonContentAddChange, true, currentLib.FileType);
+            AddChangeFileWindow window = new AddChangeFileWindow(LabelAddChange, LabelDataType, ButtonContentAddChange, true, currentLib.FileType, currentUser.SystemCategories);
 
             if (window.ShowDialog() == true)
             {
-                ListViewItem FileToAdd = new ListViewItem();
-
-                FileToAdd.Content = window.TextBoxFileName.Text;
-                ListViewFiles.Items.Add(FileToAdd);
-                ListViewFiles.Items.Refresh();
-
                 currentLib.mediaCollection.Add(window.itemToAdd);
+                RefreshCategoryComboBox();
+                RefreshFileList();
             }
         }
 
@@ -82,7 +82,7 @@ namespace Bibliothicc
                 string LabelDataType = GetDataTypeLib() + ":";
                 string ButtonContentAddChange = "Change";
 
-                AddChangeFileWindow window = new AddChangeFileWindow(LabelAddChange, LabelDataType, currentLib.mediaCollection[ListViewFiles.SelectedIndex], ButtonContentAddChange, false, currentLib.FileType);
+                AddChangeFileWindow window = new AddChangeFileWindow(LabelAddChange, LabelDataType, currentLib.mediaCollection[ListViewFiles.SelectedIndex], ButtonContentAddChange, false, currentLib.FileType, currentUser.SystemCategories);
 
                 if (window.ShowDialog() == true)
                 {
@@ -149,9 +149,15 @@ namespace Bibliothicc
             }
             else
             {
-                CustomMessageBox.Show($"{ListViewFiles.SelectedItem.ToString().Substring(37)} has been deleted", this);
-                ListViewFiles.Items.Remove(ListViewFiles.SelectedItem);
-                ListViewFiles.Items.Refresh();
+                // AI (Claude)
+                // Start
+                int idx = ListViewFiles.SelectedIndex;
+                string name = ((ListViewItem)ListViewFiles.SelectedItem).Content.ToString();
+                currentLib.mediaCollection.RemoveAt(idx);
+                CustomMessageBox.Show($"{name} has been deleted", this);
+                RefreshCategoryComboBox();
+                RefreshFileList();
+                // End
             }
         }
 
@@ -225,6 +231,83 @@ namespace Bibliothicc
                 DockPanelCategory.Visibility = Visibility.Visible;
                 ButtonPlay.Visibility = Visibility.Visible;
             }
+
+            RefreshCategoryComboBox();
+            RefreshFileList();
         }
+
+        // AI (Claude)
+        // Start
+        private void RefreshFileList(string searchText = "", string categoryFilter = "All Categories")
+        {
+            ListViewFiles.Items.Clear();
+
+            foreach (Media media in currentLib.mediaCollection)
+            {
+                // Suchfilter: Name enthält den Suchtext (case-insensitive)
+                bool matchesSearch = string.IsNullOrEmpty(searchText)
+                    || media.Title.Contains(searchText, StringComparison.OrdinalIgnoreCase);
+
+                // Kategoriefilter
+                bool matchesCategory = categoryFilter == "All Categories"
+                    || (media.CategoryList != null
+                        && media.CategoryList.Any(c => c.Name == categoryFilter));
+
+                if (matchesSearch && matchesCategory)
+                {
+                    ListViewItem item = new ListViewItem();
+                    item.Content = media.Title;
+                    ListViewFiles.Items.Add(item);
+                }
+            }
+        }
+        private void RefreshCategoryComboBox()
+        {
+            ComboBoxCategory.Items.Clear();
+            ComboBoxCategory.Items.Add(new ComboBoxItem() { Content = "All Categories", IsSelected = true });
+
+            var allCategories = currentLib.mediaCollection
+                .Where(m => m.CategoryList != null)
+                .SelectMany(m => m.CategoryList)
+                .Select(c => c.Name)
+                .Distinct()
+                .OrderBy(n => n);
+
+            foreach (string cat in allCategories)
+            {
+                ComboBoxCategory.Items.Add(new ComboBoxItem() { Content = cat });
+            }
+
+            ComboBoxCategory.SelectedIndex = 0;
+        }
+
+        private void TextBoxSearchBar_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                string searchText = TextBoxSearchBar.Text == "Search here ..." ? "" : TextBoxSearchBar.Text;
+
+                // Filter auf "All Categories" zurücksetzen
+                ComboBoxCategory.SelectedIndex = 0;
+
+                RefreshFileList(searchText, "All Categories");
+
+                Keyboard.ClearFocus();
+                FocusManager.SetFocusedElement(this, null);
+            }
+        }
+
+        private void ComboBoxCategory_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            // Guard: ComboBox noch nicht initialisiert
+            if (ComboBoxCategory.SelectedItem == null || currentLib == null) return;
+
+            string selected = ((ComboBoxItem)ComboBoxCategory.SelectedItem).Content.ToString();
+            string searchText = TextBoxSearchBar.Text == "Search here ..." ? "" : TextBoxSearchBar.Text;
+
+            RefreshFileList(searchText, selected);
+        }
+
+        // End
     }
 }

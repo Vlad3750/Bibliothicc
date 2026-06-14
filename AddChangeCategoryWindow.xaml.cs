@@ -29,9 +29,8 @@ namespace Bibliothicc
             isPressedAdd = AddOrChange;
             if (!isPressedAdd)
             {
-                var item = (ListViewItem)categoryListView.SelectedItem;
-                categoryName = item.Content.ToString();
-                TextBoxAddChangeCategory.Text = categoryName;
+                var item = (CategoryItem)categoryListView.SelectedItem;
+                TextBoxAddChangeCategory.Text = item.Name;
             }
         }
 

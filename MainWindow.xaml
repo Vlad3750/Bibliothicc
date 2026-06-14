@@ -119,7 +119,8 @@
                                      FontSize="13"
                                      Text="Search here ..."
                                      GotFocus="TextBoxSearchBar_GotFocus"
-                                     LostFocus="TextBoxSearchBar_LostFocus"/>
+                                     LostFocus="TextBoxSearchBar_LostFocus"
+                                     KeyDown="TextBoxSearchBar_KeyDown"/>
                         </DockPanel>
                     </Border>
                 </DockPanel>
@@ -138,7 +139,8 @@
                                        Margin="0,0,8,0" FontSize="12"/>
                             <ComboBox x:Name="ComboBoxCategory"
                                       Style="{DynamicResource ModernComboBox}"
-                                      Height="32" MinWidth="120">
+                                      Height="32" MinWidth="120"
+                                      SelectionChanged="ComboBoxCategory_SelectionChanged">
                                 <ComboBoxItem IsSelected="True">All Categories</ComboBoxItem>
                             </ComboBox>
                         </DockPanel>

@@ -5,25 +5,25 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Bibliothicc"
         mc:Ignorable="d"
-        Title="Settings" Height="240" Width="360"
+        Title="Settings" Height="220" Width="360"
         WindowStartupLocation="CenterOwner"
         ResizeMode="NoResize"
-        Background="{StaticResource BgDeepBrush}">
+        Background="{DynamicResource BgDeepBrush}">
     <Grid>
-        <Border Background="{StaticResource BgSurfaceBrush}"
+        <Border Background="{DynamicResource BgSurfaceBrush}"
                 CornerRadius="12" Margin="16"
-                BorderBrush="{StaticResource BorderBrush2}" BorderThickness="1">
+                BorderBrush="{DynamicResource BorderBrush2}" BorderThickness="1">
             <StackPanel Margin="24,20">
                 <TextBlock Text="Settings" FontSize="18" FontWeight="Bold"
-                           Foreground="{StaticResource TextPrimaryBrush}"
+                           Foreground="{DynamicResource TextPrimaryBrush}"
                            Margin="0,0,0,24"/>
 
                 <!-- Darkmode toggle row -->
-                <Border Background="{StaticResource BgElevatedBrush}"
+                <Border Background="{DynamicResource BgElevatedBrush}"
                         CornerRadius="8" Padding="14,12" Margin="0,0,0,12">
                     <DockPanel>
                         <Button x:Name="ButtonDarkmode" DockPanel.Dock="Right"
-                                Style="{StaticResource IconButton}"
+                                Style="{DynamicResource IconButton}"
                                 Background="Transparent" BorderThickness="0"
                                 Width="50" Height="26"
                                 Click="Button_Click">
@@ -31,9 +31,9 @@
                         </Button>
                         <StackPanel VerticalAlignment="Center">
                             <TextBlock Text="Dark Mode" FontSize="13" FontWeight="SemiBold"
-                                       Foreground="{StaticResource TextPrimaryBrush}"/>
+                                       Foreground="{DynamicResource TextPrimaryBrush}"/>
                             <TextBlock Text="Toggle dark/light theme" FontSize="11"
-                                       Foreground="{StaticResource TextMutedBrush}"/>
+                                       Foreground="{DynamicResource TextMutedBrush}"/>
                         </StackPanel>
                     </DockPanel>
                 </Border>

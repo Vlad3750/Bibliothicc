@@ -73,7 +73,7 @@ namespace Bibliothicc
             }
             else
             {
-                MessageBox.Show("Please select a category to change its name");
+                CustomMessageBox.Show("Please select a category to change its name", this, "⚠️");
             }
         }
 
@@ -91,7 +91,7 @@ namespace Bibliothicc
             }
             else
             {
-                MessageBox.Show("Category already added to file");
+                CustomMessageBox.Show("Category already added to file", this);
             }
 
             ListViewSystemCategories.Items.Refresh();

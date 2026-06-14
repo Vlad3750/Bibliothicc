@@ -85,19 +85,19 @@ namespace Bibliothicc
         {
             if (LabelPath.Content == null)
             {
-                MessageBox.Show("File is missing a path");
+                CustomMessageBox.Show("File is missing a path", this, "⚠️");
             }
 
             else if (isPressedAdd)
             {
                 itemToAdd.Title = TextBoxFileName.Text;
-                MessageBox.Show("New File added");
+                CustomMessageBox.Show("New File added", this);
                 DialogResult = true;
             }
             else
             {
                 itemToChange.Title = TextBoxFileName.Text;
-                MessageBox.Show("File changed");
+                CustomMessageBox.Show("File changed", this);
                 DialogResult = true;
             }
         }

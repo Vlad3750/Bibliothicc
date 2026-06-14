@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Bibliothicc"
         mc:Ignorable="d"
         Title="Bibliothicc" Height="650" Width="1050"
-        Background="{StaticResource BgDeepBrush}">
+        Background="{DynamicResource BgDeepBrush}">
     <Grid>
         <Grid.ColumnDefinitions>
             <!-- Sidebar -->
@@ -16,45 +16,45 @@
         </Grid.ColumnDefinitions>
 
         <!-- ═══════════════════ SIDEBAR ═══════════════════ -->
-        <Border Grid.Column="0" Background="{StaticResource BgSurfaceBrush}"
-                BorderBrush="{StaticResource BorderBrush2}" BorderThickness="0,0,1,0">
+        <Border Grid.Column="0" Background="{DynamicResource BgSurfaceBrush}"
+                BorderBrush="{DynamicResource BorderBrush2}" BorderThickness="0,0,1,0">
             <DockPanel>
                 <!-- App title -->
                 <Border DockPanel.Dock="Top" Padding="16,18,16,14"
-                        BorderBrush="{StaticResource BorderBrush2}" BorderThickness="0,0,0,1">
+                        BorderBrush="{DynamicResource BorderBrush2}" BorderThickness="0,0,0,1">
                     <StackPanel>
                         <TextBlock Text="📚" FontSize="22" Margin="0,0,0,4"/>
                         <TextBlock Text="Bibliothicc" FontSize="17" FontWeight="Bold"
-                                   Foreground="{StaticResource TextPrimaryBrush}"/>
+                                   Foreground="{DynamicResource TextPrimaryBrush}"/>
                         <TextBlock Text="Media Library" FontSize="11"
-                                   Foreground="{StaticResource TextMutedBrush}"/>
+                                   Foreground="{DynamicResource TextMutedBrush}"/>
                     </StackPanel>
                 </Border>
 
                 <!-- User info + Logout at bottom -->
                 <Border DockPanel.Dock="Bottom" Padding="12,10"
-                        BorderBrush="{StaticResource BorderBrush2}" BorderThickness="0,1,0,0">
+                        BorderBrush="{DynamicResource BorderBrush2}" BorderThickness="0,1,0,0">
                     <DockPanel>
-                        <Button x:Name="ButtonLoginLogout" DockPanel.Dock="Right"
-                                Style="{StaticResource IconButton}"
-                                Width="30" Height="30"
-                                ToolTip="Logout"
-                                Click="ButtonLoginLogout_Click">
-                            <Image Source="/Bilder/log_out_icon.png" Width="16" Height="16"/>
+                        <Button x:Name="ButtonLoginLogout" DockPanel.Dock="Right" Style="{DynamicResource IconButton}"
+                            Width="30" Height="30" ToolTip="Logout" Click="ButtonLoginLogout_Click">
+                            <Image Source="/Bilder/log_out_icon.png"
+                                Width="16" Height="16"
+                                Stretch="Uniform"
+                                RenderOptions.BitmapScalingMode="HighQuality"/>
                         </Button>
                         <StackPanel VerticalAlignment="Center">
                             <TextBlock Text="Logged in as" FontSize="10"
-                                       Foreground="{StaticResource TextMutedBrush}"/>
+                                       Foreground="{DynamicResource TextMutedBrush}"/>
                             <Label x:Name="LabelUserName" Content="user1" Padding="0"
                                    FontSize="13" FontWeight="SemiBold"
-                                   Foreground="{StaticResource TextPrimaryBrush}"/>
+                                   Foreground="{DynamicResource TextPrimaryBrush}"/>
                         </StackPanel>
                     </DockPanel>
                 </Border>
 
                 <!-- Add Library button -->
                 <Border DockPanel.Dock="Bottom" Padding="12,8">
-                    <Button x:Name="ButtonAddLib" Style="{StaticResource AccentButton}"
+                    <Button x:Name="ButtonAddLib" Style="{DynamicResource AccentButton}"
                             Height="34" Click="ButtonAddLib_Click">
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                             <TextBlock Text="+" FontSize="16" Margin="0,0,6,0" VerticalAlignment="Center"/>
@@ -66,13 +66,13 @@
                 <!-- Section label -->
                 <TextBlock DockPanel.Dock="Top" Text="M  Y     L  I  B  R  A  R  I  E  S"
                            FontSize="10" FontWeight="Bold"
-                           Foreground="{StaticResource TextMutedBrush}"
+                           Foreground="{DynamicResource TextMutedBrush}"
                            Margin="16,14,16,6"/>
 
                 <!-- Libraries list -->
                 <ListView x:Name="ListViewLibraries"
-                          Style="{StaticResource ModernListView}"
-                          ItemContainerStyle="{StaticResource ModernListViewItem}"
+                          Style="{DynamicResource ModernListView}"
+                          ItemContainerStyle="{DynamicResource ModernListViewItem}"
                           Margin="8,0"
                           SelectionChanged="ListViewLibraries_SelectionChanged"/>
             </DockPanel>
@@ -82,13 +82,13 @@
         <DockPanel Grid.Column="1">
 
             <!-- Top Bar -->
-            <Border DockPanel.Dock="Top" Background="{StaticResource BgSurfaceBrush}"
-                    BorderBrush="{StaticResource BorderBrush2}" BorderThickness="0,0,0,1"
+            <Border DockPanel.Dock="Top" Background="{DynamicResource BgSurfaceBrush}"
+                    BorderBrush="{DynamicResource BorderBrush2}" BorderThickness="0,0,0,1"
                     Padding="16,10">
                 <DockPanel>
                     <!-- Right: Settings + Quit -->
                     <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Center">
-                        <Button x:Name="ButtonSetttings" Style="{StaticResource GhostButton}"
+                        <Button x:Name="ButtonSetttings" Style="{DynamicResource GhostButton}"
                                 Padding="10,6" Margin="0,0,4,0"
                                 Click="ButtonSetttings_Click">
                             <StackPanel Orientation="Horizontal">
@@ -96,25 +96,25 @@
                                 <TextBlock Text="Settings" VerticalAlignment="Center"/>
                             </StackPanel>
                         </Button>
-                        <Button x:Name="ButtonQuit" Style="{StaticResource GhostButton}"
+                        <Button x:Name="ButtonQuit" Style="{DynamicResource GhostButton}"
                                 Padding="10,6" Click="ButtonQuit_Click">
                             <TextBlock Text="✕  Quit" VerticalAlignment="Center"/>
                         </Button>
                     </StackPanel>
 
                     <!-- Search bar -->
-                    <Border Background="{StaticResource BgElevatedBrush}"
-                            BorderBrush="{StaticResource BorderBrush2}" BorderThickness="1"
+                    <Border Background="{DynamicResource BgElevatedBrush}"
+                            BorderBrush="{DynamicResource BorderBrush2}" BorderThickness="1"
                             CornerRadius="8" Padding="10,0"
                             MaxWidth="420" Height="36" VerticalAlignment="Center">
                         <DockPanel>
                             <TextBlock DockPanel.Dock="Left" Text="🔍" FontSize="13"
                                        VerticalAlignment="Center" Margin="0,0,8,0"
-                                       Foreground="{StaticResource TextMutedBrush}"/>
+                                       Foreground="{DynamicResource TextMutedBrush}"/>
                             <TextBox x:Name="TextBoxSearchBar"
                                      Background="Transparent" BorderThickness="0"
-                                     Foreground="{StaticResource TextSecondaryBrush}"
-                                     CaretBrush="{StaticResource AccentBrush}"
+                                     Foreground="{DynamicResource TextSecondaryBrush}"
+                                     CaretBrush="{DynamicResource AccentBrush}"
                                      VerticalContentAlignment="Center"
                                      FontSize="13"
                                      Text="Search here ..."
@@ -126,13 +126,13 @@
             </Border>
 
             <!-- Toolbar: CRUD + Category filter -->
-            <Border DockPanel.Dock="Top" Background="{StaticResource BgSurfaceBrush}"
-                    BorderBrush="{StaticResource BorderBrush2}" BorderThickness="0,0,0,1"
+            <Border DockPanel.Dock="Top" Background="{DynamicResource BgSurfaceBrush}"
+                    BorderBrush="{DynamicResource BorderBrush2}" BorderThickness="0,0,0,1"
                     Padding="16,8">
                 <DockPanel>
                     <!-- Right: Category filter + Stats + Play -->
                     <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Center">
-                        <Button x:Name="ButtonStats" Style="{StaticResource GhostButton}"
+                        <Button x:Name="ButtonStats" Style="{DynamicResource GhostButton}"
                                 Padding="10,6" Margin="0,0,8,0"
                                 Visibility="Visible"
                                 Click="ButtonStats_Click">
@@ -141,16 +141,16 @@
 
                         <DockPanel x:Name="DockPanelCategory" VerticalAlignment="Center" Margin="0,0,8,0">
                             <TextBlock DockPanel.Dock="Left" Text="Filter:" VerticalAlignment="Center"
-                                       Foreground="{StaticResource TextSecondaryBrush}"
+                                       Foreground="{DynamicResource TextSecondaryBrush}"
                                        Margin="0,0,8,0" FontSize="12"/>
                             <ComboBox x:Name="ComboBoxCategory"
-                                      Style="{StaticResource ModernComboBox}"
+                                      Style="{DynamicResource ModernComboBox}"
                                       Height="32" MinWidth="120">
                                 <ComboBoxItem IsSelected="True">All Categories</ComboBoxItem>
                             </ComboBox>
                         </DockPanel>
 
-                        <Button x:Name="ButtonPlay" Style="{StaticResource AccentButton}"
+                        <Button x:Name="ButtonPlay" Style="{DynamicResource AccentButton}"
                                 Width="36" Height="36" Padding="0"
                                 Visibility="Visible">
                             <Button.Resources>
@@ -164,7 +164,7 @@
 
                     <!-- Left: Add / Change / Delete -->
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                        <Button x:Name="ButtonAddFile" Style="{StaticResource AccentButton}"
+                        <Button x:Name="ButtonAddFile" Style="{DynamicResource AccentButton}"
                                 Padding="12,6" Margin="0,0,6,0"
                                 Click="ButtonAddFile_Click">
                             <StackPanel Orientation="Horizontal">
@@ -172,7 +172,7 @@
                                 <TextBlock Text="Add" VerticalAlignment="Center"/>
                             </StackPanel>
                         </Button>
-                        <Button x:Name="ButtonChange" Style="{StaticResource BaseButton}"
+                        <Button x:Name="ButtonChange" Style="{DynamicResource BaseButton}"
                                 Padding="12,6" Margin="0,0,6,0"
                                 Click="ButtonChange_Click">
                             <StackPanel Orientation="Horizontal">
@@ -180,7 +180,7 @@
                                 <TextBlock Text="Edit" VerticalAlignment="Center"/>
                             </StackPanel>
                         </Button>
-                        <Button x:Name="ButtonDelete" Style="{StaticResource DangerButton}"
+                        <Button x:Name="ButtonDelete" Style="{DynamicResource DangerButton}"
                                 Padding="12,6"
                                 Click="ButtonDelete_Click">
                             <StackPanel Orientation="Horizontal">
@@ -193,10 +193,10 @@
             </Border>
 
             <!-- File List -->
-            <Border Background="{StaticResource BgDeepBrush}" Padding="16">
+            <Border Background="{DynamicResource BgDeepBrush}" Padding="16">
                 <ListView x:Name="ListViewFiles"
-                          Style="{StaticResource ModernListView}"
-                          ItemContainerStyle="{StaticResource ModernListViewItem}"/>
+                          Style="{DynamicResource ModernListView}"
+                          ItemContainerStyle="{DynamicResource ModernListViewItem}"/>
             </Border>
         </DockPanel>
     </Grid>

@@ -40,11 +40,11 @@ namespace Bibliothicc
             if (isPressedAdd)
             {
                 categoryName = TextBoxAddChangeCategory.Text;
-                MessageBox.Show("New Category Added");
+                CustomMessageBox.Show("New Category Added", this);
             }
             else
             {
-                MessageBox.Show("Category Changed");
+                CustomMessageBox.Show("Category Changed", this);
             }
             DialogResult = true;
         }

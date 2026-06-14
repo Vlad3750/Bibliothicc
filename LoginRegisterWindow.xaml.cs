@@ -77,23 +77,23 @@ namespace Bibliothicc
 
             if (TextBoxUserName.Text == string.Empty)
             {
-                MessageBox.Show("Username Required!");
+                CustomMessageBox.Show("Username Required!", this, "⚠️");
             }
             else if (PasswordBoxPasswd.Password == string.Empty)
             {
-                MessageBox.Show("Password Required!");
+                CustomMessageBox.Show("Password Required!", this, "⚠️");
             }
             else if(PasswordBoxRepeatPasswd.Password == string.Empty)
             {
-                MessageBox.Show("Please repead your Password!");
+                CustomMessageBox.Show("Please repead your Password!", this, "⚠️");
             }
             else if (PasswordBoxRepeatPasswd.Password != PasswordBoxPasswd.Password)
             {
-                MessageBox.Show("Passwords don't align.");
+                CustomMessageBox.Show("Passwords don't align.", this, "⚠️");
             }
             else if (userAlreadyExists)
             {
-                MessageBox.Show($"Username {TextBoxUserName.Text} already taken please choose another Name.");
+                CustomMessageBox.Show($"Username {TextBoxUserName.Text} already taken please choose another Name.", this);
             }
             else
             {
@@ -104,7 +104,7 @@ namespace Bibliothicc
                 };
                 users.Add(userToAdd);
                 LoginUser = userToAdd;
-                MessageBox.Show("You're now Registered");
+                CustomMessageBox.Show("You're now Registered", this);
 
                 MainWindow window = new MainWindow(users, libs, LoginUser);
                 window.Show();
@@ -135,19 +135,19 @@ namespace Bibliothicc
 
             if(TextBoxUserName.Text == string.Empty)
             {
-                MessageBox.Show("Username Required!");
+                CustomMessageBox.Show("Username Required!", this, "⚠️");
             }
             else if (PasswordBoxPasswd.Password == string.Empty)
             {
-                MessageBox.Show("Password Required!");
+                CustomMessageBox.Show("Password Required!", this, "⚠️");
             }
             else if (!userPasswordAligns)
             {
-                MessageBox.Show("Username or Password is false!");
+                CustomMessageBox.Show("Username or Password is false!", this, "❌");
             }
             else
             {
-                MessageBox.Show("Login successful");
+                CustomMessageBox.Show("Login successful", this);
                 MainWindow window = new MainWindow(users, libs, LoginUser);
                 window.Show();
                 this.Close();

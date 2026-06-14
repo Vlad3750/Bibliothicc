@@ -8,28 +8,28 @@
         Title="New Library" Height="350" Width="380"
         WindowStartupLocation="CenterOwner"
         ResizeMode="NoResize"
-        Background="{StaticResource BgDeepBrush}">
+        Background="{DynamicResource BgDeepBrush}">
     <Grid>
-        <Border Background="{StaticResource BgSurfaceBrush}"
+        <Border Background="{DynamicResource BgSurfaceBrush}"
                 CornerRadius="12" Margin="16"
-                BorderBrush="{StaticResource BorderBrush2}" BorderThickness="1">
+                BorderBrush="{DynamicResource BorderBrush2}" BorderThickness="1">
             <StackPanel Margin="24,20">
                 <!-- Title -->
                 <TextBlock x:Name="LabelAddLib" Text="New Library"
                            FontSize="18" FontWeight="Bold"
-                           Foreground="{StaticResource TextPrimaryBrush}"
+                           Foreground="{DynamicResource TextPrimaryBrush}"
                            Margin="0,0,0,20"/>
 
                 <!-- Name -->
                 <TextBlock Text="Library Name" FontSize="12" FontWeight="SemiBold"
-                           Foreground="{StaticResource TextSecondaryBrush}" Margin="0,0,0,6"/>
-                <TextBox x:Name="TextBoxLibName" Style="{StaticResource ModernTextBox}"
+                           Foreground="{DynamicResource TextSecondaryBrush}" Margin="0,0,0,6"/>
+                <TextBox x:Name="TextBoxLibName" Style="{DynamicResource ModernTextBox}"
                          Height="36" Margin="0,0,0,14" Padding="4" FontSize="12"/>
 
                 <!-- Data Type -->
                 <TextBlock Text="Media Type" FontSize="12" FontWeight="SemiBold"
-                           Foreground="{StaticResource TextSecondaryBrush}" Margin="0,0,0,6"/>
-                <ComboBox x:Name="ComboBoxDataTyp" Style="{StaticResource ModernComboBox}"
+                           Foreground="{DynamicResource TextSecondaryBrush}" Margin="0,0,0,6"/>
+                <ComboBox x:Name="ComboBoxDataTyp" Style="{DynamicResource ModernComboBox}"
                           Height="36" Margin="0,0,0,20">
                     <ComboBoxItem Content="Video (.mp4)" IsSelected="True"/>
                     <ComboBoxItem Content="Movie (.mkv/.mp4)"/>
@@ -40,11 +40,11 @@
                 <!-- Buttons -->
                 <DockPanel>
                     <Button x:Name="ButtonCancel" DockPanel.Dock="Right"
-                            Style="{StaticResource GhostButton}"
+                            Style="{DynamicResource GhostButton}"
                             Width="90" Height="36" IsCancel="True" Margin="8,0,0,0">
                         <TextBlock Text="Cancel"/>
                     </Button>
-                    <Button x:Name="ButtonAdd" Style="{StaticResource AccentButton}"
+                    <Button x:Name="ButtonAdd" Style="{DynamicResource AccentButton}"
                             Height="36" IsDefault="True" Click="ButtonAdd_Click">
                         <TextBlock Text="Create Library" FontWeight="SemiBold"/>
                     </Button>

@@ -29,7 +29,7 @@ namespace Bibliothicc
         {
             if (TextBoxLibName.Text == string.Empty)
             {
-                MessageBox.Show("Please choose a name for you're Library");
+                CustomMessageBox.Show("Please choose a name for you're Library", this, "⚠️");
             }
             else
             {

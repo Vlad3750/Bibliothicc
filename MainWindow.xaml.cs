@@ -19,6 +19,7 @@ namespace Bibliothicc
     {
         bool LoggedOn = false;
         List<User> users;
+        bool isDarkModeOn = true;
 
         Library currentLib;
         public List<Library> libs;
@@ -71,7 +72,7 @@ namespace Bibliothicc
         {
             if (ListViewFiles.SelectedItem == null)
             {
-                MessageBox.Show("Please select a file to change it");
+                CustomMessageBox.Show("Please select a file to change it", this);
             }
 
             else
@@ -100,7 +101,7 @@ namespace Bibliothicc
 
         private void ButtonLoginLogout_Click(object sender, RoutedEventArgs e)
         {
-
+            LoggedOn = false;
             LoginRegisterWindow window = new LoginRegisterWindow(users);
             window.Show();
             Close();
@@ -130,11 +131,11 @@ namespace Bibliothicc
 
 
                 // MessageBox.Show(string.Join(", ", acceptedMimeTypes), LibToAddToColllection.FileType);
-                MessageBox.Show($"New Library for {window.fileNameString}s added to Collection");
+                CustomMessageBox.Show($"New Library for {window.fileNameString}s added to Collection", null);
             }
             else if(ListViewLibraries.Items.Count == 0)
             {
-                MessageBox.Show("You don't have any libraries, please create one");
+                CustomMessageBox.Show("You don't have any libraries, please create one", null, "⚠️");
                 ButtonAddLib_Click(ButtonAddLib, new RoutedEventArgs());
             }
         }
@@ -143,11 +144,11 @@ namespace Bibliothicc
         {
             if(ListViewFiles.SelectedItem == null)
             {
-                MessageBox.Show("Please Select a File to delete it");
+                CustomMessageBox.Show("Please Select a File to delete it", this);
             }
             else
             {
-                MessageBox.Show($"{ListViewFiles.SelectedItem.ToString().Substring(37)} has been deleted");
+                CustomMessageBox.Show($"{ListViewFiles.SelectedItem.ToString().Substring(37)} has been deleted", this);
                 ListViewFiles.Items.Remove(ListViewFiles.SelectedItem);
                 ListViewFiles.Items.Refresh();
             }
@@ -179,8 +180,10 @@ namespace Bibliothicc
 
         private void ButtonSetttings_Click(object sender, RoutedEventArgs e)
         {
-            SettingsWindows window = new SettingsWindows();
-            window.Show();
+            SettingsWindows window = new SettingsWindows(isDarkModeOn);
+            window.ShowDialog();
+
+            isDarkModeOn = window.isDark;
         }
 
         private void ButtonStats_Click(object sender, RoutedEventArgs e)

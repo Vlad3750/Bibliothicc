@@ -12,7 +12,6 @@
     <None Remove="Bilder\button_an.png" />
     <None Remove="Bilder\button_aus.png" />
     <None Remove="Bilder\log_out_icon.png" />
-    <None Remove="Bilder\magnifyingglass.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -20,9 +19,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Bilder\button_aus.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Bilder\magnifyingglass.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>

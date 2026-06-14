@@ -5,65 +5,65 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Bibliothicc"
         mc:Ignorable="d"
-        Title="Add File" Height="auto" Width="480"
+        Title="Add File" Height="490" Width="480"
         WindowStartupLocation="CenterOwner"
         ResizeMode="NoResize"
         MinWidth="380" MaxWidth="560"
-        Background="{StaticResource BgDeepBrush}">
+        Background="{DynamicResource BgDeepBrush}">
     <Grid>
-        <Border Background="{StaticResource BgSurfaceBrush}"
+        <Border Background="{DynamicResource BgSurfaceBrush}"
                 CornerRadius="12" Margin="16"
-                BorderBrush="{StaticResource BorderBrush2}" BorderThickness="1">
+                BorderBrush="{DynamicResource BorderBrush2}" BorderThickness="1">
             <StackPanel Margin="24,20">
                 <!-- Title -->
                 <TextBlock x:Name="LabelAddChange" Text="Add File"
                            FontSize="18" FontWeight="Bold"
-                           Foreground="{StaticResource TextPrimaryBrush}"
+                           Foreground="{DynamicResource TextPrimaryBrush}"
                            Margin="0,0,0,20"/>
 
                 <!-- File Path -->
                 <TextBlock Text="File Path" FontSize="12" FontWeight="SemiBold"
-                           Foreground="{StaticResource TextSecondaryBrush}" Margin="0,0,0,6"/>
+                           Foreground="{DynamicResource TextSecondaryBrush}" Margin="0,0,0,6"/>
                 <DockPanel Margin="0,0,0,14">
                     <Button x:Name="ButtonFileOpenerPath" DockPanel.Dock="Right"
-                            Style="{StaticResource BaseButton}"
+                            Style="{DynamicResource BaseButton}"
                             Width="38" Height="36" Padding="0" Margin="6,0,0,0"
                             Click="ButtonFileOpenerPath_Click">
                         <TextBlock Text="📂" FontSize="16"/>
                     </Button>
-                    <Border Background="{StaticResource BgElevatedBrush}"
-                            BorderBrush="{StaticResource BorderBrush2}" BorderThickness="1"
+                    <Border Background="{DynamicResource BgElevatedBrush}"
+                            BorderBrush="{DynamicResource BorderBrush2}" BorderThickness="1"
                             CornerRadius="6" Padding="10,0">
                         <Label x:Name="LabelPath" Height="36"
                                VerticalContentAlignment="Center" FontSize="12"
-                               Foreground="{StaticResource TextSecondaryBrush}"
+                               Foreground="{DynamicResource TextSecondaryBrush}"
                                Padding="0"/>
                     </Border>
                 </DockPanel>
 
                 <!-- Name -->
                 <TextBlock Text="Display Name" FontSize="12" FontWeight="SemiBold"
-                           Foreground="{StaticResource TextSecondaryBrush}" Margin="0,0,0,6"/>
-                <TextBox x:Name="TextBoxFileName" Style="{StaticResource ModernTextBox}"
+                           Foreground="{DynamicResource TextSecondaryBrush}" Margin="0,0,0,6"/>
+                <TextBox x:Name="TextBoxFileName" Style="{DynamicResource ModernTextBox}"
                          Height="36" Margin="0,0,0,14" Padding="4" FontSize="12"/>
 
                 <!-- Thumbnail -->
                 <TextBlock x:Name="LabelThumbnail" Text="Thumbnail"
                            FontSize="12" FontWeight="SemiBold"
-                           Foreground="{StaticResource TextSecondaryBrush}" Margin="0,0,0,6"/>
+                           Foreground="{DynamicResource TextSecondaryBrush}" Margin="0,0,0,6"/>
                 <DockPanel x:Name="DockPanelThumbnail" Margin="0,0,0,14">
                     <Button x:Name="ButtonFileOpenerThumbnail" DockPanel.Dock="Right"
-                            Style="{StaticResource BaseButton}"
+                            Style="{DynamicResource BaseButton}"
                             Width="38" Height="36" Padding="0" Margin="6,0,0,0"
                             Click="ButtonFileOpenerThumbnail_Click">
                         <TextBlock Text="📂" FontSize="16"/>
                     </Button>
-                    <Border Background="{StaticResource BgElevatedBrush}"
-                            BorderBrush="{StaticResource BorderBrush2}" BorderThickness="1"
+                    <Border Background="{DynamicResource BgElevatedBrush}"
+                            BorderBrush="{DynamicResource BorderBrush2}" BorderThickness="1"
                             CornerRadius="6" Padding="10,0">
                         <Label x:Name="LabelShowcaseThumbnail" Height="36"
                                VerticalContentAlignment="Center" FontSize="12"
-                               Foreground="{StaticResource TextSecondaryBrush}"
+                               Foreground="{DynamicResource TextSecondaryBrush}"
                                Padding="0"/>
                     </Border>
                 </DockPanel>
@@ -71,20 +71,20 @@
                 <!-- Categories -->
                 <DockPanel x:Name="DockPanelCategory" Margin="0,0,0,20">
                     <Button x:Name="ButtonAddCategory" DockPanel.Dock="Right"
-                            Style="{StaticResource AccentButton}"
+                            Style="{DynamicResource AccentButton}"
                             Padding="10,4" Margin="8,0,0,0" Height="28"
                             Click="ButtonAddCategory_Click">
                         <TextBlock Text="+ Tag" FontSize="12"/>
                     </Button>
                     <TextBlock x:Name="LabelCategory" Text="Categories"
                                FontSize="12" FontWeight="SemiBold"
-                               Foreground="{StaticResource TextSecondaryBrush}"
+                               Foreground="{DynamicResource TextSecondaryBrush}"
                                VerticalAlignment="Center"/>
                 </DockPanel>
 
                 <!-- Category chips -->
                 <ListView x:Name="ListViewCategoriesToAdd"
-                          Style="{StaticResource ModernListView}"
+                          Style="{DynamicResource ModernListView}"
                           MinHeight="0" MaxHeight="60"
                           Margin="0,0,0,16">
                     <ListView.ItemsPanel>
@@ -94,18 +94,18 @@
                     </ListView.ItemsPanel>
                     <ListView.ItemTemplate>
                         <DataTemplate>
-                            <Border Background="{StaticResource BgElevatedBrush}"
-                                    BorderBrush="{StaticResource AccentBrush}" BorderThickness="1"
+                            <Border Background="{DynamicResource BgElevatedBrush}"
+                                    BorderBrush="{DynamicResource AccentBrush}" BorderThickness="1"
                                     CornerRadius="12" Padding="8,3" Margin="3">
                                 <DockPanel>
                                     <Button DockPanel.Dock="Right" Margin="4,0,0,0"
-                                            Style="{StaticResource IconButton}"
+                                            Style="{DynamicResource IconButton}"
                                             Width="14" Height="14" Padding="0"
-                                            Foreground="{StaticResource TextMutedBrush}"
+                                            Foreground="{DynamicResource TextMutedBrush}"
                                             Content="✕" FontSize="9"
                                             Click="ButtonRemoveCategory_Click"/>
                                     <TextBlock Text="{Binding Name}" FontSize="11"
-                                               Foreground="{StaticResource AccentBrush}"
+                                               Foreground="{DynamicResource AccentBrush}"
                                                VerticalAlignment="Center"/>
                                 </DockPanel>
                             </Border>
@@ -116,11 +116,11 @@
                 <!-- Action Buttons -->
                 <DockPanel>
                     <Button x:Name="ButtonCancel" DockPanel.Dock="Right"
-                            Style="{StaticResource GhostButton}"
+                            Style="{DynamicResource GhostButton}"
                             Width="90" Height="36" IsCancel="True" Margin="8,0,0,0">
                         <TextBlock Text="Cancel"/>
                     </Button>
-                    <Button x:Name="ButtonAddChange" Style="{StaticResource AccentButton}"
+                    <Button x:Name="ButtonAddChange" Style="{DynamicResource AccentButton}"
                             Height="36" IsDefault="True" Click="ButtonAddChange_Click">
                         <TextBlock x:Name="TextBlockAddChangeBtn" Text="Add" FontWeight="SemiBold"/>
                     </Button>

@@ -5,32 +5,32 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Bibliothicc"
         mc:Ignorable="d"
-        Title="Category" Height="230" Width="320"
+        Title="Category" Height="250" Width="320"
         WindowStartupLocation="CenterOwner"
         ResizeMode="NoResize"
-        Background="{StaticResource BgDeepBrush}">
+        Background="{DynamicResource BgDeepBrush}">
     <Grid>
-        <Border Background="{StaticResource BgSurfaceBrush}"
+        <Border Background="{DynamicResource BgSurfaceBrush}"
                 CornerRadius="12" Margin="14"
-                BorderBrush="{StaticResource BorderBrush2}" BorderThickness="1">
+                BorderBrush="{DynamicResource BorderBrush2}" BorderThickness="1">
             <StackPanel Margin="20,16">
                 <TextBlock x:Name="LabelAddChangeCategory" Text="Add Category"
                            FontSize="16" FontWeight="Bold"
-                           Foreground="{StaticResource TextPrimaryBrush}"
+                           Foreground="{DynamicResource TextPrimaryBrush}"
                            Margin="0,0,0,16"/>
 
                 <TextBlock Text="Name" FontSize="12" FontWeight="SemiBold"
-                           Foreground="{StaticResource TextSecondaryBrush}" Margin="0,0,0,6"/>
-                <TextBox x:Name="TextBoxAddChangeCategory" Style="{StaticResource ModernTextBox}"
-                         Height="36" Margin="0,0,0,16"/>
+                           Foreground="{DynamicResource TextSecondaryBrush}" Margin="0,0,0,6"/>
+                <TextBox x:Name="TextBoxAddChangeCategory" Style="{DynamicResource ModernTextBox}"
+                         Height="36" Padding="4" FontSize="12" Margin="0,0,0,16"/>
 
                 <DockPanel>
                     <Button x:Name="ButtonCancel" DockPanel.Dock="Right"
-                            Style="{StaticResource GhostButton}"
+                            Style="{DynamicResource GhostButton}"
                             Width="80" Height="34" IsCancel="True" Margin="8,0,0,0">
                         <TextBlock Text="Cancel"/>
                     </Button>
-                    <Button x:Name="ButtonAddChangeCategory" Style="{StaticResource AccentButton}"
+                    <Button x:Name="ButtonAddChangeCategory" Style="{DynamicResource AccentButton}"
                             Height="34" IsDefault="True" Click="ButtonAddChangeCategory_Click">
                         <TextBlock Text="Save" FontWeight="SemiBold"/>
                     </Button>

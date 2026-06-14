@@ -88,9 +88,9 @@
                 <DockPanel>
                     <!-- Right: Settings + Quit -->
                     <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Center">
-                        <Button x:Name="ButtonSetttings" Style="{DynamicResource GhostButton}"
+                        <Button x:Name="ButtonSettings" Style="{DynamicResource GhostButton}"
                                 Padding="10,6" Margin="0,0,4,0"
-                                Click="ButtonSetttings_Click">
+                                Click="ButtonSettings_Click">
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="⚙" FontSize="14" Margin="0,0,5,0" VerticalAlignment="Center"/>
                                 <TextBlock Text="Settings" VerticalAlignment="Center"/>

@@ -17,30 +17,32 @@ namespace Bibliothicc
     /// </summary>
     public partial class SettingsWindows : Window
     {
-        public Image buttonOn = new Image();
-        public Image buttonOff = new Image();
+        public Image buttonAktive = new Image();
         public bool isDark;
 
-        public SettingsWindows(bool isDarlModeOn)
+        public SettingsWindows(bool isDarkModeOn)
         {
             InitializeComponent();
 
-            isDark = isDarlModeOn;
+            isDark = isDarkModeOn;
 
-            buttonOn.Source = new BitmapImage(new Uri("pack://application:,,,/Bilder/button_an.png"));
-            buttonOff.Source = new BitmapImage(new Uri("pack://application:,,,/Bilder/button_aus.png"));
-
-            if (isDarlModeOn)
+            buttonAktive.Width = 44;
+            buttonAktive.Height = 22;
+            RenderOptions.SetBitmapScalingMode(buttonAktive, BitmapScalingMode.HighQuality);
+            if (isDarkModeOn)
             {
-                ButtonDarkmode.Content = buttonOff;
+                buttonAktive.Source = new BitmapImage(new Uri("pack://application:,,,/Bilder/button_aus.png"));
             }
             else
             {
-                ButtonDarkmode.Content = buttonOn;
+                buttonAktive.Source = new BitmapImage(new Uri("pack://application:,,,/Bilder/button_an.png"));
             }
+            ButtonDarkmode.Content = buttonAktive;
         }
 
 
+        // AI (Claude)
+        // Start
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             isDark = !isDark;
@@ -48,6 +50,9 @@ namespace Bibliothicc
 
             var img = (Image)((Button)sender).Content;
             img.Source = new BitmapImage(new Uri(isDark ? "/Bilder/button_aus.png" : "/Bilder/button_an.png", UriKind.Relative));
+            img.Width = 44;
+            img.Height = 22;
+            RenderOptions.SetBitmapScalingMode(img, BitmapScalingMode.HighQuality);
         }
 
         public static void ApplyTheme(bool dark)
@@ -90,5 +95,6 @@ namespace Bibliothicc
             brush.Color = (Color)ColorConverter.ConvertFromString(hex);
             res[key] = brush;
         }
+        // End
     }
 }

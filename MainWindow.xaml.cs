@@ -179,7 +179,7 @@ namespace Bibliothicc
             }
         }
 
-        private void ButtonSetttings_Click(object sender, RoutedEventArgs e)
+        private void ButtonSettings_Click(object sender, RoutedEventArgs e)
         {
             SettingsWindows window = new SettingsWindows(isLightModeOn);
             window.ShowDialog();

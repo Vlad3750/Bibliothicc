@@ -312,6 +312,12 @@ namespace Bibliothicc
             RefreshFileList(searchText, selected);
         }
 
+        private void ButtonBrowse_Click(object sender, RoutedEventArgs e)
+        {
+            BrowseWindow window = new BrowseWindow(users, currentUser);
+            window.ShowDialog();
+        }
+
         // End
     }
 }

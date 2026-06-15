@@ -35,7 +35,7 @@
                     <ComboBoxItem Content="Movie (.mkv/.mp4/.mov)"/>
                     <ComboBoxItem Content="Text (.txt/.md/.docx/.pdf)"/>
                     <ComboBoxItem Content="Picture (.png/.jpg/.svg)"/>
-                    <ComboBoxItem Content="Audio (.mp3/.wav)"/>
+                    <ComboBoxItem Content="Audio (.mp3/.wav/.ogg)"/>
                 </ComboBox>
 
                 <!-- Buttons -->

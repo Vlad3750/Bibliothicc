@@ -15,7 +15,7 @@
                 BorderBrush="{DynamicResource BorderBrush2}" BorderThickness="1">
             <StackPanel Margin="32,28">
                 <!-- Header -->
-                <TextBlock Text="📚" FontSize="32" HorizontalAlignment="Center" Margin="0,0,0,8"/>
+                <TextBlock Text="📚" Foreground="{DynamicResource TextPrimaryBrush}" FontSize="32" HorizontalAlignment="Center" Margin="0,0,0,8"/>
                 <TextBlock x:Name="LabelLoginRegister" Text="Welcome back"
                            FontSize="22" FontWeight="Bold"
                            Foreground="{DynamicResource TextPrimaryBrush}"

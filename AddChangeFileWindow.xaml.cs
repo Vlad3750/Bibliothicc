@@ -71,7 +71,7 @@ namespace Bibliothicc
                 LabelThumbnail.Visibility = Visibility.Collapsed;
                 DockPanelCategory.Visibility = Visibility.Collapsed;
                 DockPanelThumbnail.Visibility = Visibility.Collapsed;
-                filtersForFiles = "Audio (*.mp3, *.wav)|*.mp3;*.wav";
+                filtersForFiles = "Audio (*.mp3, *.wav, *.ogg)|*.mp3;*.wav;*.ogg";
             }
         }
 

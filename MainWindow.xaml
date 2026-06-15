@@ -23,7 +23,7 @@
                 <Border DockPanel.Dock="Top" Padding="16,18,16,14"
                         BorderBrush="{DynamicResource BorderBrush2}" BorderThickness="0,0,0,1">
                     <StackPanel>
-                        <TextBlock Text="📚" FontSize="22" Margin="0,0,0,4"/>
+                        <TextBlock Text="📚" FontSize="22" Margin="0,0,0,4" Foreground="{DynamicResource TextPrimaryBrush}"/>
                         <TextBlock Text="Bibliothicc" FontSize="17" FontWeight="Bold"
                                    Foreground="{DynamicResource TextPrimaryBrush}"/>
                         <TextBlock Text="Media Library" FontSize="11"
@@ -144,6 +144,14 @@
                                 <ComboBoxItem IsSelected="True">All Categories</ComboBoxItem>
                             </ComboBox>
                         </DockPanel>
+                        <Button x:Name="ButtonBrowse" Style="{DynamicResource GhostButton}"
+                            Padding="10,6" Margin="0,0,8,0"
+                            Click="ButtonBrowse_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="🌐" FontSize="13" Margin="0,0,5,0" VerticalAlignment="Center"/>
+                                <TextBlock Text="Browse" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Button>
 
                         <Button x:Name="ButtonPlay" Style="{DynamicResource AccentButton}"
                                 Width="36" Height="36" Padding="0"

@@ -49,6 +49,10 @@ namespace Bibliothicc
                 {
                     fileNameString = "Image";
                 }
+                else if (ComboBoxDataTyp.SelectedIndex == 4)
+                {
+                    fileNameString = "Audio";
+                }
                 DialogResult = true;
                 this.Close();
             }

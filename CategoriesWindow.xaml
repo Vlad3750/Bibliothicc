@@ -42,7 +42,7 @@
                 <ListView x:Name="ListViewSystemCategories"
                           Style="{DynamicResource ModernListView}">
                     <ListView.ItemContainerStyle>
-                        <Style TargetType="ListViewItem" BasedOn="{DynamicResource ModernListViewItem}">
+                        <Style TargetType="ListViewItem" BasedOn="{StaticResource ModernListViewItem}">
                             <EventSetter Event="MouseDoubleClick" Handler="ListViewItem_MouseDoubleClick"/>
                         </Style>
                     </ListView.ItemContainerStyle>

@@ -32,9 +32,10 @@
                 <ComboBox x:Name="ComboBoxDataTyp" Style="{DynamicResource ModernComboBox}"
                           Height="36" Margin="0,0,0,20">
                     <ComboBoxItem Content="Video (.mp4)" IsSelected="True"/>
-                    <ComboBoxItem Content="Movie (.mkv/.mp4)"/>
+                    <ComboBoxItem Content="Movie (.mkv/.mp4/.mov)"/>
                     <ComboBoxItem Content="Text (.txt/.md/.docx/.pdf)"/>
-                    <ComboBoxItem Content="Picture (.png/.jpeg/.svg)"/>
+                    <ComboBoxItem Content="Picture (.png/.jpg/.svg)"/>
+                    <ComboBoxItem Content="Audio (.mp3/.wav)"/>
                 </ComboBox>
 
                 <!-- Buttons -->

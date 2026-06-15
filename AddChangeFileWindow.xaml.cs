@@ -55,7 +55,7 @@ namespace Bibliothicc
             }
             else if (filters == "Movie")
             {
-                filtersForFiles = "Movie (*.mp4, *.mkv)|*.mp4;*.mkv";
+                filtersForFiles = "Movie (*.mp4, *.mkv, *.mov)|*.mp4;*.mkv;*.mov";
             }
             else if (filters == "Image")
             {
@@ -64,6 +64,14 @@ namespace Bibliothicc
 
                 ButtonFileOpenerThumbnail.Visibility = Visibility.Hidden;
                 filtersForFiles = "JPG (*.jpeg, *.jpg)|*.jpeg;*.jpg |PNG (*.png)|*.png";
+            }
+            else if(filters == "Audio")
+            {
+                LabelCategory.Visibility = Visibility.Collapsed;
+                LabelThumbnail.Visibility = Visibility.Collapsed;
+                DockPanelCategory.Visibility = Visibility.Collapsed;
+                DockPanelThumbnail.Visibility = Visibility.Collapsed;
+                filtersForFiles = "Audio (*.mp3, *.wav)|*.mp3;*.wav";
             }
         }
 
@@ -75,7 +83,7 @@ namespace Bibliothicc
                 LabelPath.Content = this.itemToChange.FileUrl;
                 LabelThumbnail.Text = this.itemToChange.CoverUrl;
                 TextBoxFileName.Text = this.itemToChange.Title;
-                if (getFilters != "Text" && getFilters != "Image")
+                if (getFilters != "Text" && getFilters != "Image" && getFilters != "Audio")
                 {
                     foreach (Category category in this.itemToChange.CategoryList)
                     {

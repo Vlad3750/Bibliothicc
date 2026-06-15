@@ -226,6 +226,10 @@ namespace Bibliothicc
                 DockPanelCategory.Visibility = Visibility.Collapsed;
                 ButtonPlay.Visibility = Visibility.Hidden;
             }
+            if(currentLib.FileType == "Audio")
+            {
+                DockPanelCategory.Visibility = Visibility.Collapsed;
+            }
             else
             {
                 DockPanelCategory.Visibility = Visibility.Visible;

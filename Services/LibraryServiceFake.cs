@@ -9,7 +9,7 @@ namespace Bibliothicc.Services
     {
         private Library fakelibrarypics = new Library(new List<Media>
         {
-            new Media() { Name = "picture", Title = "Subaru", FileURL = new Uri("C:/Users/Vlad/Documents/Schule/POS/Bibliothicc/FakeLibPics/picture.jpg")},
+            new Media() { Name = "picture.jpg", Title = "Subaru", FileURL = new Uri("C:/Users/Vlad/Documents/Schule/POS/Bibliothicc/FakeLibPics/picture.jpg")},
             // new Media() 
         });
 

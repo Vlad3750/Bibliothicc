@@ -76,17 +76,33 @@ namespace Bibliothicc
                 return;
             }
 
+            var selected = (CategoryItem)ListViewSystemCategories.SelectedItem;
+            string oldName = selected.Name;
+
             AddChangeCategoryWindow window = new AddChangeCategoryWindow(
                 "Change", "Change", false, ListViewSystemCategories);
 
             if (window.ShowDialog() == true)
             {
-                var selected = (CategoryItem)ListViewSystemCategories.SelectedItem;
                 // Im System umbenennen
-                var cat = SystemCategories.Find(c => c.Name == selected.Name);
+                var cat = SystemCategories.Find(c => c.Name == oldName);
                 if (cat != null) cat.Name = window.categoryName;
+
+                // Tag aus LVCategoriesToAdd entfernen falls er den alten Namen hat
+                CategoryItem toRemove = null;
+                foreach (CategoryItem ci in LVCategoriesToAdd.Items)
+                {
+                    if (ci.Name == oldName) { toRemove = ci; break; }
+                }
+                if (toRemove != null) LVCategoriesToAdd.Items.Remove(toRemove);
+
+                // ListView neu rendern
                 selected.Name = window.categoryName;
-                ListViewSystemCategories.Items.Refresh();
+                selected.Symbol = "○";
+                int idx = ListViewSystemCategories.SelectedIndex;
+                ListViewSystemCategories.Items.Remove(selected);
+                ListViewSystemCategories.Items.Insert(idx, selected);
+                ListViewSystemCategories.SelectedIndex = idx;
             }
         }
 

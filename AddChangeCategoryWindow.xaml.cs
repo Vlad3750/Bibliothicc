@@ -36,6 +36,14 @@ namespace Bibliothicc
 
         private void ButtonAddChangeCategory_Click(object sender, RoutedEventArgs e)
         {
+            if (string.IsNullOrWhiteSpace(TextBoxAddChangeCategory.Text))
+            {
+                CustomMessageBox.Show("Please enter a name", this, "⚠️");
+                return;
+            }
+
+            categoryName = TextBoxAddChangeCategory.Text;
+
             if (isPressedAdd)
             {
                 categoryName = TextBoxAddChangeCategory.Text;

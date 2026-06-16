@@ -111,11 +111,21 @@ namespace Bibliothicc
                 if (isPressedAdd)
                 {
                     itemToAdd.Title = TextBoxFileName.Text;
+                    itemToAdd.CategoryList.Clear();
+                    foreach (CategoryItem ci in ListViewCategoriesToAdd.Items)
+                    {
+                        itemToAdd.CategoryList.Add(new Category() { Name = ci.Name });
+                    }
                     DialogResult = true;
                 }
                 else
                 {
                     itemToChange.Title = TextBoxFileName.Text;
+                    itemToChange.CategoryList.Clear();
+                    foreach (CategoryItem ci in ListViewCategoriesToAdd.Items)
+                    {
+                        itemToChange.CategoryList.Add(new Category() { Name = ci.Name });
+                    }
                     CustomMessageBox.Show($"'{TextBoxFileName.Text}' has been changed", this);
                     DialogResult = true;
                 }

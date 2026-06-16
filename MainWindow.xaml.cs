@@ -318,6 +318,30 @@ namespace Bibliothicc
             window.ShowDialog();
         }
 
+        private void ButtonPlay_Click(object sender, RoutedEventArgs e)
+        {
+            if (ListViewFiles.SelectedItem == null)
+            {
+                CustomMessageBox.Show("Please select a file to play", this, "⚠️");
+                return;
+            }
+
+            Media selectedMedia = currentLib.mediaCollection[ListViewFiles.SelectedIndex];
+
+            if (!System.IO.File.Exists(selectedMedia.FileUrl))
+            {
+                CustomMessageBox.Show("File not found on disk", this, "⚠️");
+                return;
+            }
+
+            // Öffnet die Datei mit dem Standard-Programm des Systems
+            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo()
+            {
+                FileName = selectedMedia.FileUrl,
+                UseShellExecute = true
+            });
+        }
+
         // End
     }
 }

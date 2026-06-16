@@ -155,7 +155,7 @@
 
                         <Button x:Name="ButtonPlay" Style="{DynamicResource AccentButton}"
                                 Width="36" Height="36" Padding="0"
-                                Visibility="Visible">
+                                Visibility="Visible" Click="ButtonPlay_Click">
                             <Button.Resources>
                                 <Style TargetType="Border">
                                     <Setter Property="CornerRadius" Value="18"/>

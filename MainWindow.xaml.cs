@@ -122,6 +122,7 @@ namespace Bibliothicc
                 };
 
                 LibToAdd.Content = window.TextBoxLibName.Text;
+                LibToAdd.Style = (Style)Application.Current.Resources["ModernListViewItem"];
                 ListViewLibraries.Items.Add(LibToAdd);
                 ListViewLibraries.Items.Refresh();
 
@@ -131,7 +132,6 @@ namespace Bibliothicc
                 ListViewLibraries.SelectedItem = LibToAdd;
 
 
-                // MessageBox.Show(string.Join(", ", acceptedMimeTypes), LibToAddToColllection.FileType);
                 CustomMessageBox.Show($"New Library for {window.fileNameString}s added to Collection", null);
             }
             else if(ListViewLibraries.Items.Count == 0)

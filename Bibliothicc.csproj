@@ -24,9 +24,6 @@
     </Resource>
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Bibliothicc_ClassLibrary\Bibliothicc_ClassLibrary.csproj" />
-  </ItemGroup>
 
   <ItemGroup>
     <Resource Include="Bilder\log_out_icon.png">

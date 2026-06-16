@@ -1,4 +1,4 @@
-﻿using Bibliothicc_ClassLibrary;
+﻿using Bibliothicc.Models;
 using System.Drawing;
 using System.Text;
 using System.Windows;
@@ -220,6 +220,7 @@ namespace Bibliothicc
         private void ListViewLibraries_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             currentLib = libs[ListViewLibraries.SelectedIndex];
+            TextBlockPublishLabel.Text = currentLib.IsPublic ? "Unpublish" : "Publish";
 
             if(currentLib.FileType == "Text" || currentLib.FileType == "Image")
             {
@@ -314,8 +315,72 @@ namespace Bibliothicc
 
         private void ButtonBrowse_Click(object sender, RoutedEventArgs e)
         {
-            BrowseWindow window = new BrowseWindow(users, currentUser);
+            BrowseWindow window = new BrowseWindow();
             window.ShowDialog();
+        }
+
+        private async void ButtonSaveToServer_Click(object sender, RoutedEventArgs e)
+        {
+            Mouse.OverrideCursor = Cursors.Wait;
+            try
+            {
+                if (currentLib.LibraryID == 0)
+                {
+                    var created = await App.Service.CreateLibrary(currentLib);
+                    currentLib.LibraryID = created.LibraryID;
+                }
+
+                foreach (var media in currentLib.mediaCollection)
+                {
+                    if (media.MediaID == 0)
+                    {
+                        var created = await App.Service.CreateMedia(currentLib.LibraryID, media);
+                        media.MediaID = created.MediaID;
+                        media.FileUrl = created.FileUrl;
+                        media.LibId = created.LibId;
+                    }
+                }
+
+                CustomMessageBox.Show($"'{currentLib.Name}' saved to server.", this);
+            }
+            catch (System.Exception ex)
+            {
+                CustomMessageBox.Show($"Save failed: {ex.Message}", this, "❌");
+            }
+            finally
+            {
+                Mouse.OverrideCursor = null;
+            }
+        }
+
+        private async void ButtonPublish_Click(object sender, RoutedEventArgs e)
+        {
+            if (currentLib.LibraryID == 0)
+            {
+                CustomMessageBox.Show("Save the library to the server first.", this, "⚠️");
+                return;
+            }
+
+            Mouse.OverrideCursor = Cursors.Wait;
+            try
+            {
+                currentLib.IsPublic = !currentLib.IsPublic;
+                await App.Service.PublishLibrary(currentLib.LibraryID, currentLib.IsPublic);
+
+                TextBlockPublishLabel.Text = currentLib.IsPublic ? "Unpublish" : "Publish";
+                string msg = currentLib.IsPublic
+                    ? $"'{currentLib.Name}' is now public."
+                    : $"'{currentLib.Name}' is now private.";
+                CustomMessageBox.Show(msg, this);
+            }
+            catch (System.Exception ex)
+            {
+                CustomMessageBox.Show($"Failed: {ex.Message}", this, "❌");
+            }
+            finally
+            {
+                Mouse.OverrideCursor = null;
+            }
         }
 
         private void ButtonPlay_Click(object sender, RoutedEventArgs e)

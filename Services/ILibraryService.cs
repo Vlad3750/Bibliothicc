@@ -1,24 +1,28 @@
-﻿using Bibliothicc.Models;
-using System;
+using Bibliothicc.Models;
 using System.Collections.Generic;
-using System.Drawing.Imaging;
-using System.Text;
+using System.Threading.Tasks;
 
 namespace Bibliothicc.Services
 {
     public interface ILibraryService
     {
+        // User
+        Task<User?> Login(User user);
+
         // Library
         Task<List<Library>> GetLibraries();
-        Task CreateLibrary(Library library);
-
+        Task<Library> CreateLibrary(Library library);
+        Task PublishLibrary(int libraryId, bool isPublic);
+        Task<List<Library>> GetPublicLibraries();
 
         // Media
-        Task<List<Media>> GetFiles(int libraryId);
-        Task CreateFile(int libraryId, Media file);
-        Task ChangeFile(Media file);
-        Task DeleteFile(int fileId);
+        Task<List<Media>> GetMedias(int libraryId);
+        Task<Media> CreateMedia(int libraryId, Media file);
+        Task ChangeMedia(Media file);
+        Task DeleteMedia(int fileId);
 
+        // Files
+        Task<byte[]> DownloadFile(string mediaUrl);
 
         // Category
         Task<List<Category>> GetCategories();

@@ -86,8 +86,16 @@
                     BorderBrush="{DynamicResource BorderBrush2}" BorderThickness="0,0,0,1"
                     Padding="16,10">
                 <DockPanel>
-                    <!-- Right: Settings + Quit -->
+                    <!-- Right: Save + Settings + Quit -->
                     <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Center">
+                        <Button x:Name="ButtonSaveToServer" Style="{DynamicResource GhostButton}"
+                                Padding="10,6" Margin="0,0,4,0"
+                                Click="ButtonSaveToServer_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="💾" FontSize="14" Margin="0,0,5,0" VerticalAlignment="Center"/>
+                                <TextBlock Text="Save" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Button>
                         <Button x:Name="ButtonSettings" Style="{DynamicResource GhostButton}"
                                 Padding="10,6" Margin="0,0,4,0"
                                 Click="ButtonSettings_Click">
@@ -101,6 +109,17 @@
                             <TextBlock Text="✕  Quit" VerticalAlignment="Center"/>
                         </Button>
                     </StackPanel>
+
+                    <!-- Publish button -->
+                    <Button x:Name="ButtonPublish" DockPanel.Dock="Left"
+                            Style="{DynamicResource GhostButton}"
+                            Padding="10,6" Margin="0,0,8,0" VerticalAlignment="Center"
+                            Click="ButtonPublish_Click">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="🌐" FontSize="14" Margin="0,0,5,0" VerticalAlignment="Center"/>
+                            <TextBlock x:Name="TextBlockPublishLabel" Text="Publish" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
 
                     <!-- Search bar -->
                     <Border Background="{DynamicResource BgElevatedBrush}"

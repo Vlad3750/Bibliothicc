@@ -1,4 +1,3 @@
 <Solution>
-  <Project Path="../Bibliothicc_ClassLibrary/Bibliothicc_ClassLibrary.csproj" Id="51dcf702-ebd4-4441-810d-a75b3bdc8ca7" />
   <Project Path="Bibliothicc.csproj" />
 </Solution>

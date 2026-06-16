@@ -13,7 +13,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace Bibliothicc
 {
@@ -95,22 +94,31 @@ namespace Bibliothicc
 
         private void ButtonAddChange_Click(object sender, RoutedEventArgs e)
         {
+            bool missingRequirement = false;
             if (LabelPath.Content == null)
             {
-                CustomMessageBox.Show("File is missing a path", this, "⚠️");
+                CustomMessageBox.Show($"File is missing a path", this, "⚠️");
+                missingRequirement = true;
+            }
+            if (string.IsNullOrWhiteSpace(TextBoxFileName.Text))
+            {
+                TextBoxFileName.BorderBrush = (Brush)Application.Current.Resources["DangerBrush"];
+                missingRequirement = true;
             }
 
-            else if (isPressedAdd)
+            if (!missingRequirement)
             {
-                itemToAdd.Title = TextBoxFileName.Text;
-                CustomMessageBox.Show("New File added", this);
-                DialogResult = true;
-            }
-            else
-            {
-                itemToChange.Title = TextBoxFileName.Text;
-                CustomMessageBox.Show("File changed", this);
-                DialogResult = true;
+                if (isPressedAdd)
+                {
+                    itemToAdd.Title = TextBoxFileName.Text;
+                    DialogResult = true;
+                }
+                else
+                {
+                    itemToChange.Title = TextBoxFileName.Text;
+                    CustomMessageBox.Show($"'{TextBoxFileName.Text}' has been changed", this);
+                    DialogResult = true;
+                }
             }
         }
 
@@ -170,6 +178,14 @@ namespace Bibliothicc
             {
                 LabelThumbnail.Text = openFileDialog.FileName;
                 itemToAdd.CoverUrl = LabelThumbnail.Text;
+            }
+        }
+
+        private void TextBoxFileName_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (!string.IsNullOrWhiteSpace(TextBoxFileName.Text))
+            {
+                TextBoxFileName.BorderBrush = (Brush)Application.Current.Resources["BorderBrush2"];
             }
         }
     }

@@ -9,7 +9,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace Bibliothicc
 {
@@ -27,9 +26,9 @@ namespace Bibliothicc
 
         private void ButtonAdd_Click(object sender, RoutedEventArgs e)
         {
-            if (TextBoxLibName.Text == string.Empty)
+            if (string.IsNullOrWhiteSpace(TextBoxLibName.Text))
             {
-                CustomMessageBox.Show("Please choose a name for you're Library", this, "⚠️");
+                TextBoxLibName.BorderBrush = (Brush)Application.Current.Resources["DangerBrush"];
             }
             else
             {
@@ -55,6 +54,14 @@ namespace Bibliothicc
                 }
                 DialogResult = true;
                 this.Close();
+            }
+        }
+
+        private void TextBoxLibName_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (!string.IsNullOrWhiteSpace(TextBoxLibName.Text))
+            {
+                TextBoxLibName.BorderBrush = (Brush)Application.Current.Resources["BorderBrush2"];
             }
         }
     }

@@ -258,7 +258,7 @@
                                     </ToggleButton.Template>
                                 </ToggleButton>
 
-                                <TextBlock Grid.Column="1" Text="⌄"
+                                <TextBlock Grid.Column="1" Text="⇋"
                                    FontSize="14" VerticalAlignment="Center"
                                    HorizontalAlignment="Center"
                                    IsHitTestVisible="False"

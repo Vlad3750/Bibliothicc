@@ -47,7 +47,7 @@
                 <TextBlock Text="Display Name" FontSize="12" FontWeight="SemiBold"
                            Foreground="{DynamicResource TextSecondaryBrush}" Margin="0,0,0,6"/>
                 <TextBox x:Name="TextBoxFileName" Style="{DynamicResource ModernTextBox}"
-                         Height="36" Margin="0,0,0,14" Padding="4" FontSize="12"/>
+                         Height="36" Margin="0,0,0,14" Padding="4" FontSize="12" TextChanged="TextBoxFileName_TextChanged"/>
 
                 <!-- Thumbnail -->
                 <TextBlock x:Name="LabelThumbnail" Text="Thumbnail"

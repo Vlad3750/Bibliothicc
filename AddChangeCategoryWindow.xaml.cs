@@ -38,7 +38,7 @@ namespace Bibliothicc
         {
             if (string.IsNullOrWhiteSpace(TextBoxAddChangeCategory.Text))
             {
-                CustomMessageBox.Show("Please enter a name", this, "⚠️");
+                TextBoxAddChangeCategory.BorderBrush = (Brush)Application.Current.Resources["DangerBrush"];
                 return;
             }
 
@@ -54,6 +54,14 @@ namespace Bibliothicc
                 CustomMessageBox.Show("Category Changed", this);
             }
             DialogResult = true;
+        }
+
+        private void TextBoxAddChangeCategory_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (!string.IsNullOrWhiteSpace(TextBoxAddChangeCategory.Text))
+            {
+                TextBoxAddChangeCategory.BorderBrush = (Brush)Application.Current.Resources["BorderBrush2"];
+            }
         }
     }
 }

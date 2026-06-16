@@ -75,21 +75,23 @@ namespace Bibliothicc
                 }
             }
 
-            if (TextBoxUserName.Text == string.Empty)
+            if (string.IsNullOrWhiteSpace(TextBoxUserName.Text))
             {
-                CustomMessageBox.Show("Username Required!", this, "⚠️");
+                TextBoxUserName.BorderBrush = (Brush)Application.Current.Resources["DangerBrush"];
+
             }
-            else if (PasswordBoxPasswd.Password == string.Empty)
+            else if (string.IsNullOrWhiteSpace(PasswordBoxPasswd.Password))
             {
-                CustomMessageBox.Show("Password Required!", this, "⚠️");
+                PasswordBoxPasswd.BorderBrush = (Brush)Application.Current.Resources["DangerBrush"];
             }
-            else if(PasswordBoxRepeatPasswd.Password == string.Empty)
+            else if(string.IsNullOrWhiteSpace(PasswordBoxRepeatPasswd.Password))
             {
-                CustomMessageBox.Show("Please repead your Password!", this, "⚠️");
+                PasswordBoxRepeatPasswd.BorderBrush = (Brush)Application.Current.Resources["DangerBrush"];
             }
             else if (PasswordBoxRepeatPasswd.Password != PasswordBoxPasswd.Password)
             {
-                CustomMessageBox.Show("Passwords don't align.", this, "⚠️");
+                PasswordBoxPasswd.BorderBrush = (Brush)Application.Current.Resources["DangerBrush"];
+                PasswordBoxRepeatPasswd.BorderBrush = (Brush)Application.Current.Resources["DangerBrush"];
             }
             else if (userAlreadyExists)
             {
@@ -135,11 +137,11 @@ namespace Bibliothicc
 
             if(TextBoxUserName.Text == string.Empty)
             {
-                CustomMessageBox.Show("Username Required!", this, "⚠️");
+                TextBoxUserName.BorderBrush = (Brush)Application.Current.Resources["DangerBrush"];
             }
             else if (PasswordBoxPasswd.Password == string.Empty)
             {
-                CustomMessageBox.Show("Password Required!", this, "⚠️");
+                PasswordBoxPasswd.BorderBrush = (Brush)Application.Current.Resources["DangerBrush"];
             }
             else if (!userPasswordAligns)
             {
@@ -151,6 +153,32 @@ namespace Bibliothicc
                 MainWindow window = new MainWindow(users, libs, LoginUser);
                 window.Show();
                 this.Close();
+            }
+        }
+
+        private void TextBoxUserName_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (!string.IsNullOrWhiteSpace(TextBoxUserName.Text))
+            {
+                TextBoxUserName.BorderBrush = (Brush)Application.Current.Resources["BorderBrush2"];
+            }
+        }
+
+        private void PasswordBoxPasswd_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            if (!string.IsNullOrWhiteSpace(PasswordBoxPasswd.Password))
+            {
+                PasswordBoxPasswd.BorderBrush = (Brush)Application.Current.Resources["BorderBrush2"];
+            }
+        }
+
+        private void PasswordBoxRepeatPasswd_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            PasswordBoxPasswd.BorderBrush = (Brush)Application.Current.Resources["BorderBrush2"];
+
+            if (!string.IsNullOrWhiteSpace(PasswordBoxRepeatPasswd.Password))
+            {
+                PasswordBoxRepeatPasswd.BorderBrush = (Brush)Application.Current.Resources["BorderBrush2"];
             }
         }
     }

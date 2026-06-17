@@ -7,14 +7,23 @@ namespace Bibliothicc.Services
 {
     public class LibraryServiceFake : ILibraryService
     {
+        private readonly List<User> _users;
         private readonly List<Library> _libraries;
         private readonly List<Category> _categories;
+        private int _nextUserId = 10;
         private int _nextMediaId = 10;
         private int _nextLibId = 10;
         private int _nextCategoryId = 10;
 
         public LibraryServiceFake()
         {
+            _users = new()
+            {
+                new User { UserID = 1, Username = "admin", passwordHash = "password1" },
+                new User { UserID = 2, Username = "talha",  passwordHash = "password2" },
+            };
+            _nextUserId = 3;
+
             var cat1 = new Category { CategoryID = 1, Name = "Nature" };
             var cat2 = new Category { CategoryID = 2, Name = "Travel" };
             _nextCategoryId = 3;
@@ -48,7 +57,19 @@ namespace Bibliothicc.Services
         }
 
         public Task<User?> Login(User user)
-            => Task.FromResult<User?>(new User { UserID = 1, Username = user.Username });
+        {
+            var match = _users.FirstOrDefault(u => u.Username == user.Username && u.passwordHash == user.passwordHash);
+            return Task.FromResult<User?>(match);
+        }
+
+        public Task<User?> Register(User user)
+        {
+            if (_users.Any(u => u.Username == user.Username))
+                return Task.FromResult<User?>(null);
+            user.UserID = _nextUserId++;
+            _users.Add(user);
+            return Task.FromResult<User?>(user);
+        }
 
         public Task<List<Library>> GetLibraries() => Task.FromResult(_libraries);
 

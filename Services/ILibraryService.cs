@@ -8,6 +8,7 @@ namespace Bibliothicc.Services
     {
         // User
         Task<User?> Login(User user);
+        Task<User?> Register(User user);
 
         // Library
         Task<List<Library>> GetLibraries();

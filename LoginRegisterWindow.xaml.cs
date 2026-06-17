@@ -1,185 +1,161 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq.Expressions;
-using System.Text;
+using Bibliothicc.Models;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using Bibliothicc.Models;
 
 namespace Bibliothicc
 {
-    /// <summary>
-    /// Interaktionslogik für LoginRegisterWindow.xaml
-    /// </summary>
     public partial class LoginRegisterWindow : Window
     {
         bool IsActiveLogin = true;
-        List<User> users = new List<User>();
-        List<Library> libs = new List<Library>();
-        User LoginUser = null;
 
-        public LoginRegisterWindow(List<User> users)
-        {
-            InitializeComponent();
-            this.users = users;
-        }
         public LoginRegisterWindow()
         {
             InitializeComponent();
         }
 
+        private void SwitchToLogin()
+        {
+            IsActiveLogin = true;
+            GridRepeatPasswd.Visibility = Visibility.Collapsed;
+            LabelLoginRegister.Text = "Welcome back";
+            ButtonLogin.IsDefault = true;
+            ButtonRegister.IsDefault = false;
+            ButtonLogin.Style = (Style)Application.Current.Resources["AccentButton"];
+            ButtonRegister.Style = (Style)Application.Current.Resources["GhostButton"];
+        }
+
+        private void SwitchToRegister()
+        {
+            IsActiveLogin = false;
+            GridRepeatPasswd.Visibility = Visibility.Visible;
+            LabelLoginRegister.Text = "Create account";
+            ButtonRegister.IsDefault = true;
+            ButtonLogin.IsDefault = false;
+            ButtonRegister.Style = (Style)Application.Current.Resources["AccentButton"];
+            ButtonLogin.Style = (Style)Application.Current.Resources["GhostButton"];
+        }
+
         private void ButtonLogin_Click(object sender, RoutedEventArgs e)
         {
             if (IsActiveLogin)
-            {
                 TryLogin();
-            }
             else
-            {
-                GridRepeatPasswd.Visibility = Visibility.Collapsed;
-                IsActiveLogin = true;
-                ButtonRegister.IsDefault = true;
-            }
+                SwitchToLogin();
         }
 
         private void ButtonRegister_Click(object sender, RoutedEventArgs e)
         {
             if (!IsActiveLogin)
-            {
                 TryRegister();
-            }
             else
-            {
-                GridRepeatPasswd.Visibility = Visibility.Visible;
-                IsActiveLogin = false;
-                ButtonLogin.IsDefault = true;
-            }
+                SwitchToRegister();
         }
 
-
-        private void TryRegister()
+        private async void TryLogin()
         {
-            bool userAlreadyExists = false;
-
-            foreach(User user in users)
-            {
-                if(TextBoxUserName.Text == user.Username)
-                {
-                    userAlreadyExists = true;
-                }
-            }
-
             if (string.IsNullOrWhiteSpace(TextBoxUserName.Text))
             {
                 TextBoxUserName.BorderBrush = (Brush)Application.Current.Resources["DangerBrush"];
+                return;
+            }
+            if (string.IsNullOrWhiteSpace(PasswordBoxPasswd.Password))
+            {
+                PasswordBoxPasswd.BorderBrush = (Brush)Application.Current.Resources["DangerBrush"];
+                return;
+            }
 
-            }
-            else if (string.IsNullOrWhiteSpace(PasswordBoxPasswd.Password))
+            Mouse.OverrideCursor = Cursors.Wait;
+            try
             {
-                PasswordBoxPasswd.BorderBrush = (Brush)Application.Current.Resources["DangerBrush"];
-            }
-            else if(string.IsNullOrWhiteSpace(PasswordBoxRepeatPasswd.Password))
-            {
-                PasswordBoxRepeatPasswd.BorderBrush = (Brush)Application.Current.Resources["DangerBrush"];
-            }
-            else if (PasswordBoxRepeatPasswd.Password != PasswordBoxPasswd.Password)
-            {
-                PasswordBoxPasswd.BorderBrush = (Brush)Application.Current.Resources["DangerBrush"];
-                PasswordBoxRepeatPasswd.BorderBrush = (Brush)Application.Current.Resources["DangerBrush"];
-            }
-            else if (userAlreadyExists)
-            {
-                CustomMessageBox.Show($"Username {TextBoxUserName.Text} already taken please choose another Name.", this);
-            }
-            else
-            {
-                User userToAdd = new User()
+                var user = await App.Service.Login(new User
                 {
                     Username = TextBoxUserName.Text,
-                    passwordHash = PasswordBoxPasswd.Password,
-                };
-                users.Add(userToAdd);
-                LoginUser = userToAdd;
-                CustomMessageBox.Show("You're now Registered", this);
+                    passwordHash = PasswordBoxPasswd.Password
+                });
 
-                MainWindow window = new MainWindow(users, libs, LoginUser);
+                if (user == null)
+                {
+                    CustomMessageBox.Show("Username or Password is incorrect!", this, "❌");
+                    return;
+                }
+
+                App.CurrentUser = user;
+                var window = new MainWindow(user);
                 window.Show();
                 this.Close();
+            }
+            finally
+            {
+                Mouse.OverrideCursor = null;
             }
         }
-        private void TryLogin()
+
+        private async void TryRegister()
         {
-            User existingUser = null;
-            bool userPasswordAligns = false;
-
-            foreach(User user in users)
-            {
-                if(TextBoxUserName.Text == user.Username)
-                {
-                    existingUser = user;
-                    break;
-                }
-            }
-            if (existingUser != null)
-            {
-                if(existingUser.passwordHash == PasswordBoxPasswd.Password)
-                {
-                    userPasswordAligns = true;
-                    LoginUser = existingUser;
-                }
-            }
-
-            if(TextBoxUserName.Text == string.Empty)
+            if (string.IsNullOrWhiteSpace(TextBoxUserName.Text))
             {
                 TextBoxUserName.BorderBrush = (Brush)Application.Current.Resources["DangerBrush"];
+                return;
             }
-            else if (PasswordBoxPasswd.Password == string.Empty)
+            if (string.IsNullOrWhiteSpace(PasswordBoxPasswd.Password))
             {
                 PasswordBoxPasswd.BorderBrush = (Brush)Application.Current.Resources["DangerBrush"];
+                return;
             }
-            else if (!userPasswordAligns)
+            if (PasswordBoxRepeatPasswd.Password != PasswordBoxPasswd.Password)
             {
-                CustomMessageBox.Show("Username or Password is false!", this, "❌");
+                PasswordBoxPasswd.BorderBrush = (Brush)Application.Current.Resources["DangerBrush"];
+                PasswordBoxRepeatPasswd.BorderBrush = (Brush)Application.Current.Resources["DangerBrush"];
+                CustomMessageBox.Show("Passwords do not match!", this, "❌");
+                return;
             }
-            else
+
+            Mouse.OverrideCursor = Cursors.Wait;
+            try
             {
-                CustomMessageBox.Show("Login successful", this);
-                MainWindow window = new MainWindow(users, libs, LoginUser);
+                var user = await App.Service.Register(new User
+                {
+                    Username = TextBoxUserName.Text,
+                    passwordHash = PasswordBoxPasswd.Password
+                });
+
+                if (user == null)
+                {
+                    CustomMessageBox.Show($"Username \"{TextBoxUserName.Text}\" is already taken.", this, "❌");
+                    return;
+                }
+
+                App.CurrentUser = user;
+                CustomMessageBox.Show("Registration successful!", this);
+                var window = new MainWindow(user);
                 window.Show();
                 this.Close();
+            }
+            finally
+            {
+                Mouse.OverrideCursor = null;
             }
         }
 
         private void TextBoxUserName_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (!string.IsNullOrWhiteSpace(TextBoxUserName.Text))
-            {
                 TextBoxUserName.BorderBrush = (Brush)Application.Current.Resources["BorderBrush2"];
-            }
         }
 
         private void PasswordBoxPasswd_PasswordChanged(object sender, RoutedEventArgs e)
         {
             if (!string.IsNullOrWhiteSpace(PasswordBoxPasswd.Password))
-            {
                 PasswordBoxPasswd.BorderBrush = (Brush)Application.Current.Resources["BorderBrush2"];
-            }
         }
 
         private void PasswordBoxRepeatPasswd_PasswordChanged(object sender, RoutedEventArgs e)
         {
             PasswordBoxPasswd.BorderBrush = (Brush)Application.Current.Resources["BorderBrush2"];
-
             if (!string.IsNullOrWhiteSpace(PasswordBoxRepeatPasswd.Password))
-            {
                 PasswordBoxRepeatPasswd.BorderBrush = (Brush)Application.Current.Resources["BorderBrush2"];
-            }
         }
     }
 }

@@ -1,17 +1,14 @@
-﻿using Bibliothicc.Services;
-using System.Configuration;
-using System.Data;
+using Bibliothicc.Models;
+using Bibliothicc.Services;
 using System.Net.Http;
 using System.Windows;
 
 namespace Bibliothicc
 {
-    /// <summary>
-    /// Interaction logic for App.xaml
-    /// </summary>
     public partial class App : Application
     {
         public static ILibraryService Service { get; private set; }
+        public static User? CurrentUser { get; set; }
 
         protected override void OnStartup(StartupEventArgs e)
         {
@@ -20,5 +17,4 @@ namespace Bibliothicc
             Service = new LibraryServiceRest(client);
         }
     }
-
 }

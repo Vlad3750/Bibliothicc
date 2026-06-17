@@ -18,20 +18,39 @@ namespace Bibliothicc.Services
             _client = client;
         }
 
-        public Task<User?> Login(User user)
+        public async Task<User?> Login(User user)
         {
-            // TODO: implement when backend login endpoint is added
-            return Task.FromResult<User?>(null);
+            var result = await _client.PostAsJsonAsync("user/login", new
+            {
+                name = user.Username,
+                password = user.passwordHash
+            });
+            if (!result.IsSuccessStatusCode) return null;
+            var loggedIn = await result.Content.ReadFromJsonAsync<User>();
+            if (loggedIn != null) CurrentUserId = loggedIn.UserID;
+            return loggedIn;
+        }
+
+        public async Task<User?> Register(User user)
+        {
+            var result = await _client.PostAsJsonAsync("user/", new
+            {
+                name = user.Username,
+                password = user.passwordHash
+            });
+            if (result.StatusCode == System.Net.HttpStatusCode.Conflict) return null;
+            result.EnsureSuccessStatusCode();
+            return await result.Content.ReadFromJsonAsync<User>();
         }
 
         public async Task<List<Library>> GetLibraries()
         {
-            return await _client.GetFromJsonAsync<List<Library>>("library/") ?? new();
+            return await _client.GetFromJsonAsync<List<Library>>($"library/users/{CurrentUserId}/libraries/") ?? new();
         }
 
         public async Task<Library> CreateLibrary(Library library)
         {
-            var result = await _client.PostAsJsonAsync("library/", new
+            var result = await _client.PostAsJsonAsync($"library/users/{CurrentUserId}/libraries/", new
             {
                 name = library.Name,
                 fileType = library.FileType,

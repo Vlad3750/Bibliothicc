@@ -22,30 +22,51 @@ namespace Bibliothicc
         bool isLightModeOn = true;
 
         public List<Library> libs;
-        List<User> users;
 
         Library currentLib;
         User currentUser;
 
 
-        public MainWindow(List<User> users, List<Library> libs, User loggedUser)
+        public MainWindow(User loggedUser)
         {
             InitializeComponent();
 
-            this.users = users;
-            this.libs = libs;
+            this.libs = new List<Library>();
             this.currentUser = loggedUser;
             LabelUserName.Content = loggedUser.Username;
 
-            if(libs.Count != 0)
+            Loaded += async (_, __) =>
             {
-                currentLib = libs[0];
-            }
-
-            if (ListViewLibraries.Items.Count == 0)
-            {
-                ButtonAddLib_Click(ButtonAddLib, new RoutedEventArgs());
-            }
+                Mouse.OverrideCursor = Cursors.Wait;
+                try
+                {
+                    libs = await App.Service.GetLibraries();
+                    foreach (var lib in libs)
+                    {
+                        lib.mediaCollection = await App.Service.GetMedias(lib.LibraryID);
+                        var item = new ListViewItem { Content = lib.Name };
+                        item.Style = (Style)Application.Current.Resources["ModernListViewItem"];
+                        ListViewLibraries.Items.Add(item);
+                    }
+                    if (libs.Count > 0)
+                    {
+                        ListViewLibraries.SelectedIndex = 0;
+                    }
+                    else
+                    {
+                        ButtonAddLib_Click(ButtonAddLib, new RoutedEventArgs());
+                    }
+                }
+                catch
+                {
+                    if (ListViewLibraries.Items.Count == 0)
+                        ButtonAddLib_Click(ButtonAddLib, new RoutedEventArgs());
+                }
+                finally
+                {
+                    Mouse.OverrideCursor = null;
+                }
+            };
         }
 
         private void ButtonQuit_Click(object sender, RoutedEventArgs e)
@@ -103,7 +124,8 @@ namespace Bibliothicc
         private void ButtonLoginLogout_Click(object sender, RoutedEventArgs e)
         {
             LoggedOn = false;
-            LoginRegisterWindow window = new LoginRegisterWindow(users);
+            App.CurrentUser = null;
+            LoginRegisterWindow window = new LoginRegisterWindow();
             window.Show();
             Close();
         }

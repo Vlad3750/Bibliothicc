@@ -80,29 +80,7 @@
             <Border Background="{DynamicResource BgDeepBrush}" Padding="16">
                 <ListView x:Name="ListViewMedia"
                           Style="{DynamicResource ModernListView}"
-                          ItemContainerStyle="{DynamicResource ModernListViewItem}">
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <DockPanel Margin="0,2">
-                                <Button DockPanel.Dock="Right"
-                                        Style="{DynamicResource AccentButton}"
-                                        Width="30" Height="30" Padding="0"
-                                        Margin="8,0,0,0"
-                                        ToolTip="Open file"
-                                        Tag="{Binding}"
-                                        Click="ButtonOpenFile_Click">
-                                    <TextBlock Text="▶" FontSize="12"/>
-                                </Button>
-                                <StackPanel VerticalAlignment="Center">
-                                    <TextBlock Text="{Binding Title}" FontSize="13"
-                                               Foreground="{DynamicResource TextPrimaryBrush}"/>
-                                    <TextBlock Text="{Binding MimeType}" FontSize="10"
-                                               Foreground="{DynamicResource TextMutedBrush}"/>
-                                </StackPanel>
-                            </DockPanel>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
+                          ItemContainerStyle="{DynamicResource ModernListViewItem}"/>
             </Border>
         </DockPanel>
     </Grid>

@@ -5,6 +5,7 @@ using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace Bibliothicc
 {
@@ -43,11 +44,62 @@ namespace Bibliothicc
             TextBlockLibraryName.Text = lib.Name;
             TextBlockLibraryType.Text = lib.FileType;
 
+            string icon = lib.FileType switch
+            {
+                "Image" => "○",
+                "Text"  => "🗎",
+                _       => "▶"
+            };
+
             Mouse.OverrideCursor = Cursors.Wait;
             try
             {
                 var mediaList = await App.Service.GetMedias(lib.LibraryID);
-                ListViewMedia.ItemsSource = mediaList;
+                ListViewMedia.Items.Clear();
+
+                foreach (var media in mediaList)
+                {
+                    var btn = new Button
+                    {
+                        Style = (Style)Application.Current.Resources["AccentButton"],
+                        Width = 36, Height = 36, Padding = new Thickness(0),
+                        Margin = new Thickness(8, 0, 0, 0),
+                        ToolTip = "Open file",
+                        Tag = media,
+                        Content = new TextBlock { Text = icon, FontSize = 13 }
+                    };
+                    var cornerStyle = new Style(typeof(Border));
+                    cornerStyle.Setters.Add(new Setter(Border.CornerRadiusProperty, new CornerRadius(18)));
+                    btn.Resources[typeof(Border)] = cornerStyle;
+                    btn.Click += ButtonOpenFile_Click;
+
+                    var title = new TextBlock
+                    {
+                        Text = media.Title,
+                        FontSize = 13,
+                        Foreground = (Brush)Application.Current.Resources["TextPrimaryBrush"]
+                    };
+                    var mime = new TextBlock
+                    {
+                        Text = media.MimeType,
+                        FontSize = 10,
+                        Foreground = (Brush)Application.Current.Resources["TextMutedBrush"]
+                    };
+                    var stack = new StackPanel { VerticalAlignment = VerticalAlignment.Center };
+                    stack.Children.Add(title);
+                    stack.Children.Add(mime);
+
+                    var dock = new DockPanel { Margin = new Thickness(0, 2, 0, 2) };
+                    DockPanel.SetDock(btn, Dock.Right);
+                    dock.Children.Add(btn);
+                    dock.Children.Add(stack);
+
+                    ListViewMedia.Items.Add(new ListViewItem
+                    {
+                        Content = dock,
+                        Style = (Style)Application.Current.Resources["ModernListViewItem"]
+                    });
+                }
             }
             catch (System.Exception ex)
             {
@@ -63,10 +115,7 @@ namespace Bibliothicc
         {
             var lib = (Library)((Button)sender).Tag;
 
-            var dialog = new OpenFolderDialog
-            {
-                Title = $"Choose folder to save '{lib.Name}'"
-            };
+            var dialog = new OpenFolderDialog { Title = $"Choose folder to save '{lib.Name}'" };
             if (dialog.ShowDialog() != true) return;
             string folder = dialog.FolderName;
 
@@ -78,8 +127,7 @@ namespace Bibliothicc
                 {
                     if (string.IsNullOrEmpty(media.FileUrl)) continue;
                     var bytes = await App.Service.DownloadFile(media.FileUrl);
-                    var path = Path.Combine(folder, media.Name);
-                    await File.WriteAllBytesAsync(path, bytes);
+                    await File.WriteAllBytesAsync(Path.Combine(folder, media.Name), bytes);
                 }
                 CustomMessageBox.Show($"Downloaded {mediaList.Count} file(s) to:\n{folder}", this);
             }

@@ -55,8 +55,7 @@
                 </Button>
                 <Button x:Name="ButtonRegister" Style="{DynamicResource GhostButton}"
                         Height="36" Click="ButtonRegister_Click">
-                    <TextBlock Text="Create account" FontSize="13"
-                               Foreground="{DynamicResource AccentBrush}"/>
+                    <TextBlock Text="Create account" FontSize="13"/>
                 </Button>
             </StackPanel>
         </Border>

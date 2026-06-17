@@ -52,15 +52,9 @@ namespace Bibliothicc
                     {
                         ListViewLibraries.SelectedIndex = 0;
                     }
-                    else
-                    {
-                        ButtonAddLib_Click(ButtonAddLib, new RoutedEventArgs());
-                    }
                 }
                 catch
                 {
-                    if (ListViewLibraries.Items.Count == 0)
-                        ButtonAddLib_Click(ButtonAddLib, new RoutedEventArgs());
                 }
                 finally
                 {
@@ -76,6 +70,7 @@ namespace Bibliothicc
 
         private void ButtonAddFile_Click(object sender, RoutedEventArgs e)
         {
+            if (currentLib == null) { CustomMessageBox.Show("Please create a library first.", this, "⚠️"); return; }
             string LabelAddChange = "Add ";
             string LabelDataType = GetDataTypeLib() + ":";
             string ButtonContentAddChange = "Add";
@@ -92,6 +87,7 @@ namespace Bibliothicc
 
         private void ButtonChange_Click(object sender, RoutedEventArgs e)
         {
+            if (currentLib == null) { CustomMessageBox.Show("Please create a library first.", this, "⚠️"); return; }
             if (ListViewFiles.SelectedItem == null)
             {
                 CustomMessageBox.Show("Please select a file to change it", this);
@@ -118,6 +114,7 @@ namespace Bibliothicc
 
         private void ButtonDelete_Click(object sender, RoutedEventArgs e)
         {
+            if (currentLib == null) { CustomMessageBox.Show("Please create a library first.", this, "⚠️"); return; }
             DeleteSelectedFile();
         }
 
@@ -241,6 +238,7 @@ namespace Bibliothicc
 
         private void ListViewLibraries_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (ListViewLibraries.SelectedIndex < 0 || ListViewLibraries.SelectedIndex >= libs.Count) return;
             currentLib = libs[ListViewLibraries.SelectedIndex];
             TextBlockPublishLabel.Text = currentLib.IsPublic ? "Unpublish" : "Publish";
 
@@ -350,6 +348,7 @@ namespace Bibliothicc
 
         private async void ButtonSaveToServer_Click(object sender, RoutedEventArgs e)
         {
+            if (currentLib == null) { CustomMessageBox.Show("Please create a library first.", this, "⚠️"); return; }
             Mouse.OverrideCursor = Cursors.Wait;
             try
             {
@@ -384,6 +383,7 @@ namespace Bibliothicc
 
         private async void ButtonPublish_Click(object sender, RoutedEventArgs e)
         {
+            if (currentLib == null) { CustomMessageBox.Show("Please create a library first.", this, "⚠️"); return; }
             if (currentLib.LibraryID == 0)
             {
                 CustomMessageBox.Show("Save the library to the server first.", this, "⚠️");
@@ -414,6 +414,7 @@ namespace Bibliothicc
 
         private void ButtonPlay_Click(object sender, RoutedEventArgs e)
         {
+            if (currentLib == null) return;
             if (ListViewFiles.SelectedItem == null)
             {
                 if(currentLib.FileType == "Image")

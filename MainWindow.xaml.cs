@@ -145,7 +145,7 @@ namespace Bibliothicc
         {
             if(ListViewFiles.SelectedItem == null)
             {
-                CustomMessageBox.Show("Please Select a File to delete it", this);
+                CustomMessageBox.Show("Please select a file to delete it", this);
             }
             else
             {
@@ -222,19 +222,26 @@ namespace Bibliothicc
             currentLib = libs[ListViewLibraries.SelectedIndex];
             TextBlockPublishLabel.Text = currentLib.IsPublic ? "Unpublish" : "Publish";
 
-            if(currentLib.FileType == "Text" || currentLib.FileType == "Image")
+            if(currentLib.FileType == "Text")
             {
                 DockPanelCategory.Visibility = Visibility.Collapsed;
-                ButtonPlay.Visibility = Visibility.Hidden;
+                TextBlockPlay.Text = "🗎";
             }
-            if(currentLib.FileType == "Audio")
+            else if (currentLib.FileType == "Image")
             {
                 DockPanelCategory.Visibility = Visibility.Collapsed;
+                TextBlockPlay.Text = "○";
+            }
+            else if(currentLib.FileType == "Audio")
+            {
+                DockPanelCategory.Visibility = Visibility.Collapsed;
+                TextBlockPlay.Text = "▶";
             }
             else
             {
                 DockPanelCategory.Visibility = Visibility.Visible;
                 ButtonPlay.Visibility = Visibility.Visible;
+                TextBlockPlay.Text = "▶";
             }
 
             RefreshCategoryComboBox();
@@ -387,7 +394,18 @@ namespace Bibliothicc
         {
             if (ListViewFiles.SelectedItem == null)
             {
-                CustomMessageBox.Show("Please select a file to play", this, "⚠️");
+                if(currentLib.FileType == "Image")
+                {
+                    CustomMessageBox.Show("Please select a file to display", this, "⚠️");
+                }
+                else if(currentLib.FileType == "Text")
+                {
+                    CustomMessageBox.Show("Please select a file to view", this, "⚠️");
+                }
+                else
+                {
+                    CustomMessageBox.Show("Please select a file to play", this, "⚠️");
+                }
                 return;
             }
 

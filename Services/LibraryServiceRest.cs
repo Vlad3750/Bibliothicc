@@ -63,7 +63,7 @@ namespace Bibliothicc.Services
             using var form = new MultipartFormDataContent();
             var fileBytes = File.ReadAllBytes(file.FileUrl);
             form.Add(new ByteArrayContent(fileBytes), "file", file.Name);
-            var uploadResult = await _client.PostAsync("upload/", form);
+            var uploadResult = await _client.PostAsync("upload", form);
             uploadResult.EnsureSuccessStatusCode();
             var uploadResponse = await uploadResult.Content.ReadFromJsonAsync<UploadResponse>();
 

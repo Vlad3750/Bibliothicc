@@ -122,6 +122,7 @@ namespace Bibliothicc
                 {
                     itemToChange.Title = TextBoxFileName.Text;
                     itemToChange.CategoryList.Clear();
+                    itemToChange.FileUrl = LabelPath.Content.ToString();
                     foreach (CategoryItem ci in ListViewCategoriesToAdd.Items)
                     {
                         itemToChange.CategoryList.Add(new Category() { Name = ci.Name });
@@ -163,7 +164,7 @@ namespace Bibliothicc
                 {
                     string fileName = System.IO.Path.GetFileName(openFileDialog.FileName);
                     TextBoxFileName.Text = System.IO.Path.GetFileNameWithoutExtension(fileName);
-                    if (itemToChange != null)
+                    if (!isPressedAdd)
                     {
                         itemToChange.FileUrl = openFileDialog.FileName;
                         itemToChange.Name = fileName;

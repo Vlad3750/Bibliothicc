@@ -180,7 +180,7 @@
                                     <Setter Property="CornerRadius" Value="18"/>
                                 </Style>
                             </Button.Resources>
-                            <TextBlock Text="▶" FontSize="13"/>
+                            <TextBlock x:Name="TextBlockPlay" Text="▶" FontSize="13"/>
                         </Button>
                     </StackPanel>
 

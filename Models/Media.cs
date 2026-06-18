@@ -16,6 +16,8 @@ namespace Bibliothicc.Models
         public string CoverUrl { get; set; } = string.Empty;
         [JsonPropertyName("mediaURL")]
         public string FileUrl { get; set; } = string.Empty;
+        [JsonPropertyName("LastModified")]
+        public DateTime LastModified { get; set; } = DateTime.Now;
         [JsonPropertyName("mimeType")]
         public string MimeType { get; set; } = string.Empty;
         [JsonPropertyName("lib_id")]

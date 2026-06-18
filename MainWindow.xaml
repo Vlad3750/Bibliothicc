@@ -237,8 +237,26 @@
             <!-- File List -->
             <Border Background="{DynamicResource BgDeepBrush}" Padding="16">
                 <ListView x:Name="ListViewFiles"
-                          Style="{DynamicResource ModernListView}"
-                          ItemContainerStyle="{DynamicResource ModernListViewItem}"/>
+          Style="{DynamicResource ModernListView}"
+          ItemContainerStyle="{DynamicResource ModernListViewItem}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <DockPanel>
+                                <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Center">
+                                    <TextBlock Text="{Binding MimeType}"
+                                       FontSize="11" Foreground="{DynamicResource TextMutedBrush}"
+                                       VerticalAlignment="Center" Margin="0,0,16,0"/>
+                                    <TextBlock Text="{Binding LastModified, StringFormat='dd.MM.yyyy'}"
+                                       FontSize="11" Foreground="{DynamicResource TextMutedBrush}"
+                                       VerticalAlignment="Center"/>
+                                </StackPanel>
+                                <TextBlock Text="{Binding Title}"
+                                   FontSize="13" Foreground="{DynamicResource TextPrimaryBrush}"
+                                   VerticalAlignment="Center"/>
+                            </DockPanel>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
             </Border>
         </DockPanel>
     </Grid>

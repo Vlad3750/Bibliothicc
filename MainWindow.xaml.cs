@@ -310,20 +310,16 @@ namespace Bibliothicc
 
             foreach (Media media in currentLib.mediaCollection)
             {
-                // Suchfilter: Name enthält den Suchtext (case-insensitive)
                 bool matchesSearch = string.IsNullOrEmpty(searchText)
-                    || media.Title.Contains(searchText, StringComparison.OrdinalIgnoreCase);
+                    || media.Name.Contains(searchText, StringComparison.OrdinalIgnoreCase);
 
-                // Kategoriefilter
                 bool matchesCategory = categoryFilter == "All Categories"
                     || (media.CategoryList != null
                         && media.CategoryList.Any(c => c.Name == categoryFilter));
 
                 if (matchesSearch && matchesCategory)
                 {
-                    ListViewItem item = new ListViewItem();
-                    item.Content = media.Title;
-                    ListViewFiles.Items.Add(item);
+                    ListViewFiles.Items.Add(media);
                 }
             }
         }

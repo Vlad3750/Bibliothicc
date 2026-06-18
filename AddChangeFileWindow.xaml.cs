@@ -111,6 +111,7 @@ namespace Bibliothicc
                 if (isPressedAdd)
                 {
                     itemToAdd.Title = TextBoxFileName.Text;
+                    itemToAdd.LastModified = DateTime.Now; 
                     itemToAdd.CategoryList.Clear();
                     foreach (CategoryItem ci in ListViewCategoriesToAdd.Items)
                     {
@@ -121,6 +122,7 @@ namespace Bibliothicc
                 else
                 {
                     itemToChange.Title = TextBoxFileName.Text;
+                    itemToChange.LastModified = DateTime.Now;
                     itemToChange.CategoryList.Clear();
                     itemToChange.FileUrl = LabelPath.Content.ToString();
                     foreach (CategoryItem ci in ListViewCategoriesToAdd.Items)

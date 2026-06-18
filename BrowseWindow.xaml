@@ -33,6 +33,21 @@
                            Foreground="{DynamicResource TextMutedBrush}"
                            Margin="16,12,16,6"/>
 
+                
+                <Border x:Name="BorderAdminPanel" DockPanel.Dock="Top"
+                    Visibility="Collapsed"
+                    Background="{DynamicResource BgElevatedBrush}"
+                    BorderBrush="{DynamicResource DangerBrush}" BorderThickness="0,0,0,1"
+                    Padding="16,8">
+                    <StackPanel>
+                        <TextBlock Text="🛡 Admin View" FontSize="11" FontWeight="Bold"
+                            Foreground="{DynamicResource DangerBrush}" Margin="0,0,0,4"/>
+                        <TextBlock Text="Zeigt alle publizierten Libraries mit Besitzer"
+                           FontSize="10" Foreground="{DynamicResource TextMutedBrush}"
+                           TextWrapping="Wrap"/>
+                    </StackPanel>
+                </Border>
+
                 <ListView x:Name="ListViewPublicLibraries"
                           Style="{DynamicResource ModernListView}"
                           ItemContainerStyle="{DynamicResource ModernListViewItem}"
@@ -41,6 +56,15 @@
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <DockPanel Margin="0,2">
+                                <Button x:Name="ButtonUnpublish" DockPanel.Dock="Right"
+                                        Style="{DynamicResource DangerButton}"
+                                        Padding="6,3" Margin="6,0,0,0"
+                                        Visibility="Collapsed"
+                                        ToolTip="Unpublish this library"
+                                        Tag="{Binding}"
+                                        Click="ButtonUnpublish_Click">
+                                    <TextBlock Text="🚫" FontSize="11"/>
+                                </Button>
                                 <Button DockPanel.Dock="Right"
                                         Style="{DynamicResource GhostButton}"
                                         Padding="6,3" Margin="6,0,0,0"

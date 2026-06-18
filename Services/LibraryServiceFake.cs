@@ -14,12 +14,13 @@ namespace Bibliothicc.Services
         private int _nextMediaId = 10;
         private int _nextLibId = 10;
         private int _nextCategoryId = 10;
+        private readonly Dictionary<int, int> _libraryOwner = new();
 
         public LibraryServiceFake()
         {
             _users = new()
             {
-                new User { UserID = 1, Username = "admin", passwordHash = "password1" },
+                new User { UserID = 1, Username = "admin", passwordHash = "password1",  IsAdmin = true},
                 new User { UserID = 2, Username = "talha",  passwordHash = "password2" },
             };
             _nextUserId = 3;
@@ -51,6 +52,8 @@ namespace Bibliothicc.Services
                 new Library { LibraryID = 1, Name = "Photos", FileType = "Image", IsPublic = true,  mediaCollection = new() { media1, media2 } },
                 new Library { LibraryID = 2, Name = "Music",  FileType = "Audio", IsPublic = false, mediaCollection = new() { media3 } },
             };
+            _libraryOwner[1] = 2; // Photos gehört talha
+            _libraryOwner[2] = 2; // Music gehört talha
             _nextLibId = 3;
 
             _categories = new() { cat1, cat2 };
@@ -78,7 +81,29 @@ namespace Bibliothicc.Services
             library.LibraryID = _nextLibId++;
             library.mediaCollection ??= new();
             _libraries.Add(library);
+            _libraryOwner[library.LibraryID] = App.CurrentUser?.UserID ?? 0;
             return Task.FromResult(library);
+        }
+
+        public Task<List<(Library lib, string ownerName)>> GetAllLibrariesWithOwner()
+        {
+            var result = _libraries
+                .Where(l => l.IsPublic)
+                .Select(l =>
+                {
+                    _libraryOwner.TryGetValue(l.LibraryID, out int ownerId);
+                    var owner = _users.FirstOrDefault(u => u.UserID == ownerId);
+                    return (l, owner?.Username ?? "Unknown");
+                })
+                .ToList();
+            return Task.FromResult(result);
+        }
+
+        public Task AdminUnpublishLibrary(int libraryId)
+        {
+            var lib = _libraries.FirstOrDefault(l => l.LibraryID == libraryId);
+            if (lib != null) lib.IsPublic = false;
+            return Task.CompletedTask;
         }
 
         public Task DeleteLibrary(int libraryId)

@@ -565,7 +565,7 @@ namespace Bibliothicc
 
         private void ButtonBrowse_Click(object sender, RoutedEventArgs e)
         {
-            BrowseWindow window = new BrowseWindow();
+            BrowseWindow window = new BrowseWindow(currentUser.IsAdmin);
             window.ShowDialog();
         }
 

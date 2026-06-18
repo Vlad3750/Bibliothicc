@@ -9,13 +9,29 @@ using System.Windows.Media;
 
 namespace Bibliothicc
 {
+    // Wrapper für Admin-Ansicht: Library + Besitzer-Name
+    public class PublicLibraryEntry
+    {
+        public Library Library { get; set; }
+        public string OwnerName { get; set; }
+        public string DisplayName => $"{Library.Name}";
+        public string FileType => Library.FileType;
+        public string Name => Library.Name;
+    }
+
     public partial class BrowseWindow : Window
     {
-        private List<Library> _publicLibraries = new();
+        private bool _isAdmin;
+        private List<PublicLibraryEntry> _entries = new();
 
-        public BrowseWindow()
+        public BrowseWindow(bool isAdmin = false)
         {
             InitializeComponent();
+            _isAdmin = isAdmin;
+
+            if (_isAdmin)
+                BorderAdminPanel.Visibility = Visibility.Visible;
+
             Loaded += BrowseWindow_Loaded;
         }
 
@@ -24,8 +40,29 @@ namespace Bibliothicc
             Mouse.OverrideCursor = Cursors.Wait;
             try
             {
-                _publicLibraries = await App.Service.GetPublicLibraries();
-                ListViewPublicLibraries.ItemsSource = _publicLibraries;
+                if (_isAdmin)
+                {
+                    // Admin sieht alle public Libraries mit Owner
+                    var withOwners = await App.Service.GetAllLibrariesWithOwner();
+                    _entries = withOwners.Select(x => new PublicLibraryEntry
+                    {
+                        Library = x.lib,
+                        OwnerName = x.ownerName
+                    }).ToList();
+                }
+                else
+                {
+                    // Normaler User sieht nur public Libraries
+                    var libs = await App.Service.GetPublicLibraries();
+                    _entries = libs.Select(l => new PublicLibraryEntry
+                    {
+                        Library = l,
+                        OwnerName = ""
+                    }).ToList();
+                }
+
+                ListViewPublicLibraries.ItemsSource = null;
+                ListViewPublicLibraries.ItemsSource = _entries;
             }
             catch (System.Exception ex)
             {
@@ -39,16 +76,20 @@ namespace Bibliothicc
 
         private async void ListViewPublicLibraries_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (ListViewPublicLibraries.SelectedItem is not Library lib) return;
+            if (ListViewPublicLibraries.SelectedItem is not PublicLibraryEntry entry) return;
+            var lib = entry.Library;
 
             TextBlockLibraryName.Text = lib.Name;
-            TextBlockLibraryType.Text = lib.FileType;
+            // Admin sieht Owner-Info im Header
+            TextBlockLibraryType.Text = _isAdmin
+                ? $"{lib.FileType}  ·  👤 {entry.OwnerName}"
+                : lib.FileType;
 
             string icon = lib.FileType switch
             {
                 "Image" => "○",
-                "Text"  => "🗎",
-                _       => "▶"
+                "Text" => "🗎",
+                _ => "▶"
             };
 
             Mouse.OverrideCursor = Cursors.Wait;
@@ -62,7 +103,9 @@ namespace Bibliothicc
                     var btn = new Button
                     {
                         Style = (Style)Application.Current.Resources["AccentButton"],
-                        Width = 36, Height = 36, Padding = new Thickness(0),
+                        Width = 36,
+                        Height = 36,
+                        Padding = new Thickness(0),
                         Margin = new Thickness(8, 0, 0, 0),
                         ToolTip = "Open file",
                         Tag = media,
@@ -111,9 +154,43 @@ namespace Bibliothicc
             }
         }
 
+        private async void ButtonUnpublish_Click(object sender, RoutedEventArgs e)
+        {
+            if (!_isAdmin) return;
+            var entry = (PublicLibraryEntry)((Button)sender).Tag;
+            var lib = entry.Library;
+
+            bool confirm = CustomMessageBox.ShowConfirm(
+                $"Unpublish \"{lib.Name}\" von {entry.OwnerName}?\nDie Library wird aus dem öffentlichen Browse entfernt.",
+                this);
+            if (!confirm) return;
+
+            Mouse.OverrideCursor = Cursors.Wait;
+            try
+            {
+                await App.Service.AdminUnpublishLibrary(lib.LibraryID);
+                _entries.Remove(entry);
+                ListViewPublicLibraries.ItemsSource = null;
+                ListViewPublicLibraries.ItemsSource = _entries;
+                ListViewMedia.Items.Clear();
+                TextBlockLibraryName.Text = "Select a library";
+                TextBlockLibraryType.Text = "";
+                CustomMessageBox.Show($"\"{lib.Name}\" wurde unpublished.", this);
+            }
+            catch (System.Exception ex)
+            {
+                CustomMessageBox.Show($"Failed: {ex.Message}", this, "❌");
+            }
+            finally
+            {
+                Mouse.OverrideCursor = null;
+            }
+        }
+
         private async void ButtonDownloadLibrary_Click(object sender, RoutedEventArgs e)
         {
-            var lib = (Library)((Button)sender).Tag;
+            var entry = (PublicLibraryEntry)((Button)sender).Tag;
+            var lib = entry.Library;
 
             var dialog = new OpenFolderDialog { Title = $"Choose folder to save '{lib.Name}'" };
             if (dialog.ShowDialog() != true) return;
@@ -144,14 +221,12 @@ namespace Bibliothicc
         private async void ButtonOpenFile_Click(object sender, RoutedEventArgs e)
         {
             var media = (Media)((Button)sender).Tag;
-
             Mouse.OverrideCursor = Cursors.Wait;
             try
             {
                 var bytes = await App.Service.DownloadFile(media.FileUrl);
                 var tempPath = Path.Combine(Path.GetTempPath(), media.Name);
                 await File.WriteAllBytesAsync(tempPath, bytes);
-
                 System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
                 {
                     FileName = tempPath,

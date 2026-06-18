@@ -106,6 +106,21 @@ namespace Bibliothicc.Services
             return await _client.GetFromJsonAsync<List<Library>>("library/public") ?? new();
         }
 
+        public async Task<List<(Library lib, string ownerName)>> GetAllLibrariesWithOwner()
+        {
+            // Backend gibt eine Liste von {library, ownerName} zurück
+            var result = await _client.GetFromJsonAsync<List<LibraryWithOwner>>("library/admin/all") ?? new();
+            return result.Select(x => (x.Library, x.OwnerName)).ToList();
+        }
+
+        public async Task AdminUnpublishLibrary(int libraryId)
+        {
+            Logger.Info($"Admin unpublishing library ID={libraryId}");
+            var result = await _client.PutAsJsonAsync($"library/{libraryId}", new { isPublic = false });
+            result.EnsureSuccessStatusCode();
+            Logger.Info($"Library ID={libraryId} unpublished by admin");
+        }
+
         public async Task<List<Media>> GetMedias(int libraryId)
         {
             Logger.Info($"Loading media for library ID={libraryId}");
@@ -190,4 +205,5 @@ namespace Bibliothicc.Services
     }
 
     internal record UploadResponse(string url);
+    internal record LibraryWithOwner(Library Library, string OwnerName);
 }

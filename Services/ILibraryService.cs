@@ -11,7 +11,13 @@ namespace Bibliothicc.Services
         Task<User?> Register(User user);
 
         // Library
+
+        // Admin methods
+        Task<List<(Library lib, string ownerName)>> GetAllLibrariesWithOwner();
+        Task AdminUnpublishLibrary(int libraryId);
+
         Task<List<Library>> GetLibraries();
+
         Task<Library> CreateLibrary(Library library);
         Task DeleteLibrary(int libraryId);
         Task PublishLibrary(int libraryId, bool isPublic);

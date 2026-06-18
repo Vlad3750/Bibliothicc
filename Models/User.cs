@@ -10,6 +10,7 @@ namespace Bibliothicc.Models
         [JsonPropertyName("name")]
         public string Username { get; set; } = string.Empty;
         public string passwordHash { get; set; } = string.Empty;
+        [JsonPropertyName("isAdmin")]
         public bool IsAdmin { get; set; }
         [JsonIgnore]
         public List<Category> SystemCategories { get; set; } = new();

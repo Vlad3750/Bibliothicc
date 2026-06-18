@@ -40,7 +40,9 @@ namespace Bibliothicc.Services
             });
             if (result.StatusCode == System.Net.HttpStatusCode.Conflict) return null;
             result.EnsureSuccessStatusCode();
-            return await result.Content.ReadFromJsonAsync<User>();
+            var registered = await result.Content.ReadFromJsonAsync<User>();
+            if (registered != null) CurrentUserId = registered.UserID;
+            return registered;
         }
 
         public async Task<List<Library>> GetLibraries()
@@ -58,6 +60,12 @@ namespace Bibliothicc.Services
             });
             result.EnsureSuccessStatusCode();
             return await result.Content.ReadFromJsonAsync<Library>() ?? library;
+        }
+
+        public async Task DeleteLibrary(int libraryId)
+        {
+            var result = await _client.DeleteAsync($"library/{libraryId}");
+            result.EnsureSuccessStatusCode();
         }
 
         public async Task PublishLibrary(int libraryId, bool isPublic)

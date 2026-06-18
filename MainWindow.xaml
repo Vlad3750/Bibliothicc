@@ -249,7 +249,8 @@
                     <ListView x:Name="ListViewFiles"
                               Style="{DynamicResource ModernListView}"
                               ItemContainerStyle="{DynamicResource ModernListViewItem}"
-                              MouseLeftButtonUp="ListViewFiles_MouseLeftButtonUp"/>
+                              MouseLeftButtonUp="ListViewFiles_MouseLeftButtonUp">
+                    </ListView>
                     <!-- Grid View -->
                     <ScrollViewer x:Name="ScrollViewerGrid" Visibility="Collapsed"
                                   HorizontalScrollBarVisibility="Disabled"

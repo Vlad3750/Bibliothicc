@@ -324,8 +324,7 @@ namespace Bibliothicc
 
                 if (matchesSearch && matchesCategory)
                 {
-                    var item = new ListViewItem { Content = media.Title };
-                    ListViewFiles.Items.Add(item);
+                    ListViewFiles.Items.Add(media);
                     WrapPanelGrid.Children.Add(CreateGridCard(media));
                 }
             }

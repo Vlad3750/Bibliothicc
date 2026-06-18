@@ -1,4 +1,5 @@
 ﻿using Bibliothicc.Models;
+using Bibliothicc.Services;
 using System.Drawing;
 using System.Text;
 using System.Windows;
@@ -55,6 +56,7 @@ namespace Bibliothicc
                 }
                 catch (System.Exception ex)
                 {
+                    Logger.Error("Failed to load libraries/media", ex);
                     CustomMessageBox.Show($"Load error: {ex.Message}", this, "❌");
                 }
                 finally
@@ -98,6 +100,7 @@ namespace Bibliothicc
                 }
                 catch (System.Exception ex)
                 {
+                    Logger.Error("Failed to add media", ex);
                     CustomMessageBox.Show($"Save failed: {ex.Message}", this, "❌");
                 }
                 finally
@@ -134,6 +137,7 @@ namespace Bibliothicc
                 }
                 catch (System.Exception ex)
                 {
+                    Logger.Error("Failed to update media", ex);
                     CustomMessageBox.Show($"Save failed: {ex.Message}", this, "❌");
                 }
                 finally
@@ -162,6 +166,7 @@ namespace Bibliothicc
             }
             catch (System.Exception ex)
             {
+                Logger.Error("Failed to delete media", ex);
                 CustomMessageBox.Show($"Delete failed: {ex.Message}", this, "❌");
             }
             finally
@@ -203,6 +208,7 @@ namespace Bibliothicc
                 }
                 catch (System.Exception ex)
                 {
+                    Logger.Error("Failed to create library", ex);
                     CustomMessageBox.Show($"Save failed: {ex.Message}", this, "❌");
                 }
                 finally
@@ -548,6 +554,7 @@ namespace Bibliothicc
             }
             catch (System.Exception ex)
             {
+                Logger.Error("Failed to delete library", ex);
                 CustomMessageBox.Show($"Delete failed: {ex.Message}", this, "❌");
             }
             finally
@@ -578,6 +585,7 @@ namespace Bibliothicc
             {
                 currentLib.IsPublic = !currentLib.IsPublic;
                 Mouse.OverrideCursor = null;
+                Logger.Error($"Failed to publish library ID={currentLib.LibraryID}", ex);
                 CustomMessageBox.Show($"Failed: {ex.Message}", this, "❌");
                 return;
             }
@@ -626,6 +634,7 @@ namespace Bibliothicc
                 catch (System.Exception ex)
                 {
                     Mouse.OverrideCursor = null;
+                    Logger.Error($"Failed to download file '{selectedMedia.Name}'", ex);
                     CustomMessageBox.Show($"Download failed: {ex.Message}", this, "❌");
                     return;
                 }

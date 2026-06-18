@@ -1,4 +1,5 @@
 using Bibliothicc.Models;
+using Bibliothicc.Services;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -77,10 +78,12 @@ namespace Bibliothicc
 
                 if (user == null)
                 {
+                    Logger.Warn($"Login failed: wrong credentials for '{TextBoxUserName.Text}'");
                     CustomMessageBox.Show("Username or Password is incorrect!", this, "❌");
                     return;
                 }
 
+                Logger.Info($"User '{user.Username}' logged in");
                 App.CurrentUser = user;
                 var window = new MainWindow(user);
                 window.Show();
@@ -123,10 +126,12 @@ namespace Bibliothicc
 
                 if (user == null)
                 {
+                    Logger.Warn($"Register failed: username '{TextBoxUserName.Text}' already taken");
                     CustomMessageBox.Show($"Username \"{TextBoxUserName.Text}\" is already taken.", this, "❌");
                     return;
                 }
 
+                Logger.Info($"User '{user.Username}' registered successfully");
                 App.CurrentUser = user;
                 CustomMessageBox.Show("Registration successful!", this);
                 var window = new MainWindow(user);

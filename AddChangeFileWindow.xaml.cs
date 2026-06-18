@@ -62,7 +62,7 @@ namespace Bibliothicc
                 DockPanelCategory.Visibility = Visibility.Collapsed;
 
                 ButtonFileOpenerThumbnail.Visibility = Visibility.Hidden;
-                filtersForFiles = "JPG (*.jpeg, *.jpg)|*.jpeg;*.jpg |PNG (*.png)|*.png |WEBP (*.webp)|*.webp";
+                filtersForFiles = "JPG (*.jpeg, *.jpg)|*.jpeg;*.jpg|PNG (*.png)|*.png|WEBP (*.webp)|*.webp";
             }
             else if(filters == "Audio")
             {
@@ -124,12 +124,13 @@ namespace Bibliothicc
                     itemToChange.Title = TextBoxFileName.Text;
                     itemToChange.LastModified = DateTime.Now;
                     itemToChange.CategoryList.Clear();
-                    itemToChange.FileUrl = LabelPath.Content.ToString();
+                    itemToChange.FileUrl = LabelPath.Content?.ToString() ?? itemToChange.FileUrl;
+                    if (LabelShowcaseThumbnail.Content is string cover && !string.IsNullOrEmpty(cover))
+                        itemToChange.CoverUrl = cover;
                     foreach (CategoryItem ci in ListViewCategoriesToAdd.Items)
                     {
                         itemToChange.CategoryList.Add(new Category() { Name = ci.Name });
                     }
-                    CustomMessageBox.Show($"'{TextBoxFileName.Text}' has been changed", this);
                     DialogResult = true;
                 }
             }
@@ -160,7 +161,8 @@ namespace Bibliothicc
                 if (getFilters == "Image")
                 {
                     LabelShowcaseThumbnail.Content = openFileDialog.FileName;
-                    itemToAdd.CoverUrl = LabelShowcaseThumbnail.Content.ToString();
+                    if (isPressedAdd) itemToAdd.CoverUrl = openFileDialog.FileName;
+                    else itemToChange.CoverUrl = openFileDialog.FileName;
                 }
 
                 if (TextBoxFileName.Text == string.Empty)
@@ -187,11 +189,12 @@ namespace Bibliothicc
         private void ButtonFileOpenerThumbnail_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "(*.jpeg, *.jpg)|*.jpeg;*.jpg | (*.png)|*.png";
+            openFileDialog.Filter = "JPG (*.jpeg, *.jpg)|*.jpeg;*.jpg|PNG (*.png)|*.png|WEBP (*.webp)|*.webp";
             if (openFileDialog.ShowDialog() == true)
             {
                 LabelShowcaseThumbnail.Content = openFileDialog.FileName;
-                itemToAdd.CoverUrl = LabelShowcaseThumbnail.Content.ToString();
+                if (isPressedAdd) itemToAdd.CoverUrl = openFileDialog.FileName;
+                else itemToChange.CoverUrl = openFileDialog.FileName;
             }
         }
 

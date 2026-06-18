@@ -91,6 +91,9 @@
                                     <TextBlock Text="✕" FontSize="10"
                                                Foreground="{DynamicResource DangerBrush}"/>
                                 </Button>
+                                <TextBlock Text="🌐" FontSize="10"
+                                           VerticalAlignment="Center" Margin="0,0,5,0"
+                                           Visibility="{Binding IsPublic, Converter={StaticResource BoolToVisibilityConverter}}"/>
                                 <TextBlock Text="{Binding Name}"
                                            VerticalAlignment="Center"
                                            Foreground="{DynamicResource TextPrimaryBrush}"
@@ -187,6 +190,11 @@
                                 <TextBlock Text="Browse" VerticalAlignment="Center"/>
                             </StackPanel>
                         </Button>
+                        <Button x:Name="ButtonToggleView" Style="{DynamicResource GhostButton}"
+                                Width="36" Height="36" Padding="0" Margin="0,0,8,0"
+                                ToolTip="Toggle view" Click="ButtonToggleView_Click">
+                            <TextBlock x:Name="TextBlockToggleView" Text="⊞" FontSize="16"/>
+                        </Button>
 
                         <Button x:Name="ButtonPlay" Style="{DynamicResource AccentButton}"
                                 Width="36" Height="36" Padding="0"
@@ -234,29 +242,23 @@
                 </DockPanel>
             </Border>
 
-            <!-- File List -->
+            <!-- File List / Grid -->
             <Border Background="{DynamicResource BgDeepBrush}" Padding="16">
-                <ListView x:Name="ListViewFiles"
-          Style="{DynamicResource ModernListView}"
-          ItemContainerStyle="{DynamicResource ModernListViewItem}">
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <DockPanel>
-                                <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Center">
-                                    <TextBlock Text="{Binding MimeType}"
-                                       FontSize="11" Foreground="{DynamicResource TextMutedBrush}"
-                                       VerticalAlignment="Center" Margin="0,0,16,0"/>
-                                    <TextBlock Text="{Binding LastModified, StringFormat='dd.MM.yyyy'}"
-                                       FontSize="11" Foreground="{DynamicResource TextMutedBrush}"
-                                       VerticalAlignment="Center"/>
-                                </StackPanel>
-                                <TextBlock Text="{Binding Title}"
-                                   FontSize="13" Foreground="{DynamicResource TextPrimaryBrush}"
-                                   VerticalAlignment="Center"/>
-                            </DockPanel>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
+                <Grid>
+                    <!-- List View -->
+                    <ListView x:Name="ListViewFiles"
+                              Style="{DynamicResource ModernListView}"
+                              ItemContainerStyle="{DynamicResource ModernListViewItem}"
+                              MouseLeftButtonUp="ListViewFiles_MouseLeftButtonUp"/>
+                    <!-- Grid View -->
+                    <ScrollViewer x:Name="ScrollViewerGrid" Visibility="Collapsed"
+                                  HorizontalScrollBarVisibility="Disabled"
+                                  VerticalScrollBarVisibility="Auto"
+                                  MouseLeftButtonUp="WrapPanelGrid_MouseLeftButtonUp">
+                        <WrapPanel x:Name="WrapPanelGrid" Orientation="Horizontal"
+                                   Background="Transparent"/>
+                    </ScrollViewer>
+                </Grid>
             </Border>
         </DockPanel>
     </Grid>

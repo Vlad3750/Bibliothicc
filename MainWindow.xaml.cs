@@ -20,6 +20,8 @@ namespace Bibliothicc
     {
         bool LoggedOn = false;
         bool isLightModeOn = true;
+        bool isGridView = false;
+        System.Windows.Controls.Border? _selectedCard = null;
 
         public List<Library> libs;
 
@@ -264,6 +266,7 @@ namespace Bibliothicc
                 RenderOptions.SetBitmapScalingMode(img, BitmapScalingMode.HighQuality);
                 ButtonLoginLogout.Content = img;
             }
+
         }
 
         private void ListViewLibraries_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -307,11 +310,13 @@ namespace Bibliothicc
         private void RefreshFileList(string searchText = "", string categoryFilter = "All Categories")
         {
             ListViewFiles.Items.Clear();
+            WrapPanelGrid.Children.Clear();
+            _selectedCard = null;
 
             foreach (Media media in currentLib.mediaCollection)
             {
                 bool matchesSearch = string.IsNullOrEmpty(searchText)
-                    || media.Name.Contains(searchText, StringComparison.OrdinalIgnoreCase);
+                    || media.Title.Contains(searchText, StringComparison.OrdinalIgnoreCase);
 
                 bool matchesCategory = categoryFilter == "All Categories"
                     || (media.CategoryList != null
@@ -319,8 +324,155 @@ namespace Bibliothicc
 
                 if (matchesSearch && matchesCategory)
                 {
-                    ListViewFiles.Items.Add(media);
+                    var item = new ListViewItem { Content = media.Title };
+                    ListViewFiles.Items.Add(item);
+                    WrapPanelGrid.Children.Add(CreateGridCard(media));
                 }
+            }
+        }
+
+        private System.Windows.Controls.Border CreateGridCard(Media media)
+        {
+            int index = WrapPanelGrid.Children.Count;
+
+            var card = new System.Windows.Controls.Border
+            {
+                Width = 120, Height = 140, Margin = new Thickness(6),
+                CornerRadius = new CornerRadius(8),
+                ClipToBounds = true,
+                BorderThickness = new Thickness(1),
+                Cursor = System.Windows.Input.Cursors.Hand
+            };
+            card.SetResourceReference(System.Windows.Controls.Border.BackgroundProperty, "BgSurfaceBrush");
+            card.SetResourceReference(System.Windows.Controls.Border.BorderBrushProperty, "BorderBrush2");
+
+            card.MouseLeftButtonUp += (_, __) =>
+            {
+                // Deselect previous
+                if (_selectedCard != null)
+                {
+                    _selectedCard.BorderBrush = (System.Windows.Media.Brush)Application.Current.Resources["BorderBrush2"];
+                    _selectedCard.BorderThickness = new Thickness(1);
+                }
+                // Select this card
+                card.BorderBrush = (System.Windows.Media.Brush)Application.Current.Resources["AccentBrush"];
+                card.BorderThickness = new Thickness(2);
+                _selectedCard = card;
+                // Sync with list view
+                ListViewFiles.SelectedIndex = index;
+            };
+
+            var stack = new StackPanel();
+
+            var imgBorder = new System.Windows.Controls.Border
+            {
+                Height = 90,
+                Clip = new System.Windows.Media.RectangleGeometry(new Rect(0, 0, 120, 90), 8, 8)
+            };
+            imgBorder.SetResourceReference(System.Windows.Controls.Border.BackgroundProperty, "BgElevatedBrush");
+
+            string thumbUrl = media.CoverUrl;
+            if (string.IsNullOrEmpty(thumbUrl) && currentLib.FileType == "Image")
+                thumbUrl = media.FileUrl;
+
+            if (!string.IsNullOrEmpty(thumbUrl))
+            {
+                try
+                {
+                    string uri = thumbUrl;
+                    if (uri.StartsWith("/") && !System.IO.File.Exists(uri))
+                        uri = $"http://bibliothicc.duckdns.org:8000{thumbUrl}";
+
+                    var bmp = new System.Windows.Media.Imaging.BitmapImage();
+                    bmp.BeginInit();
+                    bmp.UriSource = new Uri(uri, UriKind.RelativeOrAbsolute);
+                    bmp.DecodePixelWidth = 120;
+                    bmp.CacheOption = System.Windows.Media.Imaging.BitmapCacheOption.OnLoad;
+                    bmp.EndInit();
+
+                    imgBorder.Child = new System.Windows.Controls.Image
+                    {
+                        Source = bmp,
+                        Stretch = System.Windows.Media.Stretch.UniformToFill,
+                        HorizontalAlignment = HorizontalAlignment.Center,
+                        VerticalAlignment = VerticalAlignment.Center
+                    };
+                }
+                catch
+                {
+                    imgBorder.Child = MakePlaceholder();
+                }
+            }
+            else
+            {
+                imgBorder.Child = MakePlaceholder();
+            }
+
+            stack.Children.Add(imgBorder);
+            var titleBlock = new TextBlock
+            {
+                Text = media.Title,
+                FontSize = 11,
+                TextTrimming = TextTrimming.CharacterEllipsis,
+                Margin = new Thickness(6, 5, 6, 4),
+                TextWrapping = TextWrapping.NoWrap
+            };
+            titleBlock.SetResourceReference(TextBlock.ForegroundProperty, "TextPrimaryBrush");
+            stack.Children.Add(titleBlock);
+
+            card.Child = stack;
+            return card;
+        }
+
+        private TextBlock MakePlaceholder() => new TextBlock
+        {
+            Text = "🖼",
+            FontSize = 28,
+            HorizontalAlignment = HorizontalAlignment.Center,
+            VerticalAlignment = VerticalAlignment.Center
+        };
+
+        private void ListViewFiles_MouseLeftButtonUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            if (e.OriginalSource is System.Windows.Controls.ScrollViewer ||
+                e.OriginalSource is System.Windows.Controls.ListView)
+                ListViewFiles.SelectedIndex = -1;
+        }
+
+        private void WrapPanelGrid_MouseLeftButtonUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            // Deselect if click didn't land on a card or its children
+            var hit = e.OriginalSource as System.Windows.DependencyObject;
+            while (hit != null)
+            {
+                if (hit == _selectedCard || WrapPanelGrid.Children.Contains(hit as UIElement))
+                    return; // clicked on a card — handled by card's own event
+                hit = System.Windows.Media.VisualTreeHelper.GetParent(hit);
+            }
+
+            if (_selectedCard != null)
+            {
+                _selectedCard.SetResourceReference(System.Windows.Controls.Border.BorderBrushProperty, "BorderBrush2");
+                _selectedCard.BorderThickness = new Thickness(1);
+                _selectedCard = null;
+            }
+            ListViewFiles.SelectedIndex = -1;
+        }
+
+        private void ButtonToggleView_Click(object sender, RoutedEventArgs e)
+        {
+            isGridView = !isGridView;
+            if (isGridView)
+            {
+                ListViewFiles.Visibility = Visibility.Collapsed;
+                ScrollViewerGrid.Visibility = Visibility.Visible;
+                TextBlockToggleView.Text = "☰";
+            }
+            else
+            {
+                ListViewFiles.Visibility = Visibility.Visible;
+                ScrollViewerGrid.Visibility = Visibility.Collapsed;
+                TextBlockToggleView.Text = "⊞";
             }
         }
         private void RefreshCategoryComboBox()
@@ -390,7 +542,10 @@ namespace Bibliothicc
                 if (libs.Count > 0)
                     ListViewLibraries.SelectedIndex = 0;
                 else
+                {
                     currentLib = null;
+                    ListViewFiles.Items.Clear();
+                }
             }
             catch (System.Exception ex)
             {

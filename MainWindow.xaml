@@ -250,6 +250,14 @@
                               Style="{DynamicResource ModernListView}"
                               ItemContainerStyle="{DynamicResource ModernListViewItem}"
                               MouseLeftButtonUp="ListViewFiles_MouseLeftButtonUp">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Title}"
+                                           VerticalAlignment="Center"
+                                           Foreground="{DynamicResource TextPrimaryBrush}"
+                                           TextTrimming="CharacterEllipsis"/>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
                     </ListView>
                     <!-- Grid View -->
                     <ScrollViewer x:Name="ScrollViewerGrid" Visibility="Collapsed"

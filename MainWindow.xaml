@@ -174,13 +174,17 @@
 
                         <Button x:Name="ButtonPlay" Style="{DynamicResource AccentButton}"
                                 Width="36" Height="36" Padding="0"
-                                Visibility="Visible" Click="ButtonPlay_Click">
+                                Visibility="Visible" Click="ButtonPlay_Click" 
+                                VerticalContentAlignment="Center"
+                                HorizontalContentAlignment="Center">
                             <Button.Resources>
                                 <Style TargetType="Border">
                                     <Setter Property="CornerRadius" Value="18"/>
                                 </Style>
                             </Button.Resources>
-                            <TextBlock x:Name="TextBlockPlay" Text="▶" FontSize="13"/>
+                            <TextBlock x:Name="TextBlockPlay" Text="▶" FontSize="13"
+                                       VerticalAlignment="Center"
+                                        HorizontalAlignment="Center"/>
                         </Button>
                     </StackPanel>
 

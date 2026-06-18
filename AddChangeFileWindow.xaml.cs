@@ -80,7 +80,7 @@ namespace Bibliothicc
             {
                 this.itemToChange = itemToChange;
                 LabelPath.Content = this.itemToChange.FileUrl;
-                LabelThumbnail.Text = this.itemToChange.CoverUrl;
+                LabelShowcaseThumbnail.Content = this.itemToChange.CoverUrl;
                 TextBoxFileName.Text = this.itemToChange.Title;
                 if (getFilters != "Text" && getFilters != "Image" && getFilters != "Audio")
                 {
@@ -158,6 +158,7 @@ namespace Bibliothicc
                 if (getFilters == "Image")
                 {
                     LabelShowcaseThumbnail.Content = openFileDialog.FileName;
+                    itemToAdd.CoverUrl = LabelShowcaseThumbnail.Content.ToString();
                 }
 
                 if (TextBoxFileName.Text == string.Empty)

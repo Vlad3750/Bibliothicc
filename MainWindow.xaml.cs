@@ -246,22 +246,26 @@ namespace Bibliothicc
             {
                 DockPanelCategory.Visibility = Visibility.Collapsed;
                 TextBlockPlay.Text = "🗎";
+                TextBlockPlay.FontSize = 25;
             }
             else if (currentLib.FileType == "Image")
             {
                 DockPanelCategory.Visibility = Visibility.Collapsed;
-                TextBlockPlay.Text = "○";
+                TextBlockPlay.Text = "▣";
+                TextBlockPlay.FontSize = 25;
             }
             else if(currentLib.FileType == "Audio")
             {
                 DockPanelCategory.Visibility = Visibility.Collapsed;
                 TextBlockPlay.Text = "▶";
+                TextBlockPlay.FontSize = 13;
             }
             else
             {
                 DockPanelCategory.Visibility = Visibility.Visible;
                 ButtonPlay.Visibility = Visibility.Visible;
                 TextBlockPlay.Text = "▶";
+                TextBlockPlay.FontSize = 13;
             }
 
             RefreshCategoryComboBox();

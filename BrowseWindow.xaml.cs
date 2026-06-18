@@ -80,17 +80,14 @@ namespace Bibliothicc
             var lib = entry.Library;
 
             TextBlockLibraryName.Text = lib.Name;
-            // Admin sieht Owner-Info im Header
             TextBlockLibraryType.Text = _isAdmin
                 ? $"{lib.FileType}  ·  👤 {entry.OwnerName}"
                 : lib.FileType;
+            ButtonAdminUnpublish.Visibility = _isAdmin ? Visibility.Visible : Visibility.Collapsed;
+            ButtonAdminUnpublish.Tag = entry;
 
-            string icon = lib.FileType switch
-            {
-                "Image" => "○",
-                "Text" => "🗎",
-                _ => "▶"
-            };
+            string icon = lib.FileType == "Image" ? "▣" : "▶";
+            int iconSize = lib.FileType == "Image" ? 18 : 13;
 
             Mouse.OverrideCursor = Cursors.Wait;
             try
@@ -109,7 +106,7 @@ namespace Bibliothicc
                         Margin = new Thickness(8, 0, 0, 0),
                         ToolTip = "Open file",
                         Tag = media,
-                        Content = new TextBlock { Text = icon, FontSize = 13 }
+                        Content = new TextBlock { Text = icon, FontSize = iconSize }
                     };
                     var cornerStyle = new Style(typeof(Border));
                     cornerStyle.Setters.Add(new Setter(Border.CornerRadiusProperty, new CornerRadius(18)));
@@ -154,38 +151,6 @@ namespace Bibliothicc
             }
         }
 
-        private async void ButtonUnpublish_Click(object sender, RoutedEventArgs e)
-        {
-            if (!_isAdmin) return;
-            var entry = (PublicLibraryEntry)((Button)sender).Tag;
-            var lib = entry.Library;
-
-            bool confirm = CustomMessageBox.ShowConfirm(
-                $"Unpublish \"{lib.Name}\" von {entry.OwnerName}?\nDie Library wird aus dem öffentlichen Browse entfernt.",
-                this);
-            if (!confirm) return;
-
-            Mouse.OverrideCursor = Cursors.Wait;
-            try
-            {
-                await App.Service.AdminUnpublishLibrary(lib.LibraryID);
-                _entries.Remove(entry);
-                ListViewPublicLibraries.ItemsSource = null;
-                ListViewPublicLibraries.ItemsSource = _entries;
-                ListViewMedia.Items.Clear();
-                TextBlockLibraryName.Text = "Select a library";
-                TextBlockLibraryType.Text = "";
-                CustomMessageBox.Show($"\"{lib.Name}\" wurde unpublished.", this);
-            }
-            catch (System.Exception ex)
-            {
-                CustomMessageBox.Show($"Failed: {ex.Message}", this, "❌");
-            }
-            finally
-            {
-                Mouse.OverrideCursor = null;
-            }
-        }
 
         private async void ButtonDownloadLibrary_Click(object sender, RoutedEventArgs e)
         {
@@ -236,6 +201,36 @@ namespace Bibliothicc
             catch (System.Exception ex)
             {
                 CustomMessageBox.Show($"Could not open file: {ex.Message}", this, "❌");
+            }
+            finally
+            {
+                Mouse.OverrideCursor = null;
+            }
+        }
+
+        private async void ButtonAdminUnpublish_Click(object sender, RoutedEventArgs e)
+        {
+            if (!_isAdmin) return;
+            var entry = (PublicLibraryEntry)((Button)sender).Tag;
+            var lib = entry.Library;
+
+            if (!CustomMessageBox.ShowConfirm($"Unpublish \"{lib.Name}\" von {entry.OwnerName}?", this)) return;
+
+            Mouse.OverrideCursor = Cursors.Wait;
+            try
+            {
+                await App.Service.AdminUnpublishLibrary(lib.LibraryID);
+                _entries.Remove(entry);
+                ListViewPublicLibraries.ItemsSource = null;
+                ListViewPublicLibraries.ItemsSource = _entries;
+                ListViewMedia.Items.Clear();
+                TextBlockLibraryName.Text = "Select a library";
+                TextBlockLibraryType.Text = "";
+                ButtonAdminUnpublish.Visibility = Visibility.Collapsed;
+            }
+            catch (System.Exception ex)
+            {
+                CustomMessageBox.Show($"Failed: {ex.Message}", this, "❌");
             }
             finally
             {

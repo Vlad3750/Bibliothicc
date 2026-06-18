@@ -56,16 +56,7 @@
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <DockPanel Margin="0,2">
-                                <Button x:Name="ButtonUnpublish" DockPanel.Dock="Right"
-                                        Style="{DynamicResource DangerButton}"
-                                        Padding="6,3" Margin="6,0,0,0"
-                                        Visibility="Collapsed"
-                                        ToolTip="Unpublish this library"
-                                        Tag="{Binding}"
-                                        Click="ButtonUnpublish_Click">
-                                    <TextBlock Text="🚫" FontSize="11"/>
-                                </Button>
-                                <Button DockPanel.Dock="Right"
+<Button DockPanel.Dock="Right"
                                         Style="{DynamicResource GhostButton}"
                                         Padding="6,3" Margin="6,0,0,0"
                                         ToolTip="Download all files"
@@ -91,7 +82,15 @@
             <Border DockPanel.Dock="Top" Background="{DynamicResource BgSurfaceBrush}"
                     BorderBrush="{DynamicResource BorderBrush2}" BorderThickness="0,0,0,1"
                     Padding="16,12">
-                <StackPanel>
+                <DockPanel>
+                    <Button x:Name="ButtonAdminUnpublish" DockPanel.Dock="Right"
+                            Style="{DynamicResource DangerButton}"
+                            Padding="10,6" Visibility="Collapsed"
+                            VerticalAlignment="Center"
+                            Click="ButtonAdminUnpublish_Click">
+                        <TextBlock Text="🚫  Unpublish" VerticalAlignment="Center"/>
+                    </Button>
+                <StackPanel VerticalAlignment="Center">
                     <TextBlock x:Name="TextBlockLibraryName" Text="Select a library"
                                FontSize="16" FontWeight="Bold"
                                Foreground="{DynamicResource TextPrimaryBrush}"/>
@@ -99,6 +98,7 @@
                                FontSize="11" Foreground="{DynamicResource TextMutedBrush}"
                                Margin="0,2,0,0"/>
                 </StackPanel>
+                </DockPanel>
             </Border>
 
             <Border Background="{DynamicResource BgDeepBrush}" Padding="16">

@@ -62,7 +62,7 @@ namespace Bibliothicc
                 DockPanelCategory.Visibility = Visibility.Collapsed;
 
                 ButtonFileOpenerThumbnail.Visibility = Visibility.Hidden;
-                filtersForFiles = "JPG (*.jpeg, *.jpg)|*.jpeg;*.jpg |PNG (*.png)|*.png";
+                filtersForFiles = "JPG (*.jpeg, *.jpg)|*.jpeg;*.jpg |PNG (*.png)|*.png |WEBP (*.webp)|*.webp";
             }
             else if(filters == "Audio")
             {

@@ -20,11 +20,24 @@
                            FontSize="13" Foreground="{DynamicResource TextPrimaryBrush}"
                            TextWrapping="Wrap" MaxWidth="320" VerticalAlignment="Center"/>
             </StackPanel>
-            <!-- OK Button -->
-            <Button x:Name="ButtonOK" Style="{DynamicResource AccentButton}"
-                    Height="34" IsDefault="True" Click="ButtonOK_Click">
-                <TextBlock Text="OK" FontWeight="SemiBold"/>
-            </Button>
+            <!-- Buttons -->
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="8"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Button x:Name="ButtonCancel" Grid.Column="0"
+                        Style="{DynamicResource GhostButton}"
+                        Height="34" Visibility="Collapsed" Click="ButtonCancel_Click">
+                    <TextBlock Text="Cancel" FontWeight="SemiBold"/>
+                </Button>
+                <Button x:Name="ButtonOK" Grid.Column="2"
+                        Style="{DynamicResource AccentButton}"
+                        Height="34" IsDefault="True" Click="ButtonOK_Click">
+                    <TextBlock Text="OK" FontWeight="SemiBold"/>
+                </Button>
+            </Grid>
         </StackPanel>
     </Border>
 </Window>

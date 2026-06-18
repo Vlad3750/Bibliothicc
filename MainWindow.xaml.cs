@@ -44,17 +44,16 @@ namespace Bibliothicc
                     foreach (var lib in libs)
                     {
                         lib.mediaCollection = await App.Service.GetMedias(lib.LibraryID);
-                        var item = new ListViewItem { Content = lib.Name };
-                        item.Style = (Style)Application.Current.Resources["ModernListViewItem"];
-                        ListViewLibraries.Items.Add(item);
+                        ListViewLibraries.Items.Add(lib);
                     }
                     if (libs.Count > 0)
                     {
                         ListViewLibraries.SelectedIndex = 0;
                     }
                 }
-                catch
+                catch (System.Exception ex)
                 {
+                    CustomMessageBox.Show($"Load error: {ex.Message}", this, "❌");
                 }
                 finally
                 {
@@ -68,7 +67,7 @@ namespace Bibliothicc
             this.Close();
         }
 
-        private void ButtonAddFile_Click(object sender, RoutedEventArgs e)
+        private async void ButtonAddFile_Click(object sender, RoutedEventArgs e)
         {
             if (currentLib == null) { CustomMessageBox.Show("Please create a library first.", this, "⚠️"); return; }
             string LabelAddChange = "Add ";
@@ -79,43 +78,94 @@ namespace Bibliothicc
 
             if (window.ShowDialog() == true)
             {
-                currentLib.mediaCollection.Add(window.itemToAdd);
-                RefreshCategoryComboBox();
-                RefreshFileList();
+                Mouse.OverrideCursor = Cursors.Wait;
+                try
+                {
+                    if (currentLib.LibraryID == 0)
+                    {
+                        var createdLib = await App.Service.CreateLibrary(currentLib);
+                        currentLib.LibraryID = createdLib.LibraryID;
+                    }
+                    var created = await App.Service.CreateMedia(currentLib.LibraryID, window.itemToAdd);
+                    window.itemToAdd.MediaID = created.MediaID;
+                    window.itemToAdd.FileUrl = created.FileUrl;
+                    window.itemToAdd.LibId = created.LibId;
+                    currentLib.mediaCollection.Add(window.itemToAdd);
+                    RefreshCategoryComboBox();
+                    RefreshFileList();
+                }
+                catch (System.Exception ex)
+                {
+                    CustomMessageBox.Show($"Save failed: {ex.Message}", this, "❌");
+                }
+                finally
+                {
+                    Mouse.OverrideCursor = null;
+                }
             }
         }
 
-        private void ButtonChange_Click(object sender, RoutedEventArgs e)
+        private async void ButtonChange_Click(object sender, RoutedEventArgs e)
         {
             if (currentLib == null) { CustomMessageBox.Show("Please create a library first.", this, "⚠️"); return; }
             if (ListViewFiles.SelectedItem == null)
             {
                 CustomMessageBox.Show("Please select a file to change it", this);
+                return;
             }
 
-            else
+            int idx = ListViewFiles.SelectedIndex;
+            string LabelAddChange = "Change ";
+            string LabelDataType = GetDataTypeLib() + ":";
+            string ButtonContentAddChange = "Change";
+
+            AddChangeFileWindow window = new AddChangeFileWindow(LabelAddChange, LabelDataType, currentLib.mediaCollection[idx], ButtonContentAddChange, false, currentLib.FileType, currentUser.SystemCategories);
+
+            if (window.ShowDialog() == true)
             {
-                string LabelAddChange = "Change ";
-                string LabelDataType = GetDataTypeLib() + ":";
-                string ButtonContentAddChange = "Change";
-
-                AddChangeFileWindow window = new AddChangeFileWindow(LabelAddChange, LabelDataType, currentLib.mediaCollection[ListViewFiles.SelectedIndex], ButtonContentAddChange, false, currentLib.FileType, currentUser.SystemCategories);
-
-                if (window.ShowDialog() == true)
+                Mouse.OverrideCursor = Cursors.Wait;
+                try
                 {
-                    currentLib.mediaCollection[ListViewFiles.SelectedIndex] = window.itemToChange;
-
-                    ListViewItem changedFile = (ListViewItem)ListViewFiles.Items[ListViewFiles.SelectedIndex];
-                    changedFile.Content = window.TextBoxFileName.Text;
-                    ListViewFiles.Items.Refresh();
+                    currentLib.mediaCollection[idx] = window.itemToChange;
+                    await App.Service.ChangeMedia(window.itemToChange);
+                    RefreshFileList();
+                }
+                catch (System.Exception ex)
+                {
+                    CustomMessageBox.Show($"Save failed: {ex.Message}", this, "❌");
+                }
+                finally
+                {
+                    Mouse.OverrideCursor = null;
                 }
             }
         }
 
-        private void ButtonDelete_Click(object sender, RoutedEventArgs e)
+        private async void ButtonDelete_Click(object sender, RoutedEventArgs e)
         {
             if (currentLib == null) { CustomMessageBox.Show("Please create a library first.", this, "⚠️"); return; }
-            DeleteSelectedFile();
+            if (ListViewFiles.SelectedItem == null) { CustomMessageBox.Show("Please select a file to delete it", this); return; }
+
+            int idx = ListViewFiles.SelectedIndex;
+            var media = currentLib.mediaCollection[idx];
+
+            Mouse.OverrideCursor = Cursors.Wait;
+            try
+            {
+                if (media.MediaID != 0)
+                    await App.Service.DeleteMedia(media.MediaID);
+                currentLib.mediaCollection.RemoveAt(idx);
+                RefreshCategoryComboBox();
+                RefreshFileList();
+            }
+            catch (System.Exception ex)
+            {
+                CustomMessageBox.Show($"Delete failed: {ex.Message}", this, "❌");
+            }
+            finally
+            {
+                Mouse.OverrideCursor = null;
+            }
         }
 
         private void ButtonLoginLogout_Click(object sender, RoutedEventArgs e)
@@ -127,56 +177,36 @@ namespace Bibliothicc
             Close();
         }
 
-        private void ButtonAddLib_Click(object sender, RoutedEventArgs e)
+        private async void ButtonAddLib_Click(object sender, RoutedEventArgs e)
         {
             AddLibWindow window = new AddLibWindow();
 
-            if(window.ShowDialog() == true)
+            if (window.ShowDialog() == true)
             {
-                ListViewItem LibToAdd = new ListViewItem();
-                Library LibToAddToColllection = new Library()
+                Mouse.OverrideCursor = Cursors.Wait;
+                try
                 {
-                    Name = window.TextBoxLibName.Text,
-                    FileType = window.fileNameString
-                };
+                    Library newLib = new Library()
+                    {
+                        Name = window.TextBoxLibName.Text,
+                        FileType = window.fileNameString
+                    };
+                    var created = await App.Service.CreateLibrary(newLib);
+                    newLib.LibraryID = created.LibraryID;
 
-                LibToAdd.Content = window.TextBoxLibName.Text;
-                LibToAdd.Style = (Style)Application.Current.Resources["ModernListViewItem"];
-                ListViewLibraries.Items.Add(LibToAdd);
-                ListViewLibraries.Items.Refresh();
-
-                libs.Add(LibToAddToColllection);
-
-                currentLib = LibToAddToColllection;
-                ListViewLibraries.SelectedItem = LibToAdd;
-
-
-                CustomMessageBox.Show($"New Library for {window.fileNameString}s added to Collection", null);
-            }
-            else if(ListViewLibraries.Items.Count == 0)
-            {
-                CustomMessageBox.Show("You don't have any libraries, please create one", null, "⚠️");
-                ButtonAddLib_Click(ButtonAddLib, new RoutedEventArgs());
-            }
-        }
-
-        private void DeleteSelectedFile()
-        {
-            if(ListViewFiles.SelectedItem == null)
-            {
-                CustomMessageBox.Show("Please select a file to delete it", this);
-            }
-            else
-            {
-                // AI (Claude)
-                // Start
-                int idx = ListViewFiles.SelectedIndex;
-                string name = ((ListViewItem)ListViewFiles.SelectedItem).Content.ToString();
-                currentLib.mediaCollection.RemoveAt(idx);
-                CustomMessageBox.Show($"{name} has been deleted", this);
-                RefreshCategoryComboBox();
-                RefreshFileList();
-                // End
+                    libs.Add(newLib);
+                    ListViewLibraries.Items.Add(newLib);
+                    currentLib = newLib;
+                    ListViewLibraries.SelectedItem = newLib;
+                }
+                catch (System.Exception ex)
+                {
+                    CustomMessageBox.Show($"Save failed: {ex.Message}", this, "❌");
+                }
+                finally
+                {
+                    Mouse.OverrideCursor = null;
+                }
             }
         }
 
@@ -238,8 +268,8 @@ namespace Bibliothicc
 
         private void ListViewLibraries_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (ListViewLibraries.SelectedIndex < 0 || ListViewLibraries.SelectedIndex >= libs.Count) return;
-            currentLib = libs[ListViewLibraries.SelectedIndex];
+            if (ListViewLibraries.SelectedItem is not Library lib) return;
+            currentLib = lib;
             TextBlockPublishLabel.Text = currentLib.IsPublic ? "Unpublish" : "Publish";
 
             if(currentLib.FileType == "Text")
@@ -344,79 +374,67 @@ namespace Bibliothicc
             RefreshFileList(searchText, selected);
         }
 
+        private async void ButtonDeleteLib_Click(object sender, RoutedEventArgs e)
+        {
+            var lib = (sender as System.Windows.Controls.Button)?.DataContext as Library;
+            if (lib == null) return;
+
+            var confirm = CustomMessageBox.ShowConfirm($"Delete library \"{lib.Name}\"? This cannot be undone.", this);
+            if (!confirm) return;
+
+            Mouse.OverrideCursor = Cursors.Wait;
+            try
+            {
+                if (lib.LibraryID != 0)
+                    await App.Service.DeleteLibrary(lib.LibraryID);
+
+                libs.Remove(lib);
+                ListViewLibraries.Items.Remove(lib);
+
+                if (libs.Count > 0)
+                    ListViewLibraries.SelectedIndex = 0;
+                else
+                    currentLib = null;
+            }
+            catch (System.Exception ex)
+            {
+                CustomMessageBox.Show($"Delete failed: {ex.Message}", this, "❌");
+            }
+            finally
+            {
+                Mouse.OverrideCursor = null;
+            }
+        }
+
         private void ButtonBrowse_Click(object sender, RoutedEventArgs e)
         {
             BrowseWindow window = new BrowseWindow();
             window.ShowDialog();
         }
 
-        private async void ButtonSaveToServer_Click(object sender, RoutedEventArgs e)
-        {
-            if (currentLib == null) { CustomMessageBox.Show("Please create a library first.", this, "⚠️"); return; }
-            Mouse.OverrideCursor = Cursors.Wait;
-            try
-            {
-                if (currentLib.LibraryID == 0)
-                {
-                    var created = await App.Service.CreateLibrary(currentLib);
-                    currentLib.LibraryID = created.LibraryID;
-                }
-
-                foreach (var media in currentLib.mediaCollection)
-                {
-                    if (media.MediaID == 0)
-                    {
-                        var created = await App.Service.CreateMedia(currentLib.LibraryID, media);
-                        media.MediaID = created.MediaID;
-                        media.FileUrl = created.FileUrl;
-                        media.LibId = created.LibId;
-                    }
-                }
-
-                CustomMessageBox.Show($"'{currentLib.Name}' saved to server.", this);
-            }
-            catch (System.Exception ex)
-            {
-                CustomMessageBox.Show($"Save failed: {ex.Message}", this, "❌");
-            }
-            finally
-            {
-                Mouse.OverrideCursor = null;
-            }
-        }
 
         private async void ButtonPublish_Click(object sender, RoutedEventArgs e)
         {
             if (currentLib == null) { CustomMessageBox.Show("Please create a library first.", this, "⚠️"); return; }
-            if (currentLib.LibraryID == 0)
-            {
-                CustomMessageBox.Show("Save the library to the server first.", this, "⚠️");
-                return;
-            }
 
             Mouse.OverrideCursor = Cursors.Wait;
             try
             {
                 currentLib.IsPublic = !currentLib.IsPublic;
                 await App.Service.PublishLibrary(currentLib.LibraryID, currentLib.IsPublic);
-
                 TextBlockPublishLabel.Text = currentLib.IsPublic ? "Unpublish" : "Publish";
-                string msg = currentLib.IsPublic
-                    ? $"'{currentLib.Name}' is now public."
-                    : $"'{currentLib.Name}' is now private.";
-                CustomMessageBox.Show(msg, this);
             }
             catch (System.Exception ex)
             {
-                CustomMessageBox.Show($"Failed: {ex.Message}", this, "❌");
-            }
-            finally
-            {
+                currentLib.IsPublic = !currentLib.IsPublic;
                 Mouse.OverrideCursor = null;
+                CustomMessageBox.Show($"Failed: {ex.Message}", this, "❌");
+                return;
             }
+            Mouse.OverrideCursor = null;
         }
 
-        private void ButtonPlay_Click(object sender, RoutedEventArgs e)
+        private async void ButtonPlay_Click(object sender, RoutedEventArgs e)
         {
             if (currentLib == null) return;
             if (ListViewFiles.SelectedItem == null)
@@ -438,16 +456,38 @@ namespace Bibliothicc
 
             Media selectedMedia = currentLib.mediaCollection[ListViewFiles.SelectedIndex];
 
-            if (!System.IO.File.Exists(selectedMedia.FileUrl))
+            string filePath = selectedMedia.FileUrl;
+
+            if (!System.IO.File.Exists(filePath))
             {
-                CustomMessageBox.Show("File not found on disk", this, "⚠️");
-                return;
+                // File is on server — download to temp and open
+                if (string.IsNullOrEmpty(selectedMedia.FileUrl))
+                {
+                    CustomMessageBox.Show("File not found.", this, "⚠️");
+                    return;
+                }
+                Mouse.OverrideCursor = Cursors.Wait;
+                try
+                {
+                    var bytes = await App.Service.DownloadFile(selectedMedia.FileUrl);
+                    filePath = System.IO.Path.Combine(System.IO.Path.GetTempPath(), selectedMedia.Name);
+                    await System.IO.File.WriteAllBytesAsync(filePath, bytes);
+                }
+                catch (System.Exception ex)
+                {
+                    Mouse.OverrideCursor = null;
+                    CustomMessageBox.Show($"Download failed: {ex.Message}", this, "❌");
+                    return;
+                }
+                finally
+                {
+                    Mouse.OverrideCursor = null;
+                }
             }
 
-            // Öffnet die Datei mit dem Standard-Programm des Systems
             System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo()
             {
-                FileName = selectedMedia.FileUrl,
+                FileName = filePath,
                 UseShellExecute = true
             });
         }

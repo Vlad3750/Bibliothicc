@@ -4,6 +4,7 @@
              xmlns:local="clr-namespace:Bibliothicc"
              StartupUri="LoginRegisterWindow.xaml">
     <Application.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
         <!-- Color Palette -->
         <Color x:Key="BgDeepColor">#0F1117</Color>
         <Color x:Key="BgSurfaceColor">#1A1D27</Color>

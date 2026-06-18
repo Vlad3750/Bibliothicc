@@ -13,6 +13,7 @@ namespace Bibliothicc.Services
         // Library
         Task<List<Library>> GetLibraries();
         Task<Library> CreateLibrary(Library library);
+        Task DeleteLibrary(int libraryId);
         Task PublishLibrary(int libraryId, bool isPublic);
         Task<List<Library>> GetPublicLibraries();
 

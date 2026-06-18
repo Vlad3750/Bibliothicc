@@ -81,6 +81,13 @@ namespace Bibliothicc.Services
             return Task.FromResult(library);
         }
 
+        public Task DeleteLibrary(int libraryId)
+        {
+            var lib = _libraries.FirstOrDefault(l => l.LibraryID == libraryId);
+            if (lib != null) _libraries.Remove(lib);
+            return Task.CompletedTask;
+        }
+
         public Task PublishLibrary(int libraryId, bool isPublic)
         {
             var lib = _libraries.FirstOrDefault(l => l.LibraryID == libraryId);

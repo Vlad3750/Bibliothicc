@@ -187,8 +187,8 @@ namespace Bibliothicc
             openFileDialog.Filter = "(*.jpeg, *.jpg)|*.jpeg;*.jpg | (*.png)|*.png";
             if (openFileDialog.ShowDialog() == true)
             {
-                LabelThumbnail.Text = openFileDialog.FileName;
-                itemToAdd.CoverUrl = LabelThumbnail.Text;
+                LabelShowcaseThumbnail.Content = openFileDialog.FileName;
+                itemToAdd.CoverUrl = LabelShowcaseThumbnail.Content.ToString();
             }
         }
 

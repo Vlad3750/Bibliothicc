@@ -28,7 +28,7 @@
                 <TextBlock Text="Username" FontSize="12" FontWeight="SemiBold"
                            Foreground="{DynamicResource TextSecondaryBrush}" Margin="0,0,0,6"/>
                 <TextBox x:Name="TextBoxUserName" Style="{DynamicResource ModernTextBox}"
-                         Height="38" Text="user1" Padding="4" FontSize="12" Margin="0,0,0,14" TextChanged="TextBoxUserName_TextChanged"/>
+                         Height="38" Text="vlad" Padding="4" FontSize="12" Margin="0,0,0,14" TextChanged="TextBoxUserName_TextChanged"/>
 
                 <!-- Password -->
                 <TextBlock Text="Password" FontSize="12" FontWeight="SemiBold"
